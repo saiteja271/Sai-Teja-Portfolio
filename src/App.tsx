@@ -1,22 +1,20 @@
 import React, { useState } from 'react';
-import { Navbar } from './components/Navbar';
-import { Hero } from './components/Hero';
-import { About } from './components/About';
-import { FeaturedProjects } from './components/FeaturedProjects';
-import { ProjectGallery } from './components/ProjectGallery';
-import { ProjectModal } from './components/ProjectModal';
-import { ResumeModal } from './components/ResumeModal';
-import { TechnicalSkills } from './components/TechnicalSkills';
-import { Education } from './components/Education';
-import { DevelopmentJourney } from './components/DevelopmentJourney';
-import { CreativeInterests } from './components/CreativeInterests';
-import { Contact } from './components/Contact';
-import { Footer } from './components/Footer';
-import { CommandMenu } from './components/CommandMenu';
-import { CustomCursor } from './components/CustomCursor';
-import { ScrollProgress } from './components/ScrollProgress';
-import { Project } from './types/portfolio';
-import { PROJECTS } from './data/portfolioData';
+import { BackgroundAtmosphere } from './components/BackgroundAtmosphere';
+import { Navbar, ScrollProgress, CustomCursor } from './components/Navigation';
+import {
+  Hero,
+  About,
+  FeaturedProjects,
+  ProjectGallery,
+  TechnicalSkills,
+  Education,
+  DevelopmentJourney,
+  CreativeInterests,
+  Contact,
+  Footer
+} from './components/Sections';
+import { CommandMenu, ProjectModal, ResumeModal } from './components/Modals';
+import { Project, PROJECTS } from './data';
 
 export const App: React.FC = () => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -41,8 +39,11 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-bg text-primary relative selection:bg-accent/15 selection:text-accent">
-      {/* Viewport Reading Depth Progress Bar */}
+    <div className="min-h-screen bg-bg text-primary relative selection:bg-accent/15 selection:text-accent overflow-x-hidden">
+      {/* Full-Page Calm Atmospheric Visual System & Depth Wells */}
+      <BackgroundAtmosphere />
+
+      {/* Top Viewport Reading Progress Bar */}
       <ScrollProgress />
 
       {/* Custom Desktop Cursor Enhancement */}
@@ -56,46 +57,37 @@ export const App: React.FC = () => {
         onOpenResume={() => setIsResumeOpen(true)}
       />
 
-      {/* Navigation Header */}
+      {/* Architectural Sticky Navigation Header */}
       <Navbar
         onOpenCommand={() => setIsCommandOpen(true)}
         onOpenResume={() => setIsResumeOpen(true)}
       />
 
-      {/* Main Narrative Structure */}
-      <main>
-        {/* 1. Hero: Art-Directed Composition */}
+      {/* Main Narrative Sections Flowing Over Atmospheric Layer */}
+      <main className="relative z-10">
         <Hero
           onExploreProjects={scrollToCaseStudies}
           onContactClick={scrollToContact}
         />
 
-        {/* 2. About: Personal Storytelling Narrative */}
         <About onOpenResume={() => setIsResumeOpen(true)} />
 
-        {/* 3. Curated Case Studies (CREZORA / KalaaVerse Flagship + PYQUEST & Sahayak AI Spotlight) */}
         <FeaturedProjects onSelectProject={setSelectedProject} />
 
-        {/* 4. Complete Project Directory & Specialized Systems */}
         <ProjectGallery onSelectProject={setSelectedProject} />
 
-        {/* 5. Technical Identity & Capability Tiers */}
         <TechnicalSkills />
 
-        {/* 6. Education & Academic Standing */}
         <Education />
 
-        {/* 7. Trajectory & Growth Milestones */}
         <DevelopmentJourney />
 
-        {/* 8. The Creative Dimension (Editorial Design, Motion Pacing, Photography) */}
         <CreativeInterests />
 
-        {/* 9. Direct Contact & Communication Channels */}
         <Contact />
       </main>
 
-      {/* 10. Colophon & Footer */}
+      {/* Colophon & Footer */}
       <Footer />
 
       {/* Deep-Dive Case Study Modal */}

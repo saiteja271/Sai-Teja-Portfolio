@@ -1,8 +1,165 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Command, ArrowUpRight, FileText } from 'lucide-react';
-import { PERSONAL_INFO, NAVIGATION_LINKS } from '../data/portfolioData';
-import { IndiaClock } from './IndiaClock';
+import { Menu, X, Command, ArrowUpRight, FileText, Clock } from 'lucide-react';
+import { PERSONAL_INFO, NAVIGATION_LINKS } from '../data';
+import { useScrollProgress, useReducedMotion } from '../hooks';
 
+// ============================================================================
+// 1. SCROLL PROGRESS BAR (Hairline Viewport Reading Indicator)
+// ============================================================================
+export const ScrollProgress: React.FC = () => {
+  const progress = useScrollProgress();
+
+  return (
+    <div 
+      className="fixed top-0 left-0 right-0 h-[2.5px] z-50 pointer-events-none bg-transparent"
+      aria-hidden="true"
+    >
+      <div
+        className="h-full bg-accent transition-all duration-100 ease-out"
+        style={{ width: `${progress}%` }}
+      />
+    </div>
+  );
+};
+
+// ============================================================================
+// 2. INDIA IST REAL-TIME CLOCK
+// ============================================================================
+export const IndiaClock: React.FC = () => {
+  const [timeString, setTimeString] = useState<string>('');
+
+  useEffect(() => {
+    const updateTime = () => {
+      try {
+        const now = new Date();
+        const formatted = new Intl.DateTimeFormat('en-IN', {
+          timeZone: 'Asia/Kolkata',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: true,
+        }).format(now);
+        setTimeString(formatted);
+      } catch {
+        setTimeString('IST');
+      }
+    };
+
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div 
+      className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface/85 backdrop-blur-sm border border-border text-xs font-mono text-secondary hover:text-primary transition-colors shadow-subtle"
+      title="Current local time in Andhra Pradesh, India (IST)"
+    >
+      <span className="relative flex h-2 w-2">
+        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+        <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+      </span>
+      <Clock className="w-3.5 h-3.5 text-secondary opacity-70" />
+      <span className="tracking-tight font-medium text-primary">{timeString || '00:00:00 IST'}</span>
+      <span className="text-[10px] text-secondary/80 hidden sm:inline border-l border-border pl-2">IST</span>
+    </div>
+  );
+};
+
+// ============================================================================
+// 3. CUSTOM DESKTOP CURSOR ENHANCEMENT
+// ============================================================================
+export const CustomCursor: React.FC = () => {
+  const [position, setPosition] = useState<{ x: number; y: number }>({ x: -100, y: -100 });
+  const [trailing, setTrailing] = useState<{ x: number; y: number }>({ x: -100, y: -100 });
+  const [isHovered, setIsHovered] = useState<boolean>(false);
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const reducedMotion = useReducedMotion();
+
+  useEffect(() => {
+    const isFinePointer = window.matchMedia('(pointer: fine)').matches;
+    if (!isFinePointer || reducedMotion) return;
+
+    let animId: number;
+
+    const onMouseMove = (e: MouseEvent) => {
+      setPosition({ x: e.clientX, y: e.clientY });
+      if (!isVisible) setIsVisible(true);
+
+      const target = e.target as HTMLElement | null;
+      if (
+        target &&
+        (target.closest('a') ||
+          target.closest('button') ||
+          target.closest('input') ||
+          target.closest('textarea') ||
+          target.closest('[data-cursor-hover]') ||
+          target.getAttribute('role') === 'button')
+      ) {
+        setIsHovered(true);
+      } else {
+        setIsHovered(false);
+      }
+    };
+
+    const onMouseLeave = () => {
+      setIsVisible(false);
+    };
+
+    window.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseleave', onMouseLeave);
+
+    const follow = () => {
+      setTrailing((prev) => {
+        const dx = position.x - prev.x;
+        const dy = position.y - prev.y;
+        return {
+          x: prev.x + dx * 0.22,
+          y: prev.y + dy * 0.22,
+        };
+      });
+      animId = requestAnimationFrame(follow);
+    };
+
+    animId = requestAnimationFrame(follow);
+
+    return () => {
+      window.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseleave', onMouseLeave);
+      cancelAnimationFrame(animId);
+    };
+  }, [isVisible, position.x, position.y, reducedMotion]);
+
+  if (reducedMotion || !isVisible) return null;
+
+  return (
+    <>
+      <div
+        className="fixed top-0 left-0 pointer-events-none z-[9999] -translate-x-1/2 -translate-y-1/2 rounded-full transition-transform duration-75 hidden md:block"
+        style={{
+          transform: `translate3d(${position.x}px, ${position.y}px, 0) scale(${isHovered ? 0 : 1})`,
+          width: '6px',
+          height: '6px',
+          backgroundColor: '#315CF5',
+        }}
+      />
+      <div
+        className="fixed top-0 left-0 pointer-events-none z-[9998] -translate-x-1/2 -translate-y-1/2 rounded-full transition-all duration-200 ease-out hidden md:block"
+        style={{
+          transform: `translate3d(${trailing.x}px, ${trailing.y}px, 0) scale(${isHovered ? 1.6 : 1})`,
+          width: '32px',
+          height: '32px',
+          border: isHovered ? '1.5px solid rgba(49, 92, 245, 0.7)' : '1px solid rgba(23, 23, 23, 0.25)',
+          backgroundColor: isHovered ? 'rgba(49, 92, 245, 0.08)' : 'transparent',
+        }}
+      />
+    </>
+  );
+};
+
+// ============================================================================
+// 4. ARCHITECTURAL HEADER & NAVIGATION
+// ============================================================================
 interface NavbarProps {
   onOpenCommand: () => void;
   onOpenResume: () => void;
@@ -46,14 +203,14 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCommand, onOpenResume }) =
     <header
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
         isScrolled
-          ? 'bg-bg/90 backdrop-blur-md border-b border-border py-3 shadow-subtle'
+          ? 'bg-bg/85 backdrop-blur-md border-b border-border py-3 shadow-subtle'
           : 'bg-transparent py-5'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           
-          {/* Brand Identity Mark */}
+          {/* Brand Identity */}
           <a
             href="#"
             className="group flex items-center gap-3 focus:outline-none"
@@ -75,8 +232,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCommand, onOpenResume }) =
             </div>
           </a>
 
-          {/* Desktop Navigation Links (Clean architectural container, not an oversized pill) */}
-          <nav className="hidden lg:flex items-center gap-6 px-5 py-2 rounded-xl bg-surface/70 backdrop-blur-sm border border-border shadow-subtle">
+          {/* Desktop Nav Links */}
+          <nav className="hidden lg:flex items-center gap-6 px-5 py-2 rounded-xl bg-surface/75 backdrop-blur-sm border border-border shadow-subtle">
             {NAVIGATION_LINKS.map((link) => {
               const isActive = activeSection === link.href.substring(1);
               return (
@@ -101,31 +258,27 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCommand, onOpenResume }) =
 
           {/* Right Action Cluster */}
           <div className="flex items-center gap-2.5 sm:gap-3">
-            {/* Real-time IST Clock */}
             <div className="hidden md:block">
               <IndiaClock />
             </div>
 
-            {/* Command Palette Trigger */}
             <button
               onClick={onOpenCommand}
               aria-label="Open Command Menu"
-              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-surface border border-border text-xs text-secondary hover:text-primary hover:border-accent transition-colors shadow-subtle"
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-surface/85 backdrop-blur-sm border border-border text-xs text-secondary hover:text-primary hover:border-accent transition-colors shadow-subtle"
             >
               <Command className="w-3.5 h-3.5 text-accent" />
               <span className="hidden sm:inline font-mono text-[11px]">Cmd+K</span>
             </button>
 
-            {/* Resume Button */}
             <button
               onClick={onOpenResume}
-              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface border border-border text-xs font-mono text-primary hover:border-accent hover:text-accent transition-colors shadow-subtle"
+              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface/85 backdrop-blur-sm border border-border text-xs font-mono text-primary hover:border-accent hover:text-accent transition-colors shadow-subtle"
             >
               <FileText className="w-3.5 h-3.5 text-accent" />
               <span>Resume</span>
             </button>
 
-            {/* Direct Connect Action */}
             <a
               href="#contact"
               onClick={(e) => handleLinkClick(e, '#contact')}
@@ -135,7 +288,6 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCommand, onOpenResume }) =
               <ArrowUpRight className="w-3.5 h-3.5" />
             </a>
 
-            {/* Mobile Hamburger Toggle */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="lg:hidden p-2 rounded-lg text-secondary hover:text-primary hover:bg-surface-secondary border border-border transition-colors"
@@ -147,7 +299,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCommand, onOpenResume }) =
         </div>
       </div>
 
-      {/* Responsive Mobile Drawer */}
+      {/* Mobile Drawer */}
       {mobileMenuOpen && (
         <div className="lg:hidden border-b border-border bg-surface/98 backdrop-blur-xl px-4 pt-4 pb-6 space-y-4 shadow-card">
           <div className="flex items-center justify-between pb-3 border-b border-border">

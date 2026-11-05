@@ -1,3 +1,7 @@
+// ============================================================================
+// TYPES & DATA ARCHITECTURE: Venkata Sai Teja Sampati Portfolio
+// ============================================================================
+
 export type SkillProficiency = 'Hands-on Experience' | 'Comfortable' | 'Currently Exploring';
 
 export interface SkillItem {

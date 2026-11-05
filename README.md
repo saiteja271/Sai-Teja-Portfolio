@@ -78,32 +78,13 @@ birthday/
     ├── main.tsx               # Root mounting
     ├── App.tsx                # Master portfolio layout & orchestrator
     ├── index.css              # Custom base, scrollbar, and typography styles
-    ├── types/
-    │   └── portfolio.ts       # Strict TypeScript models
-    ├── data/
-    │   └── portfolioData.ts   # Centralized authentic dataset
-    ├── hooks/
-    │   ├── useScrollProgress.ts
-    │   └── useReducedMotion.ts
+    ├── data.ts                # Consolidated, type-safe data & TypeScript interfaces
+    ├── hooks.ts               # Consolidated hooks (useScrollProgress, useReducedMotion)
     └── components/
-        ├── Navbar.tsx         # Architectural header with IST clock & Resume trigger
-        ├── Hero.tsx           # Art-directed hero with 3D canvas & staggered reveal
-        ├── AbstractCanvas.tsx # 3D-perspective canvas with gravitational physics
-        ├── About.tsx          # Editorial narrative & academic specification table
-        ├── FeaturedProjects.tsx # CREZORA/KalaaVerse flagship + PYQUEST & Sahayak AI
-        ├── ProjectGallery.tsx # Filterable project directory with real screenshots
-        ├── ProjectModal.tsx   # Detailed technical case study modal
-        ├── ResumeModal.tsx    # In-app printable CV / transcript modal
-        ├── TechnicalSkills.tsx# Categorized capabilities with 3 proficiency tiers
-        ├── Education.tsx      # NEC B.Tech IT, Intermediate & SSC credentials
-        ├── DevelopmentJourney.tsx # Trajectory timeline (2020 → Present)
-        ├── CreativeInterests.tsx # Magazine spread with original digital art
-        ├── Contact.tsx        # One-click email copy & direct message form
-        ├── Footer.tsx         # Colophon & Back-to-Top trigger
-        ├── CommandMenu.tsx    # Ctrl/Cmd+K instant keyboard search palette
-        ├── CustomCursor.tsx   # Smooth pointer enhancement with magnetic trailing
-        ├── IndiaClock.tsx     # Real-time IST clock component
-        └── ScrollProgress.tsx # Top viewport reading depth indicator
+        ├── BackgroundAtmosphere.tsx # Full-page subtle drifting atmosphere & ambient light wells
+        ├── Navigation.tsx     # Header, section tracker, IST clock, progress bar & cursor
+        ├── Sections.tsx       # Narrative sections (Hero, About, Projects, Skills, Education, Journey, Creative, Contact, Footer)
+        └── Modals.tsx         # In-app modals (CommandMenu, ProjectModal, ResumeModal)
 ```
 
 ---
