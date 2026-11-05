@@ -1,13 +1,13 @@
 import React, { useRef, useEffect } from 'react';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 
-interface Node {
+interface Point3D {
   x: number;
   y: number;
-  originX: number;
-  originY: number;
-  vx: number;
-  vy: number;
+  z: number;
+  baseX: number;
+  baseY: number;
+  baseZ: number;
   radius: number;
   color: string;
 }
@@ -23,11 +23,11 @@ export const AbstractCanvas: React.FC = () => {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    let animationFrameId: number;
-    let width = (canvas.width = canvas.parentElement?.clientWidth || window.innerWidth);
-    let height = (canvas.height = canvas.parentElement?.clientHeight || 600);
+    let animId: number;
+    let width = 0;
+    let height = 0;
 
-    const handleResize = () => {
+    const resize = () => {
       if (!canvas || !canvas.parentElement) return;
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       width = canvas.parentElement.clientWidth;
@@ -37,127 +37,144 @@ export const AbstractCanvas: React.FC = () => {
       ctx.scale(dpr, dpr);
     };
 
-    handleResize();
-    window.addEventListener('resize', handleResize);
+    resize();
+    window.addEventListener('resize', resize);
 
-    // Mouse coordinates for interactive repulsion/attraction
-    const mouse = { x: width / 2, y: height / 2, targetX: width / 2, targetY: height / 2 };
-
-    const handleMouseMove = (e: MouseEvent) => {
+    // Mouse tracking with smooth spring damping
+    const mouse = { x: 0, y: 0, targetX: 0, targetY: 0 };
+    const onMouseMove = (e: MouseEvent) => {
       const rect = canvas.getBoundingClientRect();
-      mouse.targetX = e.clientX - rect.left;
-      mouse.targetY = e.clientY - rect.top;
+      const relX = (e.clientX - rect.left) / width - 0.5;
+      const relY = (e.clientY - rect.top) / height - 0.5;
+      mouse.targetX = relX * 1.5;
+      mouse.targetY = relY * 1.5;
     };
+    window.addEventListener('mousemove', onMouseMove);
 
-    window.addEventListener('mousemove', handleMouseMove);
+    // Create 3D spherical / torus constellation points
+    const points: Point3D[] = [];
+    const count = Math.min(Math.floor((width * height) / 16000), 50);
+    const radiusSphere = Math.min(width, height) * 0.32;
 
-    // Generate balanced node constellation
-    const nodeCount = Math.min(Math.floor((width * height) / 18000), 45);
-    const nodes: Node[] = [];
+    for (let i = 0; i < count; i++) {
+      const theta = Math.random() * Math.PI * 2;
+      const phi = Math.acos(Math.random() * 2 - 1);
+      const r = radiusSphere * (0.6 + Math.random() * 0.4);
 
-    for (let i = 0; i < nodeCount; i++) {
-      const x = Math.random() * width;
-      const y = Math.random() * height;
-      nodes.push({
+      const x = r * Math.sin(phi) * Math.cos(theta);
+      const y = r * Math.sin(phi) * Math.sin(theta);
+      const z = r * Math.cos(phi);
+
+      points.push({
         x,
         y,
-        originX: x,
-        originY: y,
-        vx: (Math.random() - 0.5) * 0.4,
-        vy: (Math.random() - 0.5) * 0.4,
-        radius: Math.random() * 2 + 1.2,
-        color: Math.random() > 0.4 ? '#315CF5' : '#94A3B8',
+        z,
+        baseX: x,
+        baseY: y,
+        baseZ: z,
+        radius: Math.random() * 1.8 + 1,
+        color: Math.random() > 0.45 ? '#315CF5' : '#94A3B8'
       });
     }
 
-    let angle = 0;
+    let angleX = 0;
+    let angleY = 0;
+    const fov = 340;
 
     const render = () => {
-      // Smooth mouse interpolation
       mouse.x += (mouse.targetX - mouse.x) * 0.05;
       mouse.y += (mouse.targetY - mouse.y) * 0.05;
 
+      if (!reducedMotion) {
+        angleY += 0.003 + mouse.x * 0.01;
+        angleX += 0.0015 + mouse.y * 0.008;
+      }
+
       ctx.clearRect(0, 0, width, height);
 
-      // Render subtle abstract geometric orbital rings
-      const centerX = width * 0.65;
-      const centerY = height * 0.45;
-      angle += reducedMotion ? 0 : 0.003;
+      // Center of 3D projection: slightly offset to align with the right-column portrait composition
+      const originX = width > 1024 ? width * 0.72 : width * 0.5;
+      const originY = height * 0.48;
 
-      // Orbit 1: Subtle blue accent ring
+      // Project and draw orbital depth rings
+      const ringRadius = radiusSphere * 1.05;
       ctx.save();
+      ctx.translate(originX, originY);
       ctx.beginPath();
-      ctx.ellipse(
-        centerX + Math.sin(angle * 0.5) * 15,
-        centerY + Math.cos(angle * 0.5) * 10,
-        180,
-        120,
-        angle * 0.2,
-        0,
-        Math.PI * 2
-      );
+      ctx.ellipse(0, 0, ringRadius, ringRadius * 0.42, angleY * 0.4, 0, Math.PI * 2);
       ctx.strokeStyle = 'rgba(49, 92, 245, 0.09)';
-      ctx.lineWidth = 1.5;
-      ctx.setLineDash([8, 12]);
+      ctx.setLineDash([6, 10]);
+      ctx.lineWidth = 1.2;
       ctx.stroke();
-      ctx.restore();
 
-      // Orbit 2: Secondary subtle ring
-      ctx.save();
       ctx.beginPath();
-      ctx.ellipse(
-        centerX,
-        centerY,
-        260,
-        170,
-        -angle * 0.15,
-        0,
-        Math.PI * 2
-      );
+      ctx.ellipse(0, 0, ringRadius * 1.35, ringRadius * 0.55, -angleY * 0.25, 0, Math.PI * 2);
       ctx.strokeStyle = 'rgba(23, 23, 23, 0.04)';
+      ctx.setLineDash([]);
       ctx.lineWidth = 1;
       ctx.stroke();
       ctx.restore();
 
-      // Update and draw constellation nodes
-      for (let i = 0; i < nodes.length; i++) {
-        const node = nodes[i];
+      // Project 3D points
+      const cosY = Math.cos(angleY);
+      const sinY = Math.sin(angleY);
+      const cosX = Math.cos(angleX);
+      const sinX = Math.sin(angleX);
 
-        if (!reducedMotion) {
-          node.x += node.vx;
-          node.y += node.vy;
+      interface ProjectedPoint {
+        px: number;
+        py: number;
+        scale: number;
+        color: string;
+        radius: number;
+        z: number;
+      }
 
-          // Bounce boundaries
-          if (node.x < 0 || node.x > width) node.vx *= -1;
-          if (node.y < 0 || node.y > height) node.vy *= -1;
+      const projected: ProjectedPoint[] = [];
 
-          // Subtle reaction to mouse
-          const dx = mouse.x - node.x;
-          const dy = mouse.y - node.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 120 && dist > 0) {
-            const force = (120 - dist) / 120;
-            node.x -= (dx / dist) * force * 1.5;
-            node.y -= (dy / dist) * force * 1.5;
-          }
+      for (let i = 0; i < points.length; i++) {
+        const p = points[i];
+
+        // 3D Rotation Y
+        const x1 = p.baseX * cosY - p.baseZ * sinY;
+        const z1 = p.baseZ * cosY + p.baseX * sinY;
+
+        // 3D Rotation X
+        const y2 = p.baseY * cosX - z1 * sinX;
+        const z2 = z1 * cosX + p.baseY * sinX;
+
+        // Perspective division
+        const distance = fov + z2;
+        if (distance > 10) {
+          const scale = fov / distance;
+          const px = originX + x1 * scale;
+          const py = originY + y2 * scale;
+
+          projected.push({
+            px,
+            py,
+            scale,
+            color: p.color,
+            radius: p.radius * Math.max(0.4, scale),
+            z: z2
+          });
         }
+      }
 
-        // Draw node
-        ctx.beginPath();
-        ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
-        ctx.fillStyle = node.color === '#315CF5' ? 'rgba(49, 92, 245, 0.45)' : 'rgba(104, 104, 104, 0.25)';
-        ctx.fill();
+      // Sort points by z for proper depth rendering
+      projected.sort((a, b) => a.z - b.z);
 
-        // Connect nearby nodes with subtle hairline lines
-        for (let j = i + 1; j < nodes.length; j++) {
-          const other = nodes[j];
-          const distNodes = Math.hypot(node.x - other.x, node.y - other.y);
-
-          if (distNodes < 110) {
-            const alpha = (1 - distNodes / 110) * 0.12;
+      // Connect near points with hairline depth lines
+      for (let i = 0; i < projected.length; i++) {
+        const p1 = projected[i];
+        for (let j = i + 1; j < projected.length; j++) {
+          const p2 = projected[j];
+          const dist = Math.hypot(p1.px - p2.px, p1.py - p2.py);
+          if (dist < 85) {
+            const alpha = (1 - dist / 85) * 0.12 * Math.min(p1.scale, p2.scale);
             ctx.beginPath();
-            ctx.moveTo(node.x, node.y);
-            ctx.lineTo(other.x, other.y);
+            ctx.moveTo(p1.px, p1.py);
+            ctx.lineTo(p2.px, p2.py);
             ctx.strokeStyle = `rgba(49, 92, 245, ${alpha})`;
             ctx.lineWidth = 0.75;
             ctx.stroke();
@@ -165,22 +182,33 @@ export const AbstractCanvas: React.FC = () => {
         }
       }
 
-      animationFrameId = requestAnimationFrame(render);
+      // Render projected points
+      for (let i = 0; i < projected.length; i++) {
+        const p = projected[i];
+        ctx.beginPath();
+        ctx.arc(p.px, p.py, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = p.color === '#315CF5'
+          ? `rgba(49, 92, 245, ${Math.min(0.65, p.scale * 0.5)})`
+          : `rgba(104, 104, 104, ${Math.min(0.35, p.scale * 0.3)})`;
+        ctx.fill();
+      }
+
+      animId = requestAnimationFrame(render);
     };
 
     render();
 
     return () => {
-      cancelAnimationFrame(animationFrameId);
-      window.removeEventListener('resize', handleResize);
-      window.removeEventListener('mousemove', handleMouseMove);
+      cancelAnimationFrame(animId);
+      window.removeEventListener('resize', resize);
+      window.removeEventListener('mousemove', onMouseMove);
     };
   }, [reducedMotion]);
 
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 pointer-events-none w-full h-full opacity-80"
+      className="absolute inset-0 pointer-events-none w-full h-full opacity-85 z-0"
       aria-hidden="true"
     />
   );

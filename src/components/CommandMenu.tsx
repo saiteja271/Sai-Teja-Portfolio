@@ -1,15 +1,21 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, FolderKanban, Navigation, Copy, ExternalLink, Check, X, CornerDownLeft } from 'lucide-react';
+import { Search, FolderKanban, Navigation, Copy, ExternalLink, Check, X, CornerDownLeft, FileText } from 'lucide-react';
 import { PERSONAL_INFO, PROJECTS, NAVIGATION_LINKS } from '../data/portfolioData';
 
 interface CommandMenuProps {
   isOpen: boolean;
   onClose: () => void;
   onSelectProject: (projectId: string) => void;
+  onOpenResume: () => void;
 }
 
-export const CommandMenu: React.FC<CommandMenuProps> = ({ isOpen, onClose, onSelectProject }) => {
+export const CommandMenu: React.FC<CommandMenuProps> = ({
+  isOpen,
+  onClose,
+  onSelectProject,
+  onOpenResume
+}) => {
   const [query, setQuery] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [copied, setCopied] = useState(false);
@@ -23,13 +29,11 @@ export const CommandMenu: React.FC<CommandMenuProps> = ({ isOpen, onClose, onSel
     }
   }, [isOpen]);
 
-  // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault();
-        if (isOpen) onClose();
-        else onClose(); // Controlled by parent
+        onClose();
       }
       if (e.key === 'Escape' && isOpen) {
         e.preventDefault();
@@ -50,11 +54,10 @@ export const CommandMenu: React.FC<CommandMenuProps> = ({ isOpen, onClose, onSel
     }, 1200);
   };
 
-  // Build unified items
   const navigationItems = NAVIGATION_LINKS.map(link => ({
     type: 'nav',
     id: link.href,
-    title: `Jump to ${link.label}`,
+    title: `Navigate to ${link.label}`,
     category: 'Navigation',
     action: () => {
       onClose();
@@ -77,6 +80,17 @@ export const CommandMenu: React.FC<CommandMenuProps> = ({ isOpen, onClose, onSel
 
   const actionItems = [
     {
+      type: 'resume',
+      id: 'open-resume',
+      title: 'Examine Official Resume & Transcript Record',
+      category: 'Dossier',
+      icon: FileText,
+      action: () => {
+        onClose();
+        onOpenResume();
+      }
+    },
+    {
       type: 'action',
       id: 'copy-email',
       title: copied ? 'Email Copied to Clipboard!' : `Copy Email (${PERSONAL_INFO.email})`,
@@ -87,7 +101,7 @@ export const CommandMenu: React.FC<CommandMenuProps> = ({ isOpen, onClose, onSel
     {
       type: 'external',
       id: 'github',
-      title: 'Open GitHub Profile',
+      title: 'Open GitHub Profile (@saiteja271)',
       category: 'External Links',
       icon: ExternalLink,
       action: () => {
@@ -108,7 +122,7 @@ export const CommandMenu: React.FC<CommandMenuProps> = ({ isOpen, onClose, onSel
     }
   ];
 
-  const allItems = [...navigationItems, ...projectItems, ...actionItems];
+  const allItems = [...actionItems, ...navigationItems, ...projectItems];
 
   const filteredItems = allItems.filter(item => {
     const q = query.toLowerCase().trim();
@@ -120,7 +134,6 @@ export const CommandMenu: React.FC<CommandMenuProps> = ({ isOpen, onClose, onSel
     );
   });
 
-  // Handle arrow keys
   useEffect(() => {
     const handleListKeys = (e: KeyboardEvent) => {
       if (!isOpen || filteredItems.length === 0) return;
@@ -144,7 +157,6 @@ export const CommandMenu: React.FC<CommandMenuProps> = ({ isOpen, onClose, onSel
     <AnimatePresence>
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 sm:px-6">
-          {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -154,21 +166,19 @@ export const CommandMenu: React.FC<CommandMenuProps> = ({ isOpen, onClose, onSel
             onClick={onClose}
           />
 
-          {/* Modal Card */}
           <motion.div
             initial={{ opacity: 0, scale: 0.98, y: -10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.98, y: -10 }}
             transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-            className="relative w-full max-w-xl bg-surface border border-border shadow-modal rounded-modal overflow-hidden z-10"
+            className="relative w-full max-w-xl bg-surface border border-border shadow-modal rounded-xl overflow-hidden z-10"
           >
-            {/* Search Input Bar */}
             <div className="flex items-center px-4 py-3.5 border-b border-border bg-surface">
               <Search className="w-5 h-5 text-secondary mr-3 flex-shrink-0" />
               <input
                 ref={inputRef}
                 type="text"
-                placeholder="Search projects, sections, actions..."
+                placeholder="Search case studies, sections, resume, or actions..."
                 value={query}
                 onChange={e => {
                   setQuery(e.target.value);
@@ -189,7 +199,6 @@ export const CommandMenu: React.FC<CommandMenuProps> = ({ isOpen, onClose, onSel
               </kbd>
             </div>
 
-            {/* Results List */}
             <div className="max-h-[380px] overflow-y-auto p-2 divide-y divide-border/40">
               {filteredItems.length === 0 ? (
                 <div className="py-12 text-center text-sm text-secondary">
@@ -211,6 +220,9 @@ export const CommandMenu: React.FC<CommandMenuProps> = ({ isOpen, onClose, onSel
                         }`}
                       >
                         <div className="flex items-center gap-3 min-w-0">
+                          {item.type === 'resume' && (
+                            <FileText className={`w-4 h-4 flex-shrink-0 ${isSelected ? 'text-white' : 'text-accent'}`} />
+                          )}
                           {item.type === 'nav' && (
                             <Navigation className={`w-4 h-4 flex-shrink-0 ${isSelected ? 'text-white' : 'text-secondary'}`} />
                           )}
@@ -251,7 +263,6 @@ export const CommandMenu: React.FC<CommandMenuProps> = ({ isOpen, onClose, onSel
               )}
             </div>
 
-            {/* Footer hints */}
             <div className="px-4 py-2.5 bg-surface-secondary border-t border-border flex items-center justify-between text-[11px] text-secondary font-mono">
               <div className="flex items-center gap-3">
                 <span className="flex items-center gap-1">

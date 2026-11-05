@@ -1,10 +1,23 @@
+export type SkillProficiency = 'Hands-on Experience' | 'Comfortable' | 'Currently Exploring';
+
+export interface SkillItem {
+  name: string;
+  proficiency: SkillProficiency;
+  context: string;
+}
+
+export interface SkillGroup {
+  category: string;
+  tagline: string;
+  skills: SkillItem[];
+}
+
 export interface ProjectCaseStudy {
   overview: string;
   problem: string;
-  approach: string;
-  implementation: string;
+  solution: string;
   myContribution: string;
-  status: 'In Active Evolution' | 'Completed & Deployed' | 'Academic Submission' | 'Concept Prototype';
+  status: 'Flagship Prototype' | 'In Active Evolution' | 'Completed & Deployed' | 'Academic Submission' | 'Concept Prototype';
   highlights: string[];
 }
 
@@ -15,20 +28,13 @@ export interface Project {
   category: 'Full-Stack' | 'AI & Systems' | 'UI/UX & Creative';
   summary: string;
   featured: boolean;
+  spotlight?: boolean;
   year: string;
   stack: string[];
+  image?: string;
   liveUrl?: string;
   githubUrl?: string;
   caseStudy: ProjectCaseStudy;
-}
-
-export interface SkillCategory {
-  title: string;
-  badge: string;
-  skills: {
-    name: string;
-    focus: string;
-  }[];
 }
 
 export interface EducationItem {
@@ -47,15 +53,17 @@ export interface JourneyMilestone {
   period: string;
   title: string;
   organization: string;
-  type: 'Education' | 'Leadership' | 'Development' | 'Innovation';
+  category: 'Education' | 'Leadership' | 'Development' | 'Innovation';
   description: string;
   keyOutcomes: string[];
 }
 
-export interface CreativeInterest {
+export interface CreativeWork {
+  id: string;
   title: string;
   category: string;
+  medium: string;
+  image?: string;
   description: string;
-  tools: string[];
-  philosophy: string;
+  insight: string;
 }

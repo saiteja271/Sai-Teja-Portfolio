@@ -1,184 +1,170 @@
 import React from 'react';
-import { Code2, Compass, Layers, Sparkles, UserCheck, Languages, MapPin, Building2, Check } from 'lucide-react';
+import { GraduationCap, MapPin, Building2, Languages, UserCheck, FileText } from 'lucide-react';
 import { PERSONAL_INFO } from '../data/portfolioData';
 
-export const About: React.FC = () => {
-  const pillars = [
-    {
-      icon: Code2,
-      title: "Frontend Engineering",
-      description: "Developing robust, responsive interfaces with React, TypeScript, and modern CSS architectures. Committed to semantic HTML, clean state lifecycle, and snappy rendering."
-    },
-    {
-      icon: Layers,
-      title: "UI/UX & Design Systems",
-      description: "Designing structured components, deliberate typography hierarchies, and intuitive layouts with Figma and Canva. Focusing on clarity over visual clutter."
-    },
-    {
-      icon: Sparkles,
-      title: "Creative Technology",
-      description: "Exploring canvas interactions, procedural visual systems, and conversational AI prototypes (Sahayak AI, KalaaVerse) to bridge code and human engagement."
-    },
-    {
-      icon: Compass,
-      title: "Leadership & Presentation",
-      description: "Active leadership in college cultural events, video productions, and hackathon project demos. Experienced in translating complex technical concepts into clear narratives."
-    }
+interface AboutProps {
+  onOpenResume: () => void;
+}
+
+export const About: React.FC<AboutProps> = ({ onOpenResume }) => {
+  const identityRoles = [
+    "Frontend Developer",
+    "Creative Technologist",
+    "Product Builder",
+    "B.Tech IT Student",
+    "Independent Creator"
   ];
 
   return (
-    <section id="about" className="py-24 bg-surface border-y border-border relative">
+    <section id="about" className="py-28 bg-surface border-y border-border relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Section Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-16 gap-4">
-          <div>
-            <div className="flex items-center gap-2 mb-2">
-              <span className="w-2 h-2 rounded-full bg-accent" />
-              <p className="font-mono text-xs uppercase tracking-widest text-secondary font-semibold">
-                Biography & Principles
+        {/* Section Index Marker */}
+        <div className="flex items-center justify-between pb-6 mb-12 border-b border-border">
+          <div className="flex items-center gap-3">
+            <span className="font-mono text-xs uppercase tracking-widest text-accent font-semibold">
+              01 // Background & Identity
+            </span>
+          </div>
+          <span className="font-mono text-xs text-secondary hidden sm:inline">
+            Narasaraopeta Engineering College • Andhra Pradesh
+          </span>
+        </div>
+
+        {/* Editorial Storytelling Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+          
+          {/* Narrative Column (7 cols) */}
+          <div className="lg:col-span-7 space-y-8">
+            <div>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-primary tracking-tight leading-[1.15]">
+                "Curiosity is where everything begins."
+              </h2>
+              <div className="h-1 w-16 bg-accent mt-4" />
+            </div>
+
+            <div className="space-y-5 text-secondary text-base leading-relaxed">
+              <p className="text-lg text-primary font-medium leading-relaxed font-body">
+                I am <strong className="font-semibold text-primary">{PERSONAL_INFO.fullName}</strong>, an Information Technology undergraduate at Narasaraopeta Engineering College, building software with intentional aesthetics and engineering rigor.
+              </p>
+
+              <p>
+                My path into technology did not begin with copy-pasting tutorials. It started from an obsession with deconstructing how systems communicate. Whether modeling computational logic in Python and Java or exploring how typographical whitespace influences human cognition, I treat software engineering as an expressive digital craft.
+              </p>
+
+              <p>
+                Across competitive hackathons and campus initiatives, I have conceptualized and engineered platforms such as <strong className="text-primary font-medium">CREZORA / KalaaVerse</strong> (an operating system connecting 64+ creative disciplines) and <strong className="text-primary font-medium">PYQUEST</strong> (a gamified computer science learning experience).
+              </p>
+
+              <p>
+                Beyond code, I have held leadership roles across college cultural and media initiatives—directing event trailers with CapCut, capturing architectural photography, and translating technical architectures into compelling seminar demonstrations. This dual background lets me move effortlessly between design systems, code reviews, and product strategy.
               </p>
             </div>
-            <h2 className="text-3xl sm:text-4xl font-display font-bold text-primary tracking-tight">
-              About Sai Teja
-            </h2>
-          </div>
-          <p className="font-mono text-xs text-secondary max-w-xs text-left sm:text-right">
-            Student • Developer • Creative Technologist
-          </p>
-        </div>
 
-        {/* Narrative & Profile Matrix */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-          
-          {/* Main Editorial Text (Left 7 cols) */}
-          <div className="lg:col-span-7 space-y-6 text-secondary text-base leading-relaxed">
-            <p className="text-lg text-primary font-medium leading-relaxed">
-              Hello! I'm <strong className="font-semibold text-primary">{PERSONAL_INFO.fullName}</strong>, an Information Technology undergraduate at Narasaraopeta Engineering College, Andhra Pradesh.
-            </p>
-            
-            <p>
-              My journey in computing is driven by a passion for creating applications that feel effortless, intuitive, and genuinely helpful. Rather than treating frontend engineering as purely functional code, I approach software as a digital craft where typographic rhythm, crisp feedback, and engineering rigor coexist.
-            </p>
-
-            <p>
-              Across academic hackathons, personal experiments, and collegiate leadership roles, I have spearheaded the design and development of platforms like <strong className="text-primary font-medium">KalaaVerse</strong> (a unified digital creative ecosystem) and <strong className="text-primary font-medium">PyQuest</strong> (a gamified computer science learning experience).
-            </p>
-
-            <p>
-              Outside of traditional code, I actively direct video edits, coordinate campus media coverage, and experiment with generative AI interaction models. This hybrid background allows me to communicate effectively with design teams, engineers, and stakeholders alike.
-            </p>
-
-            {/* Quick Principles */}
-            <div className="pt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="flex items-start gap-3 p-3.5 rounded-xl bg-bg border border-border">
-                <div className="p-1 rounded-full bg-accent/10 text-accent flex-shrink-0 mt-0.5">
-                  <Check className="w-3.5 h-3.5" />
-                </div>
-                <div>
-                  <h4 className="text-xs font-semibold text-primary font-display">Clarity Above Clutter</h4>
-                  <p className="text-[11px] text-secondary mt-0.5">Every element and interaction must serve an intentional purpose.</p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3 p-3.5 rounded-xl bg-bg border border-border">
-                <div className="p-1 rounded-full bg-accent/10 text-accent flex-shrink-0 mt-0.5">
-                  <Check className="w-3.5 h-3.5" />
-                </div>
-                <div>
-                  <h4 className="text-xs font-semibold text-primary font-display">Responsive Discipline</h4>
-                  <p className="text-[11px] text-secondary mt-0.5">Tested from 360px phones to ultra-wide desktop displays.</p>
-                </div>
+            {/* Identity Roles Strip */}
+            <div className="pt-4 border-t border-border/80">
+              <p className="text-xs font-mono uppercase tracking-wider text-secondary mb-3">
+                Core Identity Dimensions:
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {identityRoles.map(role => (
+                  <span
+                    key={role}
+                    className="px-3 py-1 text-xs font-mono bg-bg border border-border text-primary rounded-md"
+                  >
+                    {role}
+                  </span>
+                ))}
               </div>
             </div>
           </div>
 
-          {/* Quick Facts Dossier (Right 5 cols) */}
-          <div className="lg:col-span-5 bg-bg border border-border rounded-2xl p-6 sm:p-7 shadow-subtle space-y-6">
+          {/* Structured Specification Sheet (5 cols - Minimalist Editorial Table) */}
+          <div className="lg:col-span-5 bg-bg border border-border rounded-xl p-6 sm:p-7 shadow-subtle space-y-6">
             <div className="flex items-center justify-between pb-4 border-b border-border">
               <span className="font-display font-bold text-sm text-primary uppercase tracking-wider">
-                Identity Snapshot
+                Academic & Dossier Data
               </span>
-              <span className="font-mono text-xs text-accent">Verified</span>
+              <span className="text-[11px] font-mono text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                Active B.Tech
+              </span>
             </div>
 
-            <div className="space-y-4">
-              <div className="flex items-start gap-3">
-                <Building2 className="w-4 h-4 text-accent mt-0.5 flex-shrink-0" />
-                <div>
-                  <p className="text-xs font-mono text-secondary">Institution</p>
-                  <p className="text-sm font-semibold text-primary">{PERSONAL_INFO.college}</p>
-                  <p className="text-xs text-secondary mt-0.5">B.Tech in Information Technology • CGPA {PERSONAL_INFO.cgpa}</p>
-                </div>
+            {/* Spec Table */}
+            <div className="space-y-4 text-xs font-mono divide-y divide-border/60">
+              <div className="pt-3 first:pt-0 flex items-start justify-between gap-4">
+                <span className="text-secondary flex items-center gap-1.5 flex-shrink-0">
+                  <Building2 className="w-3.5 h-3.5 text-accent" />
+                  <span>College</span>
+                </span>
+                <span className="text-right text-primary font-medium">
+                  {PERSONAL_INFO.college}
+                </span>
               </div>
 
-              <div className="flex items-start gap-3">
-                <MapPin className="w-4 h-4 text-accent mt-0.5 flex-shrink-0" />
-                <div>
-                  <p className="text-xs font-mono text-secondary">Location & Relocation</p>
-                  <p className="text-sm font-semibold text-primary">{PERSONAL_INFO.city}, {PERSONAL_INFO.state}</p>
-                  <p className="text-xs text-secondary mt-0.5">Open to on-site internships & opportunities in Chennai / Bangalore / Hyderabad / Pan-India</p>
-                </div>
+              <div className="pt-3 flex items-start justify-between gap-4">
+                <span className="text-secondary flex items-center gap-1.5 flex-shrink-0">
+                  <GraduationCap className="w-3.5 h-3.5 text-accent" />
+                  <span>Degree & Major</span>
+                </span>
+                <span className="text-right text-primary font-medium">
+                  B.Tech — Information Technology
+                </span>
               </div>
 
-              <div className="flex items-start gap-3">
-                <Languages className="w-4 h-4 text-accent mt-0.5 flex-shrink-0" />
-                <div>
-                  <p className="text-xs font-mono text-secondary">Languages Spoken</p>
-                  <p className="text-sm font-semibold text-primary">Telugu (Native) • English (Proficient) • Hindi (Working)</p>
-                </div>
+              <div className="pt-3 flex items-start justify-between gap-4">
+                <span className="text-secondary flex items-center gap-1.5 flex-shrink-0">
+                  <span className="w-3.5 text-center text-accent font-bold">#</span>
+                  <span>Academic Grade</span>
+                </span>
+                <span className="text-right text-accent font-bold">
+                  {PERSONAL_INFO.cgpa} CGPA ({PERSONAL_INFO.regulation})
+                </span>
               </div>
 
-              <div className="flex items-start gap-3">
-                <UserCheck className="w-4 h-4 text-accent mt-0.5 flex-shrink-0" />
-                <div>
-                  <p className="text-xs font-mono text-secondary">Status</p>
-                  <p className="text-sm font-semibold text-emerald-600 font-mono">
-                    {PERSONAL_INFO.availabilityStatus}
-                  </p>
-                </div>
+              <div className="pt-3 flex items-start justify-between gap-4">
+                <span className="text-secondary flex items-center gap-1.5 flex-shrink-0">
+                  <MapPin className="w-3.5 h-3.5 text-accent" />
+                  <span>Base Location</span>
+                </span>
+                <span className="text-right text-primary font-medium">
+                  {PERSONAL_INFO.city}, {PERSONAL_INFO.state}, India
+                </span>
+              </div>
+
+              <div className="pt-3 flex items-start justify-between gap-4">
+                <span className="text-secondary flex items-center gap-1.5 flex-shrink-0">
+                  <Languages className="w-3.5 h-3.5 text-accent" />
+                  <span>Languages</span>
+                </span>
+                <span className="text-right text-primary font-medium">
+                  Telugu (Native), English, Hindi
+                </span>
+              </div>
+
+              <div className="pt-3 flex items-start justify-between gap-4">
+                <span className="text-secondary flex items-center gap-1.5 flex-shrink-0">
+                  <UserCheck className="w-3.5 h-3.5 text-accent" />
+                  <span>Availability</span>
+                </span>
+                <span className="text-right text-emerald-600 font-semibold">
+                  Open for Collaborations & Internships
+                </span>
               </div>
             </div>
 
-            <div className="pt-3 border-t border-border">
-              <a
-                href="#contact"
-                className="w-full flex items-center justify-center py-2.5 px-4 rounded-xl bg-surface border border-border text-xs font-medium text-primary hover:border-accent hover:text-accent transition-colors shadow-subtle"
+            {/* Action Bar */}
+            <div className="pt-4 border-t border-border flex items-center justify-between gap-3">
+              <button
+                onClick={onOpenResume}
+                className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg bg-surface border border-border text-xs font-mono font-medium text-primary hover:border-accent hover:text-accent transition-colors shadow-subtle"
               >
-                Request Official Resume PDF
-              </a>
+                <FileText className="w-3.5 h-3.5 text-accent" />
+                <span>Examine Verified Resume</span>
+              </button>
             </div>
           </div>
 
-        </div>
-
-        {/* 4 Pillars Grid */}
-        <div className="mt-16 pt-16 border-t border-border/80 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {pillars.map((pillar, i) => {
-            const Icon = pillar.icon;
-            return (
-              <div
-                key={pillar.title}
-                className="p-5 rounded-xl bg-bg border border-border hover-lift flex flex-col justify-between"
-              >
-                <div>
-                  <div className="w-10 h-10 rounded-lg bg-surface border border-border flex items-center justify-center text-accent mb-4 shadow-subtle">
-                    <Icon className="w-5 h-5" />
-                  </div>
-                  <h3 className="font-display font-bold text-base text-primary mb-2">
-                    {pillar.title}
-                  </h3>
-                  <p className="text-xs text-secondary leading-relaxed">
-                    {pillar.description}
-                  </p>
-                </div>
-                <div className="mt-4 pt-3 border-t border-border/60 flex items-center justify-between text-[11px] font-mono text-secondary">
-                  <span>Pillar 0{i + 1}</span>
-                  <span className="text-accent">Active</span>
-                </div>
-              </div>
-            );
-          })}
         </div>
 
       </div>

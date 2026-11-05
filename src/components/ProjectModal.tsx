@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ExternalLink, Github, CheckCircle2, Layers, Cpu, Wrench, ShieldCheck } from 'lucide-react';
+import { X, ExternalLink, Github, CheckCircle2, Cpu, Wrench, ShieldCheck, Image as ImageIcon } from 'lucide-react';
 import { Project } from '../types/portfolio';
 
 interface ProjectModalProps {
@@ -36,7 +36,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
         {/* Backdrop */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -52,7 +52,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.96, y: 16 }}
           transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-          className="relative w-full max-w-3xl bg-surface border border-border shadow-modal rounded-modal max-h-[90vh] flex flex-col overflow-hidden z-10"
+          className="relative w-full max-w-3xl bg-surface border border-border shadow-modal rounded-xl max-h-[92vh] flex flex-col overflow-hidden z-10"
         >
           {/* Header Bar */}
           <div className="flex items-center justify-between px-6 py-4 border-b border-border bg-surface">
@@ -62,7 +62,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
                 Technical Case Study
               </span>
               <span className="text-xs text-border">•</span>
-              <span className="font-mono text-xs text-accent bg-accent/10 px-2 py-0.5 rounded-full">
+              <span className="font-mono text-xs text-accent bg-accent/10 px-2 py-0.5 rounded">
                 {project.category}
               </span>
             </div>
@@ -76,19 +76,34 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
           </div>
 
           {/* Scrollable Body */}
-          <div className="overflow-y-auto px-6 sm:px-8 py-6 space-y-8">
+          <div className="overflow-y-auto px-6 sm:px-8 py-6 space-y-7">
             
+            {/* Optional Project Visual */}
+            {project.image && (
+              <div className="relative aspect-[16/9] w-full rounded-lg overflow-hidden border border-border bg-surface-secondary">
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  className="w-full h-full object-cover object-top"
+                />
+                <div className="absolute bottom-2 left-2 bg-surface/90 backdrop-blur-sm px-2.5 py-1 rounded text-[11px] font-mono text-primary border border-border flex items-center gap-1.5">
+                  <ImageIcon className="w-3.5 h-3.5 text-accent" />
+                  <span>UI Architecture Snapshot</span>
+                </div>
+              </div>
+            )}
+
             {/* Title & Metadata */}
-            <div className="space-y-3">
+            <div className="space-y-2">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <h2 className="text-2xl sm:text-3xl font-display font-bold text-primary">
                   {project.title}
                 </h2>
-                <span className="text-xs font-mono px-2.5 py-1 rounded-full bg-surface-secondary border border-border text-secondary">
+                <span className="text-xs font-mono px-2.5 py-1 rounded bg-surface-secondary border border-border text-secondary">
                   {project.year}
                 </span>
               </div>
-              <p className="text-sm sm:text-base font-medium text-accent">
+              <p className="text-sm sm:text-base font-medium text-accent font-display">
                 {project.displayTag}
               </p>
               <p className="text-sm text-secondary leading-relaxed">
@@ -96,21 +111,21 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
               </p>
             </div>
 
-            {/* Quick Status and Stack Grid */}
+            {/* Status and Stack Grid */}
             <div className="p-4 rounded-xl bg-bg border border-border space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-mono text-secondary uppercase tracking-wider">Project Status</span>
-                <span className="inline-flex items-center gap-1.5 text-xs font-medium text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-full">
+                <span className="text-xs font-mono text-secondary uppercase tracking-wider">Implementation Status:</span>
+                <span className="inline-flex items-center gap-1.5 text-xs font-medium text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded">
                   <CheckCircle2 className="w-3.5 h-3.5" />
                   {caseStudy.status}
                 </span>
               </div>
               
               <div className="pt-2 border-t border-border/60">
-                <span className="text-xs font-mono text-secondary uppercase tracking-wider block mb-2">Technologies Used</span>
+                <span className="text-xs font-mono text-secondary uppercase tracking-wider block mb-2">Technologies Used:</span>
                 <div className="flex flex-wrap gap-1.5">
                   {project.stack.map(tech => (
-                    <span key={tech} className="px-2.5 py-1 rounded-md bg-surface border border-border text-xs font-mono text-primary shadow-subtle">
+                    <span key={tech} className="px-2.5 py-1 rounded bg-surface border border-border text-xs font-mono text-primary shadow-subtle">
                       {tech}
                     </span>
                   ))}
@@ -132,25 +147,14 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
                 </p>
               </div>
 
-              {/* Approach */}
+              {/* Solution / Approach */}
               <div className="space-y-2">
                 <div className="flex items-center gap-2 text-primary font-display font-semibold text-base">
                   <Cpu className="w-4 h-4 text-accent" />
-                  <h3>Architectural Approach</h3>
+                  <h3>Architecture & Solution</h3>
                 </div>
                 <p className="pl-6 border-l-2 border-accent/20">
-                  {caseStudy.approach}
-                </p>
-              </div>
-
-              {/* Implementation */}
-              <div className="space-y-2">
-                <div className="flex items-center gap-2 text-primary font-display font-semibold text-base">
-                  <Layers className="w-4 h-4 text-accent" />
-                  <h3>Implementation Details</h3>
-                </div>
-                <p className="pl-6 border-l-2 border-accent/20">
-                  {caseStudy.implementation}
+                  {caseStudy.solution}
                 </p>
               </div>
 
@@ -167,7 +171,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
 
               {/* Key Highlights */}
               <div className="space-y-2 pt-2">
-                <h4 className="text-xs font-mono uppercase tracking-wider text-secondary">Verified Key Outcomes</h4>
+                <h4 className="text-xs font-mono uppercase tracking-wider text-secondary">Verified Engineering Outcomes:</h4>
                 <ul className="space-y-2">
                   {caseStudy.highlights.map((item, idx) => (
                     <li key={idx} className="flex items-start gap-2.5">
