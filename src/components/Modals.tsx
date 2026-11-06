@@ -12,9 +12,7 @@ import {
   CheckCircle2,
   Cpu,
   Wrench,
-  ShieldCheck,
-  Image as ImageIcon,
-  Play
+  ShieldCheck
 } from 'lucide-react';
 import {
   PERSONAL_INFO,
@@ -23,141 +21,16 @@ import {
   CORE_TOOLKIT,
   Project
 } from '../data';
-import { VideoDemo } from '../videoData';
 
 // ============================================================================
-// 1. VIDEO DEMONSTRATION MODAL
-// ============================================================================
-interface VideoModalProps {
-  video: VideoDemo | null;
-  onClose: () => void;
-}
-
-export const VideoModal: React.FC<VideoModalProps> = ({ video, onClose }) => {
-  useEffect(() => {
-    if (video) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [video]);
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && video) onClose();
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [video, onClose]);
-
-  if (!video) return null;
-
-  return (
-    <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-primary/70 backdrop-blur-md"
-          onClick={onClose}
-        />
-
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95, y: 16 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.95, y: 16 }}
-          transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-          className="relative w-full max-w-4xl bg-surface border border-border shadow-modal rounded-2xl overflow-hidden z-10 flex flex-col"
-        >
-          {/* Header */}
-          <div className="flex items-center justify-between px-6 py-4 border-b border-border bg-surface">
-            <div className="flex items-center gap-2.5">
-              <span className="w-2.5 h-2.5 rounded-full bg-accent animate-pulse" />
-              <span className="font-mono text-xs uppercase tracking-wider text-secondary font-semibold">
-                Demonstration Video
-              </span>
-              <span className="text-xs text-border">•</span>
-              <span className="font-display font-semibold text-xs text-primary">
-                {video.projectName}
-              </span>
-            </div>
-            <button
-              onClick={onClose}
-              className="p-1.5 rounded-lg text-secondary hover:text-primary hover:bg-surface-secondary border border-transparent hover:border-border transition-colors"
-              aria-label="Close video player"
-            >
-              <X className="w-5 h-5" />
-            </button>
-          </div>
-
-          {/* Video Player */}
-          <div className="relative aspect-video w-full bg-black flex items-center justify-center">
-            {video.isDirectVideo ? (
-              <video
-                src={video.videoUrl}
-                controls
-                autoPlay
-                playsInline
-                className="w-full h-full object-contain"
-              >
-                Your browser does not support the video tag.
-              </video>
-            ) : (
-              <iframe
-                src={video.videoUrl}
-                title={video.videoTitle}
-                className="w-full h-full border-0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
-            )}
-          </div>
-
-          {/* Video Information & CTA */}
-          <div className="p-6 bg-surface space-y-3">
-            <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
-              <div className="space-y-1">
-                <h3 className="font-display font-bold text-lg sm:text-xl text-primary">
-                  {video.videoTitle}
-                </h3>
-                <p className="text-sm text-secondary leading-relaxed max-w-2xl">
-                  {video.description}
-                </p>
-              </div>
-
-              {video.liveAppUrl && (
-                <a
-                  href={video.liveAppUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-accent text-white text-xs font-mono font-medium hover:bg-accent-hover transition-colors shadow-subtle flex-shrink-0"
-                >
-                  <span>Launch Application</span>
-                  <ExternalLink className="w-3.5 h-3.5" />
-                </a>
-              )}
-            </div>
-          </div>
-        </motion.div>
-      </div>
-    </AnimatePresence>
-  );
-};
-
-// ============================================================================
-// 2. PROJECT CASE STUDY DETAIL MODAL
+// 1. PROJECT CASE STUDY DETAIL MODAL (Text-Based Editorial Presentation)
 // ============================================================================
 interface ProjectModalProps {
   project: Project | null;
   onClose: () => void;
-  onWatchDemo?: (project: Project) => void;
 }
 
-export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, onWatchDemo }) => {
+export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) => {
   useEffect(() => {
     if (project) {
       document.body.style.overflow = 'hidden';
@@ -186,6 +59,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, on
   return (
     <AnimatePresence>
       <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+        {/* Backdrop */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -194,49 +68,40 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, on
           onClick={onClose}
         />
 
+        {/* Modal Window */}
         <motion.div
           initial={{ opacity: 0, scale: 0.96, y: 16 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.96, y: 16 }}
           transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-          className="relative w-full max-w-3xl bg-surface border border-border shadow-modal rounded-xl max-h-[92vh] flex flex-col overflow-hidden z-10"
+          className="relative w-full max-w-3xl bg-surface border border-border shadow-modal rounded-2xl max-h-[92vh] flex flex-col overflow-hidden z-10"
         >
-          <div className="flex items-center justify-between px-6 py-4 border-b border-border bg-surface">
-            <div className="flex items-center gap-2.5">
-              <span className="w-2.5 h-2.5 rounded-full bg-accent" />
-              <span className="font-mono text-xs uppercase tracking-wider text-secondary">
-                Technical Case Study
+          {/* Header */}
+          <div className="flex items-center justify-between px-5 sm:px-6 py-4 border-b border-border bg-surface flex-shrink-0">
+            <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
+              <span className="w-2.5 h-2.5 rounded-full bg-accent flex-shrink-0" />
+              <span className="font-mono text-xs uppercase tracking-wider text-secondary truncate">
+                Case Study
               </span>
               <span className="text-xs text-border">•</span>
-              <span className="font-mono text-xs text-accent bg-accent/10 px-2 py-0.5 rounded">
+              <span className="font-mono text-xs text-accent bg-accent/10 px-2 py-0.5 rounded truncate">
                 {project.category}
               </span>
             </div>
             <button
               onClick={onClose}
-              className="p-1.5 rounded-lg text-secondary hover:text-primary hover:bg-surface-secondary border border-transparent hover:border-border transition-colors"
+              className="p-1.5 rounded-lg text-secondary hover:text-primary hover:bg-surface-secondary border border-transparent hover:border-border transition-colors min-w-[36px] min-h-[36px] flex items-center justify-center flex-shrink-0"
               aria-label="Close Case Study"
             >
               <X className="w-5 h-5" />
             </button>
           </div>
 
-          <div className="overflow-y-auto px-6 sm:px-8 py-6 space-y-7">
-            {project.image && (
-              <div className="relative aspect-[16/9] w-full rounded-lg overflow-hidden border border-border bg-surface-secondary">
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-full object-cover object-top"
-                />
-                <div className="absolute bottom-2 left-2 bg-surface/90 backdrop-blur-sm px-2.5 py-1 rounded text-[11px] font-mono text-primary border border-border flex items-center gap-1.5">
-                  <ImageIcon className="w-3.5 h-3.5 text-accent" />
-                  <span>UI Architecture Snapshot</span>
-                </div>
-              </div>
-            )}
-
-            <div className="space-y-2">
+          {/* Scrollable Content Body (Pure Editorial Architecture) */}
+          <div className="overflow-y-auto px-5 sm:px-8 py-6 space-y-6">
+            
+            {/* Title & Metadata Header */}
+            <div className="space-y-2 border-b border-border/70 pb-5">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <h2 className="text-2xl sm:text-3xl font-display font-bold text-primary">
                   {project.title}
@@ -248,13 +113,14 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, on
               <p className="text-sm sm:text-base font-medium text-accent font-display">
                 {project.displayTag}
               </p>
-              <p className="text-sm text-secondary leading-relaxed">
+              <p className="text-sm text-secondary leading-relaxed pt-1">
                 {project.summary}
               </p>
             </div>
 
+            {/* Status & Technology Stack */}
             <div className="p-4 rounded-xl bg-bg border border-border space-y-3">
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between flex-wrap gap-2">
                 <span className="text-xs font-mono text-secondary uppercase tracking-wider">Implementation Status:</span>
                 <span className="inline-flex items-center gap-1.5 text-xs font-medium text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded">
                   <CheckCircle2 className="w-3.5 h-3.5" />
@@ -274,10 +140,11 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, on
               </div>
             </div>
 
+            {/* Problem & Solution Breakdown */}
             <div className="space-y-6 text-sm leading-relaxed text-secondary">
               <div className="space-y-2">
                 <div className="flex items-center gap-2 text-primary font-display font-semibold text-base">
-                  <ShieldCheck className="w-4 h-4 text-accent" />
+                  <ShieldCheck className="w-4 h-4 text-accent flex-shrink-0" />
                   <h3>Problem & Challenge</h3>
                 </div>
                 <p className="pl-6 border-l-2 border-accent/20">
@@ -287,7 +154,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, on
 
               <div className="space-y-2">
                 <div className="flex items-center gap-2 text-primary font-display font-semibold text-base">
-                  <Cpu className="w-4 h-4 text-accent" />
+                  <Cpu className="w-4 h-4 text-accent flex-shrink-0" />
                   <h3>Architecture & Solution</h3>
                 </div>
                 <p className="pl-6 border-l-2 border-accent/20">
@@ -297,7 +164,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, on
 
               <div className="space-y-2">
                 <div className="flex items-center gap-2 text-primary font-display font-semibold text-base">
-                  <Wrench className="w-4 h-4 text-accent" />
+                  <Wrench className="w-4 h-4 text-accent flex-shrink-0" />
                   <h3>Sai Teja's Contribution</h3>
                 </div>
                 <p className="pl-6 border-l-2 border-accent/20 font-medium text-primary">
@@ -319,32 +186,21 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, on
             </div>
           </div>
 
-          <div className="flex items-center justify-between px-6 py-4 border-t border-border bg-surface-secondary">
+          {/* Footer Actions */}
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between px-5 sm:px-6 py-4 border-t border-border bg-surface-secondary gap-3 flex-shrink-0">
             <span className="text-xs font-mono text-secondary hidden sm:inline">
-              Venkata Sai Teja Sampati — Engineering Dossier
+              Venkata Sai Teja Sampati — Technical Dossier
             </span>
-            <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
-              {project.hasDemoVideo && onWatchDemo && (
-                <button
-                  onClick={() => {
-                    onClose();
-                    onWatchDemo(project);
-                  }}
-                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-surface border border-accent text-xs font-mono text-accent hover:bg-accent hover:text-white transition-colors shadow-subtle"
-                >
-                  <Play className="w-3.5 h-3.5" />
-                  <span>Watch Demo</span>
-                </button>
-              )}
+            <div className="flex flex-wrap items-center gap-2.5 justify-end">
               {project.githubUrl && (
                 <a
                   href={project.githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-surface border border-border text-xs font-medium text-primary hover:border-accent hover:text-accent transition-colors shadow-subtle"
+                  className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-surface border border-border text-xs font-medium text-primary hover:border-accent hover:text-accent transition-colors shadow-subtle min-h-[40px] flex-1 sm:flex-initial"
                 >
                   <Github className="w-4 h-4" />
-                  <span>GitHub Repository</span>
+                  <span>GitHub</span>
                 </a>
               )}
               {project.liveUrl && (
@@ -352,15 +208,15 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, on
                   href={project.liveUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-accent text-white text-xs font-medium hover:bg-accent-hover transition-colors shadow-subtle"
+                  className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-accent text-white text-xs font-medium hover:bg-accent-hover transition-colors shadow-subtle min-h-[40px] flex-1 sm:flex-initial font-semibold"
                 >
-                  <span>Launch Live</span>
+                  <span>Visit Application</span>
                   <ExternalLink className="w-3.5 h-3.5" />
                 </a>
               )}
               <button
                 onClick={onClose}
-                className="px-4 py-2 rounded-lg bg-surface border border-border text-xs font-medium text-secondary hover:text-primary transition-colors"
+                className="px-4 py-2.5 rounded-xl bg-surface border border-border text-xs font-medium text-secondary hover:text-primary transition-colors min-h-[40px]"
               >
                 Close
               </button>
@@ -373,7 +229,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, on
 };
 
 // ============================================================================
-// 3. OFFICIAL RESUME VIEWER MODAL
+// 2. OFFICIAL RESUME VIEWER MODAL
 // ============================================================================
 interface ResumeModalProps {
   isOpen: boolean;
@@ -422,9 +278,9 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => 
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.96, y: 20 }}
           transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-          className="relative w-full max-w-4xl bg-surface border border-border shadow-modal rounded-xl max-h-[92vh] flex flex-col overflow-hidden z-10"
+          className="relative w-full max-w-4xl bg-surface border border-border shadow-modal rounded-2xl max-h-[92vh] flex flex-col overflow-hidden z-10"
         >
-          <div className="flex items-center justify-between px-6 py-4 border-b border-border bg-surface">
+          <div className="flex items-center justify-between px-5 sm:px-6 py-4 border-b border-border bg-surface flex-shrink-0">
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-accent" />
               <span className="font-mono text-xs uppercase tracking-wider text-secondary font-semibold">
@@ -434,7 +290,7 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => 
             <div className="flex items-center gap-2">
               <button
                 onClick={handlePrint}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-bg border border-border text-xs font-mono text-primary hover:border-accent hover:text-accent transition-colors shadow-subtle"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-bg border border-border text-xs font-mono text-primary hover:border-accent hover:text-accent transition-colors shadow-subtle min-h-[36px]"
                 title="Print or Save as PDF"
               >
                 <Printer className="w-3.5 h-3.5" />
@@ -442,7 +298,7 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => 
               </button>
               <button
                 onClick={onClose}
-                className="p-1.5 rounded-lg text-secondary hover:text-primary hover:bg-surface-secondary transition-colors"
+                className="p-1.5 rounded-lg text-secondary hover:text-primary hover:bg-surface-secondary transition-colors min-w-[36px] min-h-[36px] flex items-center justify-center"
                 aria-label="Close Resume"
               >
                 <X className="w-5 h-5" />
@@ -450,7 +306,7 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => 
             </div>
           </div>
 
-          <div className="overflow-y-auto p-6 sm:p-10 font-body text-primary space-y-8 bg-surface">
+          <div className="overflow-y-auto p-5 sm:p-10 font-body text-primary space-y-8 bg-surface">
             <div className="border-b border-border pb-6 text-center sm:text-left space-y-2">
               <h1 className="text-2xl sm:text-3xl font-display font-extrabold uppercase tracking-tight text-primary">
                 {PERSONAL_INFO.fullName}
@@ -546,7 +402,7 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => 
               <div className="space-y-4 text-xs">
                 {PROJECTS.slice(0, 4).map(p => (
                   <div key={p.id} className="space-y-1">
-                    <div className="flex items-center justify-between font-mono">
+                    <div className="flex items-center justify-between font-mono flex-wrap gap-1">
                       <span className="font-bold text-primary font-display">{p.title} — {p.displayTag}</span>
                       <span className="text-secondary">{p.year}</span>
                     </div>
@@ -574,11 +430,11 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => 
             </div>
           </div>
 
-          <div className="flex items-center justify-between px-6 py-3.5 border-t border-border bg-surface-secondary text-xs font-mono text-secondary">
+          <div className="flex items-center justify-between px-5 sm:px-6 py-3.5 border-t border-border bg-surface-secondary text-xs font-mono text-secondary flex-shrink-0">
             <span>Verified Record • Narasaraopeta, Andhra Pradesh</span>
             <button
               onClick={onClose}
-              className="px-4 py-1.5 rounded-lg bg-surface border border-border text-primary hover:border-accent transition-colors shadow-subtle"
+              className="px-4 py-1.5 rounded-lg bg-surface border border-border text-primary hover:border-accent transition-colors shadow-subtle min-h-[36px]"
             >
               Close Viewer
             </button>

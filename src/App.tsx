@@ -5,19 +5,16 @@ import {
   Hero,
   About,
   FeaturedProjects,
-  VideoGallery,
   TechnicalSkills,
   Education,
   Contact,
   Footer
 } from './components/Sections';
-import { ProjectModal, ResumeModal, VideoModal } from './components/Modals';
+import { ProjectModal, ResumeModal } from './components/Modals';
 import { Project } from './data';
-import { VIDEO_DEMOS, VideoDemo } from './videoData';
 
 export const App: React.FC = () => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const [selectedVideo, setSelectedVideo] = useState<VideoDemo | null>(null);
   const [isResumeOpen, setIsResumeOpen] = useState<boolean>(false);
 
   const scrollToProjects = () => {
@@ -30,13 +27,6 @@ export const App: React.FC = () => {
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const handleWatchProjectDemo = (project: Project) => {
-    const matchingDemo =
-      VIDEO_DEMOS.find(v => v.projectName.toLowerCase().includes(project.title.toLowerCase())) ||
-      VIDEO_DEMOS[0];
-    setSelectedVideo(matchingDemo);
-  };
-
   return (
     <div className="min-h-screen bg-bg text-primary relative selection:bg-accent/15 selection:text-accent overflow-x-hidden">
       {/* Full-Page Atmospheric Visual System & Depth Wells */}
@@ -45,13 +35,13 @@ export const App: React.FC = () => {
       {/* Top Viewport Reading Progress Bar */}
       <ScrollProgress />
 
-      {/* Custom Desktop Cursor Enhancement */}
+      {/* Custom Desktop Cursor Enhancement (hidden on touch/mobile) */}
       <CustomCursor />
 
-      {/* Minimal & Elegant Sticky Navigation Header */}
+      {/* Minimal & Elegant Sticky Navigation Header with Mobile Drawer */}
       <Navbar onOpenResume={() => setIsResumeOpen(true)} />
 
-      {/* Main Narrative Sections Flowing Over Atmospheric Layer */}
+      {/* Main Narrative Flow */}
       <main className="relative z-10">
         <Hero
           onExploreProjects={scrollToProjects}
@@ -60,12 +50,7 @@ export const App: React.FC = () => {
 
         <About onOpenResume={() => setIsResumeOpen(true)} />
 
-        <FeaturedProjects
-          onSelectProject={setSelectedProject}
-          onWatchDemo={handleWatchProjectDemo}
-        />
-
-        <VideoGallery onWatchVideo={setSelectedVideo} />
+        <FeaturedProjects onSelectProject={setSelectedProject} />
 
         <TechnicalSkills />
 
@@ -77,17 +62,10 @@ export const App: React.FC = () => {
       {/* Colophon & Footer */}
       <Footer />
 
-      {/* Deep-Dive Case Study Modal */}
+      {/* Text-Based Deep-Dive Case Study Modal */}
       <ProjectModal
         project={selectedProject}
         onClose={() => setSelectedProject(null)}
-        onWatchDemo={handleWatchProjectDemo}
-      />
-
-      {/* Interactive Video Demonstration Modal */}
-      <VideoModal
-        video={selectedVideo}
-        onClose={() => setSelectedVideo(null)}
       />
 
       {/* Official Verified Resume Viewer Modal */}

@@ -1,5 +1,6 @@
 // ============================================================================
-// CENTRALIZED PORTFOLIO DATA: Venkata Sai Teja Sampati (Refinement 3.0)
+// CENTRALIZED PORTFOLIO DATA: Venkata Sai Teja Sampati (Refinement 4.0)
+// Minimal Project Presentation & Premium Mobile Architecture
 // ============================================================================
 
 export interface CoreCapability {
@@ -28,11 +29,8 @@ export interface Project {
   spotlight?: boolean;
   year: string;
   stack: string[];
-  image?: string;
   liveUrl?: string;
-  altLiveUrl?: string;
   githubUrl?: string;
-  hasDemoVideo?: boolean;
   caseStudy: ProjectCaseStudy;
 }
 
@@ -91,7 +89,7 @@ export const ABOUT_DATA = {
   ]
 };
 
-// EXACTLY 6 PROFESSIONAL CAPABILITIES
+// STRICTLY 6 CORE PROFESSIONAL CAPABILITIES
 export const CORE_TOOLKIT: CoreCapability[] = [
   {
     name: "HTML",
@@ -142,21 +140,18 @@ export const PROJECTS: Project[] = [
     spotlight: true,
     year: "2025 – 2026",
     stack: ["React", "JavaScript", "Modern CSS", "HTML5 Canvas", "UI/UX Architecture"],
-    image: "/assets/projects/mobile-interface.png",
-    liveUrl: "https://crezora.co",
-    altLiveUrl: "https://crezora-co.vercel.app",
+    liveUrl: "https://crezora-co.vercel.app/",
     githubUrl: "https://github.com/saiteja271",
-    hasDemoVideo: true,
     caseStudy: {
-      overview: "CREZORA is an end-to-end creative technology ecosystem designed to bridge creators, multidisciplinary tools, and digital product experiences in a cohesive, aesthetically refined environment.",
+      overview: "CREZORA is a creative technology ecosystem focused on building meaningful digital experiences and innovative products.",
       problem: "Creative professionals and independent builders frequently struggle with fragmented workflows across disconnected tools, portfolio platforms, and isolated creative communities.",
-      solution: "Engineered a unified digital ecosystem featuring creator hubs, modular application workflows, and collaborative project rooms, deployed live at https://crezora.co.",
+      solution: "Engineered a unified digital ecosystem featuring creator hubs, modular application workflows, and collaborative project rooms, deployed live at https://crezora-co.vercel.app/.",
       myContribution: "Led product concept architecture, complete frontend interface development, brand identity formulation, and continuous deployment workflows.",
       status: "Live Application",
       highlights: [
-        "Live and accessible worldwide on official domain: https://crezora.co",
-        "Backup verified deployment maintained at https://crezora-co.vercel.app",
-        "High-performance responsive design with zero layout shifts",
+        "Live and accessible on verified deployment: https://crezora-co.vercel.app/",
+        "High-performance responsive design engineered for seamless desktop and mobile viewports",
+        "Unified modular workflows connecting creative tools and collaborative spaces",
         "Demonstrated in collegiate hackathon competitions"
       ]
     }
@@ -164,39 +159,38 @@ export const PROJECTS: Project[] = [
   {
     id: "kalaaverse",
     title: "KalaaVerse",
-    displayTag: "Flagship Creator Operating System & Capability Network",
-    category: "UI/UX & Creative",
-    summary: "An ecosystem connecting 64+ creative disciplines, talent profiles, evidence-based capability matching, and collaborative workrooms.",
+    displayTag: "Interdisciplinary Creative Collaboration Platform",
+    category: "Full-Stack",
+    summary: "An interdisciplinary creative operating system connecting 64+ disciplines through explainable capability graphs, milestone-based studios, and intellectual property consent layers.",
     featured: true,
     spotlight: true,
-    year: "2025",
-    stack: ["JavaScript (ES6+)", "UI Systems", "HTML5 Canvas", "Hackathon Finalist"],
+    year: "2024 – 2025",
+    stack: ["React", "TypeScript", "Tailwind CSS", "Graph Algorithms"],
     githubUrl: "https://github.com/saiteja271",
     caseStudy: {
-      overview: "KalaaVerse is an operating system for creators that focuses on verified creative evidence, dual Creator/Client modes, and transparent capability matching.",
-      problem: "Traditional freelancing platforms evaluate artists solely on vanity metrics, ignoring deep craft disciplines and portfolio context.",
-      solution: "Constructed an explainable capability graph linking creators based on workroom evidence, consent layers, and multi-disciplinary competencies.",
-      myContribution: "Spearheaded product ideation, visual design tokens, modular UI screens, and presented the live prototype during campus hackathon finals.",
+      overview: "KalaaVerse bridges cross-disciplinary gaps for independent creators by replacing opaque algorithmic feeds with an evidence-backed capability discovery network.",
+      problem: "Creative professionals struggle to find genuine collaborators across complementary fields (e.g. sound designers pairing with UI engineers) through vanity metrics.",
+      solution: "Architected a dual-engine web application: an evidence-based capability matching graph and a milestone-locked collaboration workroom with asset tracking.",
+      myContribution: "Designed system information architecture, authored front-end graph traversal views, and formulated IP ownership workflows.",
       status: "Working Prototype",
       highlights: [
-        "64+ creative disciplines supported in one cohesive architecture",
-        "Dual-mode architecture (Creator Mode and Client Mode)",
-        "Zero-backend dependency client prototype for rapid demonstration"
+        "Deterministic capability matching algorithm with zero external API dependencies",
+        "Dual-engine architecture separating public creator discovery from private workrooms",
+        "State machine tracking milestone consents and intellectual property attribution"
       ]
     }
   },
   {
     id: "pyquest",
     title: "PYQUEST",
-    displayTag: "Gamified Python Learning Platform",
+    displayTag: "Gamified Python Learning & Challenge Engine",
     category: "Full-Stack",
-    summary: "An interactive, quest-based learning platform transforming Python language fundamentals into gamified quests, interactive crucible code challenges, streak systems, and live dashboards.",
+    summary: "An interactive computer science platform turning fundamental programming concepts into structured, gamified quests with zero-latency client-side challenge evaluation.",
     featured: true,
     spotlight: true,
-    year: "2025",
-    stack: ["React", "TypeScript", "Tailwind CSS", "Vite", "Gamification Engine"],
+    year: "2024 – 2025",
+    stack: ["React", "TypeScript", "Tailwind CSS", "Web Workers"],
     githubUrl: "https://github.com/saiteja271",
-    hasDemoVideo: true,
     caseStudy: {
       overview: "PyQuest eliminates beginner programmer burnout by transforming textbook coding lessons into interactive crucible challenges with immediate client-side feedback.",
       problem: "Standard educational coding materials delay feedback loops, causing high attrition among first-year engineering students.",
@@ -207,6 +201,29 @@ export const PROJECTS: Project[] = [
         "Strict TypeScript typing across quizzes, levels, and user progress",
         "Instant zero-latency client-side challenge evaluation",
         "Adaptive responsive layouts for mobile and desktop learners"
+      ]
+    }
+  },
+  {
+    id: "placemate-ai",
+    title: "PlaceMate AI",
+    displayTag: "Campus Placement Readiness & Interview Intelligence",
+    category: "AI & Systems",
+    summary: "A placement preparation platform featuring AI-driven mock interview simulations, resume scoring against job descriptions, and domain readiness analytics.",
+    featured: false,
+    year: "2024 – 2025",
+    stack: ["React", "TypeScript", "Tailwind CSS", "Data Analytics"],
+    githubUrl: "https://github.com/saiteja271",
+    caseStudy: {
+      overview: "PlaceMate AI bridges collegiate academic coursework and corporate recruitment expectations with simulated interview readiness diagnostics.",
+      problem: "Students frequently struggle to know whether their technical skills match specific job roles before facing interview rejections.",
+      solution: "Designed a clean diagnostic interface with competency radar charts, technical Q&A flows, and specific suggestions to improve resume ATS alignment.",
+      myContribution: "Engineered the frontend showcase dashboard, metric visualization components, and candidate evaluation flows.",
+      status: "Working Prototype",
+      highlights: [
+        "Comprehensive diagnostic dashboard tracking aptitude and technical readiness",
+        "Visual competency radar charts and instant breakdown metrics",
+        "Tailored for engineering campus placement cell workflows"
       ]
     }
   },
@@ -230,55 +247,6 @@ export const PROJECTS: Project[] = [
         "Tiered explanation model reducing cognitive overload",
         "Bilingual conceptual bridging between English and regional comprehension",
         "Distraction-free conversation UI with syntax formatting"
-      ]
-    }
-  },
-  {
-    id: "placemate-ai",
-    title: "PlaceMate AI",
-    displayTag: "Campus Placement Readiness & Interview Intelligence",
-    category: "AI & Systems",
-    summary: "A placement preparation platform featuring AI-driven mock interview simulations, resume scoring against job descriptions, and domain readiness analytics.",
-    featured: false,
-    image: "/assets/projects/placemate.png",
-    year: "2024 – 2025",
-    stack: ["React", "TypeScript", "Tailwind CSS", "Data Analytics"],
-    githubUrl: "https://github.com/saiteja271",
-    hasDemoVideo: true,
-    caseStudy: {
-      overview: "PlaceMate AI bridges collegiate academic coursework and corporate recruitment expectations with simulated interview readiness diagnostics.",
-      problem: "Students frequently struggle to know whether their technical skills match specific job roles before facing interview rejections.",
-      solution: "Designed a clean diagnostic interface with competency radar charts, technical Q&A flows, and specific suggestions to improve resume ATS alignment.",
-      myContribution: "Engineered the frontend showcase dashboard, metric visualization components, and candidate evaluation flows.",
-      status: "Working Prototype",
-      highlights: [
-        "Comprehensive diagnostic dashboard tracking aptitude and technical readiness",
-        "Visual competency radar charts and instant breakdown metrics",
-        "Tailored for engineering campus placement cell workflows"
-      ]
-    }
-  },
-  {
-    id: "lumina-studio",
-    title: "LUMINA Studio",
-    displayTag: "Minimalist Interactive Visual Canvas Studio",
-    category: "UI/UX & Creative",
-    summary: "A razor-sharp web creative workspace exploring procedural canvas rendering, geometric composition manipulation, and frictionless digital sketching.",
-    featured: false,
-    image: "/assets/projects/lumina.png",
-    year: "2024",
-    stack: ["TypeScript", "Vite", "HTML5 Canvas", "Unit Testing"],
-    githubUrl: "https://github.com/saiteja271",
-    caseStudy: {
-      overview: "An experimental visual engineering workspace designed to evaluate 60fps canvas manipulation, layout geometry algorithms, and distraction-free digital sketching.",
-      problem: "Existing graphic design tools are overly bloated for fast geometric layout experiments and compositional sketching.",
-      solution: "Engineered a lightweight canvas application focusing on instant startup, zero-lag coordinate math, and clean keyboard shortcuts.",
-      myContribution: "Implemented the canvas rendering pipeline, tool state managers, coordinate transformation math, and automated unit tests.",
-      status: "Academic Submission",
-      highlights: [
-        "60fps smooth rendering with pure HTML5 Canvas and zero heavy graphics dependencies",
-        "Automated unit test coverage verifying editor coordinate transforms",
-        "Clean monochrome UI putting creative content front and center"
       ]
     }
   },
@@ -316,14 +284,14 @@ export const PROJECTS: Project[] = [
     stack: ["Python", "Conversational UX", "Generative Models"],
     githubUrl: "https://github.com/saiteja271",
     caseStudy: {
-      overview: "Part of the CREZORA ecosystem, Chitti AI is conceived as a reflective intellectual partner—not merely an answer generator, but a thought clarifier that prompts user self-reflection.",
-      problem: "Most AI assistants rush to generate answers, shutting down human creative curiosity instead of acting as a collaborative thinking sounding board.",
+      overview: "Conceived as a reflective intellectual partner—not merely an answer generator, but a thought clarifier that prompts user self-reflection through Socratic questioning.",
+      problem: "Most AI assistants rush to generate generic answers, shutting down human creative curiosity instead of acting as a collaborative thinking sounding board.",
       solution: "Designed conversational flows centered around Socratic questioning, mental model breakdowns, and iterative ideation phases (Think ✦ Ideate ✦ Reflect).",
-      myContribution: "Created the cognitive interface concept, user dialogue states, and integrated it into the CREZORA ecosystem switcher.",
+      myContribution: "Created the cognitive interface concept, user dialogue states, and clean typography layouts.",
       status: "Concept Design",
       highlights: [
         "Socratic dialogue design prioritizing exploratory reasoning over instant answers",
-        "Deep integration with KalaaVerse creative workrooms",
+        "Deep mental model categorization",
         "Minimalist editorial chat aesthetic"
       ]
     }
@@ -338,7 +306,6 @@ export const PROJECTS: Project[] = [
     year: "2025",
     stack: ["JavaScript", "NLP Concepts", "UI Systems"],
     githubUrl: "https://github.com/saiteja271",
-    hasDemoVideo: true,
     caseStudy: {
       overview: "BhashaVerse bridges regional linguistic barriers for independent creators across India, enabling ideas conceptualized in Telugu, Hindi, or Tamil to be shared without cultural distortion.",
       problem: "Generic translation tools translate text literally, losing emotional nuances, regional slang, and creative metaphors critical to artistic briefs.",
@@ -367,11 +334,34 @@ export const PROJECTS: Project[] = [
       problem: "Institutional service desks and administrative offices waste substantial time and paper managing uncoordinated in-person queues.",
       solution: "Structured dual high-contrast views: a keyboard-friendly operator console for counter personnel and a clear public monitor visible across waiting areas.",
       myContribution: "Designed both counter staff and public display interfaces, managed queue state persistence, and refined typographical legibility.",
-      status: "Live Application",
+      status: "Working Prototype",
       highlights: [
         "Dual-perspective admin and public waiting hall monitors",
         "Keyboard shortcut support for rapid token dispatching by operators",
         "Ultra-lightweight footprint requiring minimal hardware resources"
+      ]
+    }
+  },
+  {
+    id: "lumina-studio",
+    title: "LUMINA Studio",
+    displayTag: "Minimalist Interactive Visual Canvas Studio",
+    category: "UI/UX & Creative",
+    summary: "A razor-sharp web creative workspace exploring procedural canvas rendering, geometric composition manipulation, and frictionless digital sketching.",
+    featured: false,
+    year: "2024",
+    stack: ["TypeScript", "Vite", "HTML5 Canvas", "Unit Testing"],
+    githubUrl: "https://github.com/saiteja271",
+    caseStudy: {
+      overview: "An experimental visual engineering workspace designed to evaluate 60fps canvas manipulation, layout geometry algorithms, and distraction-free digital sketching.",
+      problem: "Existing graphic design tools are overly bloated for fast geometric layout experiments and compositional sketching.",
+      solution: "Engineered a lightweight canvas application focusing on instant startup, zero-lag coordinate math, and clean keyboard shortcuts.",
+      myContribution: "Implemented the canvas rendering pipeline, tool state managers, coordinate transformation math, and automated unit tests.",
+      status: "Academic Submission",
+      highlights: [
+        "60fps smooth rendering with pure HTML5 Canvas and zero heavy graphics dependencies",
+        "Automated unit test coverage verifying editor coordinate transforms",
+        "Clean monochrome UI putting creative content front and center"
       ]
     }
   }
@@ -404,9 +394,9 @@ export const JOURNEY_MILESTONES: JourneyMilestone[] = [
     period: "2025 – Present",
     title: "Flagship Architectures & Creative Technology Products",
     category: "Personal Projects",
-    description: "Developing and deploying live digital products (CREZORA at https://crezora.co) and gamified learning platforms (PYQUEST). Deepening focus on React, clean component architecture, and practical AI tooling.",
+    description: "Developing and deploying live digital products (CREZORA at https://crezora-co.vercel.app/) and gamified learning platforms (PYQUEST). Deepening focus on React, clean component architecture, and practical AI tooling.",
     keyOutcomes: [
-      "Launched CREZORA ecosystem live on official domain (https://crezora.co)",
+      "Launched CREZORA ecosystem live on verified deployment (https://crezora-co.vercel.app/)",
       "Engineered PYQUEST gamified challenge engine with client-side puzzle evaluator",
       "Prototyped conversational educational concepts with Sahayak AI"
     ]
@@ -449,7 +439,6 @@ export const NAVIGATION_LINKS = [
   { label: "Home", href: "#hero" },
   { label: "About", href: "#about" },
   { label: "Projects", href: "#projects" },
-  { label: "Videos", href: "#videos" },
   { label: "Skills", href: "#skills" },
   { label: "Education", href: "#education" },
   { label: "Contact", href: "#contact" }

@@ -166,19 +166,19 @@ export const BackgroundAtmosphere: React.FC = () => {
         }}
       />
       <div 
-        className="absolute top-[35%] left-[-10vw] w-[50vw] h-[50vh] rounded-full blur-[150px] opacity-55 pointer-events-none"
+        className="absolute top-[35%] left-0 w-[50vw] h-[50vh] rounded-full blur-[150px] opacity-55 pointer-events-none"
         style={{
           background: 'radial-gradient(circle at 30% 50%, #D6E4F5 0%, rgba(238, 242, 248, 0.3) 50%, transparent 75%)'
         }}
       />
       <div 
-        className="absolute top-[65%] right-[-5vw] w-[50vw] h-[50vh] rounded-full blur-[150px] opacity-60 pointer-events-none"
+        className="absolute top-[60%] right-0 w-[50vw] h-[50vh] rounded-full blur-[150px] opacity-60 pointer-events-none"
         style={{
           background: 'radial-gradient(circle at 70% 60%, #EEF2F8 0%, rgba(220, 232, 255, 0.35) 50%, transparent 75%)'
         }}
       />
       <div 
-        className="absolute bottom-[-10vh] left-[15vw] w-[55vw] h-[45vh] rounded-full blur-[130px] opacity-50 pointer-events-none"
+        className="absolute bottom-0 left-[15vw] w-[55vw] h-[45vh] rounded-full blur-[130px] opacity-50 pointer-events-none"
         style={{
           background: 'radial-gradient(circle at 40% 70%, #E8EDF5 0%, rgba(220, 227, 237, 0.3) 45%, transparent 75%)'
         }}
