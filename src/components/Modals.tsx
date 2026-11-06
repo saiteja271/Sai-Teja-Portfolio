@@ -1,15 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Search,
-  FolderKanban,
-  Navigation,
-  Copy,
   ExternalLink,
-  Check,
   X,
-  CornerDownLeft,
-  FileText,
   Printer,
   Mail,
   Phone,
@@ -20,297 +13,137 @@ import {
   Cpu,
   Wrench,
   ShieldCheck,
-  Image as ImageIcon
+  Image as ImageIcon,
+  Play
 } from 'lucide-react';
 import {
   PERSONAL_INFO,
   PROJECTS,
-  NAVIGATION_LINKS,
   EDUCATION_DATA,
-  SKILL_GROUPS,
+  CORE_TOOLKIT,
   Project
 } from '../data';
+import { VideoDemo } from '../videoData';
 
 // ============================================================================
-// 1. COMMAND MENU (CTRL/CMD + K)
+// 1. VIDEO DEMONSTRATION MODAL
 // ============================================================================
-interface CommandMenuProps {
-  isOpen: boolean;
+interface VideoModalProps {
+  video: VideoDemo | null;
   onClose: () => void;
-  onSelectProject: (projectId: string) => void;
-  onOpenResume: () => void;
 }
 
-export const CommandMenu: React.FC<CommandMenuProps> = ({
-  isOpen,
-  onClose,
-  onSelectProject,
-  onOpenResume
-}) => {
-  const [query, setQuery] = useState('');
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const [copied, setCopied] = useState(false);
-  const inputRef = useRef<HTMLInputElement | null>(null);
-
+export const VideoModal: React.FC<VideoModalProps> = ({ video, onClose }) => {
   useEffect(() => {
-    if (isOpen) {
-      setTimeout(() => inputRef.current?.focus(), 60);
-      setQuery('');
-      setSelectedIndex(0);
+    if (video) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
     }
-  }, [isOpen]);
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [video]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
-        e.preventDefault();
-        onClose();
-      }
-      if (e.key === 'Escape' && isOpen) {
-        e.preventDefault();
-        onClose();
-      }
+      if (e.key === 'Escape' && video) onClose();
     };
-
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, onClose]);
+  }, [video, onClose]);
 
-  const copyEmail = () => {
-    navigator.clipboard.writeText(PERSONAL_INFO.email);
-    setCopied(true);
-    setTimeout(() => {
-      setCopied(false);
-      onClose();
-    }, 1200);
-  };
-
-  const navigationItems = NAVIGATION_LINKS.map(link => ({
-    type: 'nav',
-    id: link.href,
-    title: `Navigate to ${link.label}`,
-    category: 'Navigation',
-    action: () => {
-      onClose();
-      const el = document.querySelector(link.href);
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
-    }
-  }));
-
-  const projectItems = PROJECTS.map(p => ({
-    type: 'project',
-    id: p.id,
-    title: p.title,
-    subtitle: p.displayTag,
-    category: 'Projects',
-    action: () => {
-      onClose();
-      onSelectProject(p.id);
-    }
-  }));
-
-  const actionItems = [
-    {
-      type: 'resume',
-      id: 'open-resume',
-      title: 'Examine Official Resume & Academic Record',
-      category: 'Dossier',
-      icon: FileText,
-      action: () => {
-        onClose();
-        onOpenResume();
-      }
-    },
-    {
-      type: 'action',
-      id: 'copy-email',
-      title: copied ? 'Email Copied to Clipboard!' : `Copy Email (${PERSONAL_INFO.email})`,
-      category: 'Actions',
-      icon: copied ? Check : Copy,
-      action: copyEmail
-    },
-    {
-      type: 'external',
-      id: 'github',
-      title: 'Open GitHub Profile (@saiteja271)',
-      category: 'External Links',
-      icon: ExternalLink,
-      action: () => {
-        window.open(PERSONAL_INFO.github, '_blank', 'noopener,noreferrer');
-        onClose();
-      }
-    },
-    {
-      type: 'external',
-      id: 'linkedin',
-      title: 'Open LinkedIn Profile',
-      category: 'External Links',
-      icon: ExternalLink,
-      action: () => {
-        window.open(PERSONAL_INFO.linkedin, '_blank', 'noopener,noreferrer');
-        onClose();
-      }
-    }
-  ];
-
-  const allItems = [...actionItems, ...navigationItems, ...projectItems];
-
-  const filteredItems = allItems.filter(item => {
-    const q = query.toLowerCase().trim();
-    if (!q) return true;
-    return (
-      item.title.toLowerCase().includes(q) ||
-      (item as { subtitle?: string }).subtitle?.toLowerCase().includes(q) ||
-      item.category.toLowerCase().includes(q)
-    );
-  });
-
-  useEffect(() => {
-    const handleListKeys = (e: KeyboardEvent) => {
-      if (!isOpen || filteredItems.length === 0) return;
-      if (e.key === 'ArrowDown') {
-        e.preventDefault();
-        setSelectedIndex(prev => (prev + 1) % filteredItems.length);
-      } else if (e.key === 'ArrowUp') {
-        e.preventDefault();
-        setSelectedIndex(prev => (prev - 1 + filteredItems.length) % filteredItems.length);
-      } else if (e.key === 'Enter') {
-        e.preventDefault();
-        filteredItems[selectedIndex]?.action();
-      }
-    };
-
-    window.addEventListener('keydown', handleListKeys);
-    return () => window.removeEventListener('keydown', handleListKeys);
-  }, [isOpen, filteredItems, selectedIndex]);
+  if (!video) return null;
 
   return (
     <AnimatePresence>
-      {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 sm:px-6">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.15 }}
-            className="fixed inset-0 bg-primary/40 backdrop-blur-sm"
-            onClick={onClose}
-          />
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 bg-primary/70 backdrop-blur-md"
+          onClick={onClose}
+        />
 
-          <motion.div
-            initial={{ opacity: 0, scale: 0.98, y: -10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.98, y: -10 }}
-            transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-            className="relative w-full max-w-xl bg-surface border border-border shadow-modal rounded-xl overflow-hidden z-10"
-          >
-            <div className="flex items-center px-4 py-3.5 border-b border-border bg-surface">
-              <Search className="w-5 h-5 text-secondary mr-3 flex-shrink-0" />
-              <input
-                ref={inputRef}
-                type="text"
-                placeholder="Search case studies, sections, resume, or actions..."
-                value={query}
-                onChange={e => {
-                  setQuery(e.target.value);
-                  setSelectedIndex(0);
-                }}
-                className="w-full bg-transparent text-sm font-body text-primary placeholder-secondary/60 focus:outline-none"
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95, y: 16 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.95, y: 16 }}
+          transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+          className="relative w-full max-w-4xl bg-surface border border-border shadow-modal rounded-2xl overflow-hidden z-10 flex flex-col"
+        >
+          {/* Header */}
+          <div className="flex items-center justify-between px-6 py-4 border-b border-border bg-surface">
+            <div className="flex items-center gap-2.5">
+              <span className="w-2.5 h-2.5 rounded-full bg-accent animate-pulse" />
+              <span className="font-mono text-xs uppercase tracking-wider text-secondary font-semibold">
+                Demonstration Video
+              </span>
+              <span className="text-xs text-border">•</span>
+              <span className="font-display font-semibold text-xs text-primary">
+                {video.projectName}
+              </span>
+            </div>
+            <button
+              onClick={onClose}
+              className="p-1.5 rounded-lg text-secondary hover:text-primary hover:bg-surface-secondary border border-transparent hover:border-border transition-colors"
+              aria-label="Close video player"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+
+          {/* Video Player */}
+          <div className="relative aspect-video w-full bg-black flex items-center justify-center">
+            {video.isDirectVideo ? (
+              <video
+                src={video.videoUrl}
+                controls
+                autoPlay
+                playsInline
+                className="w-full h-full object-contain"
+              >
+                Your browser does not support the video tag.
+              </video>
+            ) : (
+              <iframe
+                src={video.videoUrl}
+                title={video.videoTitle}
+                className="w-full h-full border-0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
               />
-              {query && (
-                <button
-                  onClick={() => setQuery('')}
-                  className="p-1 text-secondary hover:text-primary transition-colors mr-2"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              )}
-              <kbd className="hidden sm:inline-flex items-center px-2 py-0.5 text-[11px] font-mono text-secondary bg-surface-secondary rounded border border-border">
-                ESC
-              </kbd>
-            </div>
+            )}
+          </div>
 
-            <div className="max-h-[380px] overflow-y-auto p-2 divide-y divide-border/40">
-              {filteredItems.length === 0 ? (
-                <div className="py-12 text-center text-sm text-secondary">
-                  No matching results for <span className="font-medium text-primary">"{query}"</span>
-                </div>
-              ) : (
-                <div className="py-1 space-y-0.5">
-                  {filteredItems.map((item, index) => {
-                    const isSelected = index === selectedIndex;
-                    return (
-                      <button
-                        key={`${item.category}-${item.id}-${index}`}
-                        onClick={item.action}
-                        onMouseEnter={() => setSelectedIndex(index)}
-                        className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-left transition-all ${
-                          isSelected
-                            ? 'bg-accent text-white shadow-subtle'
-                            : 'text-primary hover:bg-surface-secondary'
-                        }`}
-                      >
-                        <div className="flex items-center gap-3 min-w-0">
-                          {item.type === 'resume' && (
-                            <FileText className={`w-4 h-4 flex-shrink-0 ${isSelected ? 'text-white' : 'text-accent'}`} />
-                          )}
-                          {item.type === 'nav' && (
-                            <Navigation className={`w-4 h-4 flex-shrink-0 ${isSelected ? 'text-white' : 'text-secondary'}`} />
-                          )}
-                          {item.type === 'project' && (
-                            <FolderKanban className={`w-4 h-4 flex-shrink-0 ${isSelected ? 'text-white' : 'text-accent'}`} />
-                          )}
-                          {item.type === 'action' && (
-                            <Copy className={`w-4 h-4 flex-shrink-0 ${isSelected ? 'text-white' : 'text-emerald-600'}`} />
-                          )}
-                          {item.type === 'external' && (
-                            <ExternalLink className={`w-4 h-4 flex-shrink-0 ${isSelected ? 'text-white' : 'text-secondary'}`} />
-                          )}
-
-                          <div className="min-w-0">
-                            <p className="text-sm font-medium truncate">{item.title}</p>
-                            {(item as { subtitle?: string }).subtitle && (
-                              <p className={`text-xs truncate ${isSelected ? 'text-white/80' : 'text-secondary'}`}>
-                                {(item as { subtitle?: string }).subtitle}
-                              </p>
-                            )}
-                          </div>
-                        </div>
-
-                        <div className="flex items-center gap-2 flex-shrink-0 ml-3">
-                          <span className={`text-[10px] font-mono uppercase tracking-wider px-1.5 py-0.5 rounded ${
-                            isSelected ? 'bg-white/20 text-white' : 'bg-surface-secondary text-secondary border border-border/60'
-                          }`}>
-                            {item.category}
-                          </span>
-                          {isSelected && (
-                            <CornerDownLeft className="w-3.5 h-3.5 text-white/90" />
-                          )}
-                        </div>
-                      </button>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
-
-            <div className="px-4 py-2.5 bg-surface-secondary border-t border-border flex items-center justify-between text-[11px] text-secondary font-mono">
-              <div className="flex items-center gap-3">
-                <span className="flex items-center gap-1">
-                  <kbd className="px-1.5 py-0.5 bg-surface rounded border border-border">↑</kbd>
-                  <kbd className="px-1.5 py-0.5 bg-surface rounded border border-border">↓</kbd>
-                  <span>Navigate</span>
-                </span>
-                <span className="flex items-center gap-1">
-                  <kbd className="px-1.5 py-0.5 bg-surface rounded border border-border">↵</kbd>
-                  <span>Select</span>
-                </span>
+          {/* Video Information & CTA */}
+          <div className="p-6 bg-surface space-y-3">
+            <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+              <div className="space-y-1">
+                <h3 className="font-display font-bold text-lg sm:text-xl text-primary">
+                  {video.videoTitle}
+                </h3>
+                <p className="text-sm text-secondary leading-relaxed max-w-2xl">
+                  {video.description}
+                </p>
               </div>
-              <span>Press <kbd className="px-1 py-0.5 bg-surface rounded border border-border">ESC</kbd> to close</span>
+
+              {video.liveAppUrl && (
+                <a
+                  href={video.liveAppUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-accent text-white text-xs font-mono font-medium hover:bg-accent-hover transition-colors shadow-subtle flex-shrink-0"
+                >
+                  <span>Launch Application</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              )}
             </div>
-          </motion.div>
-        </div>
-      )}
+          </div>
+        </motion.div>
+      </div>
     </AnimatePresence>
   );
 };
@@ -321,9 +154,10 @@ export const CommandMenu: React.FC<CommandMenuProps> = ({
 interface ProjectModalProps {
   project: Project | null;
   onClose: () => void;
+  onWatchDemo?: (project: Project) => void;
 }
 
-export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) => {
+export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, onWatchDemo }) => {
   useEffect(() => {
     if (project) {
       document.body.style.overflow = 'hidden';
@@ -490,6 +324,18 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
               Venkata Sai Teja Sampati — Engineering Dossier
             </span>
             <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
+              {project.hasDemoVideo && onWatchDemo && (
+                <button
+                  onClick={() => {
+                    onClose();
+                    onWatchDemo(project);
+                  }}
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-surface border border-accent text-xs font-mono text-accent hover:bg-accent hover:text-white transition-colors shadow-subtle"
+                >
+                  <Play className="w-3.5 h-3.5" />
+                  <span>Watch Demo</span>
+                </button>
+              )}
               {project.githubUrl && (
                 <a
                   href={project.githubUrl}
@@ -610,7 +456,7 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => 
                 {PERSONAL_INFO.fullName}
               </h1>
               <p className="font-mono text-xs uppercase tracking-wider text-accent font-semibold">
-                B.Tech. in Information Technology • Narasaraopeta Engineering College
+                {EDUCATION_DATA.degree} • {EDUCATION_DATA.institution}
               </p>
 
               <div className="flex flex-wrap items-center justify-center sm:justify-start gap-4 pt-2 text-xs font-mono text-secondary">
@@ -624,7 +470,7 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => 
                 </span>
                 <span className="flex items-center gap-1">
                   <MapPin className="w-3.5 h-3.5 text-accent" />
-                  <span>{PERSONAL_INFO.city}, {PERSONAL_INFO.state}</span>
+                  <span>{PERSONAL_INFO.location}</span>
                 </span>
                 <a
                   href={PERSONAL_INFO.linkedin}
@@ -652,7 +498,7 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => 
                 Career Profile
               </h2>
               <p className="text-xs sm:text-sm text-secondary leading-relaxed">
-                B.Tech Information Technology student with hands-on experience in frontend engineering, UI/UX architecture, responsive web applications, and creative problem solving. Experienced in leading multi-module project concepts (KalaaVerse, PYQUEST), campus festival media coverage, and technical seminar presentations. Eager to contribute disciplined engineering, adaptability, and clear communication to frontend and software development teams.
+                {PERSONAL_INFO.professionalIntroduction}
               </p>
             </div>
 
@@ -660,34 +506,33 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => 
               <h2 className="text-xs font-mono uppercase tracking-widest text-accent font-bold border-b border-border/80 pb-1">
                 Education
               </h2>
-              <div className="space-y-4">
-                {EDUCATION_DATA.map(edu => (
-                  <div key={edu.degree} className="flex flex-col sm:flex-row sm:items-start justify-between text-xs gap-1">
-                    <div>
-                      <h3 className="font-bold text-primary font-display">{edu.degree}</h3>
-                      <p className="text-secondary">{edu.institution} — {edu.location}</p>
-                    </div>
-                    <div className="text-left sm:text-right font-mono text-secondary">
-                      <span className="font-bold text-primary">{edu.score}</span>
-                      <span className="block text-[11px]">{edu.period} • {edu.status}</span>
-                    </div>
-                  </div>
-                ))}
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between text-xs gap-1">
+                <div>
+                  <h3 className="font-bold text-primary font-display">{EDUCATION_DATA.degree}</h3>
+                  <p className="text-secondary">{EDUCATION_DATA.institution} — {EDUCATION_DATA.location}</p>
+                </div>
+                <div className="text-left sm:text-right font-mono text-secondary">
+                  <span className="font-bold text-primary">{EDUCATION_DATA.status}</span>
+                  <span className="block text-[11px]">{EDUCATION_DATA.period} • Expected {EDUCATION_DATA.expectedGraduation}</span>
+                </div>
               </div>
             </div>
 
             <div className="space-y-3">
               <h2 className="text-xs font-mono uppercase tracking-widest text-accent font-bold border-b border-border/80 pb-1">
-                Technical Proficiencies
+                Core Technical Toolkit
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                {SKILL_GROUPS.map(group => (
-                  <div key={group.category} className="p-3 bg-bg border border-border rounded-lg">
-                    <h3 className="font-bold text-primary font-mono text-[11px] uppercase tracking-wider mb-1">
-                      {group.category}
-                    </h3>
-                    <p className="text-secondary leading-snug">
-                      {group.skills.map(s => s.name).join(', ')}
+                {CORE_TOOLKIT.map(tool => (
+                  <div key={tool.name} className="p-3 bg-bg border border-border rounded-lg">
+                    <div className="flex items-center justify-between mb-1">
+                      <h3 className="font-bold text-primary font-mono text-[11px] uppercase tracking-wider">
+                        {tool.name}
+                      </h3>
+                      <span className="text-[10px] font-mono text-accent">{tool.focus}</span>
+                    </div>
+                    <p className="text-secondary leading-snug text-[11px]">
+                      {tool.description}
                     </p>
                   </div>
                 ))}
@@ -718,7 +563,7 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => 
 
             <div className="space-y-2">
               <h2 className="text-xs font-mono uppercase tracking-widest text-accent font-bold border-b border-border/80 pb-1">
-                Campus Leadership & Activities
+                Collegiate Leadership & Activities
               </h2>
               <ul className="space-y-1.5 text-xs text-secondary list-disc pl-4">
                 <li>Collaborated in multi-member engineering teams in college hackathons and Smart India Hackathon initiatives.</li>

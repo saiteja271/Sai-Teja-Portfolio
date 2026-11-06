@@ -1,19 +1,12 @@
 // ============================================================================
-// TYPES & DATA ARCHITECTURE: Venkata Sai Teja Sampati Portfolio
+// CENTRALIZED PORTFOLIO DATA: Venkata Sai Teja Sampati (Refinement 3.0)
 // ============================================================================
 
-export type SkillProficiency = 'Hands-on Experience' | 'Comfortable' | 'Currently Exploring';
-
-export interface SkillItem {
+export interface CoreCapability {
   name: string;
-  proficiency: SkillProficiency;
-  context: string;
-}
-
-export interface SkillGroup {
   category: string;
-  tagline: string;
-  skills: SkillItem[];
+  description: string;
+  focus: string;
 }
 
 export interface ProjectCaseStudy {
@@ -21,7 +14,7 @@ export interface ProjectCaseStudy {
   problem: string;
   solution: string;
   myContribution: string;
-  status: 'Flagship Prototype' | 'In Active Evolution' | 'Completed & Deployed' | 'Academic Submission' | 'Concept Prototype';
+  status: 'Live Application' | 'Working Prototype' | 'Academic Submission' | 'Concept Design';
   highlights: string[];
 }
 
@@ -37,7 +30,9 @@ export interface Project {
   stack: string[];
   image?: string;
   liveUrl?: string;
+  altLiveUrl?: string;
   githubUrl?: string;
+  hasDemoVideo?: boolean;
   caseStudy: ProjectCaseStudy;
 }
 
@@ -47,8 +42,7 @@ export interface EducationItem {
   location: string;
   period: string;
   status: string;
-  score: string;
-  regulation?: string;
+  expectedGraduation: string;
   coursework: string[];
   highlights: string[];
 }
@@ -56,75 +50,138 @@ export interface EducationItem {
 export interface JourneyMilestone {
   period: string;
   title: string;
-  organization: string;
-  category: 'Education' | 'Leadership' | 'Development' | 'Innovation';
+  category: 'Academic Learning' | 'Personal Projects' | 'Collaborative Development' | 'Hackathon Experiences' | 'Creative Experimentation';
   description: string;
   keyOutcomes: string[];
 }
 
-export interface CreativeWork {
-  id: string;
-  title: string;
-  category: string;
-  medium: string;
-  image?: string;
-  description: string;
-  insight: string;
-}
-
 export const PERSONAL_INFO = {
-  fullName: "Venkata Sai Teja Sampati",
-  displayName: "Sai Teja",
-  roleTitle: "Developer & Creative Technologist",
-  headlineLine1: "I don't just build interfaces.",
-  headlineLine2: "I build experiences.",
-  supportingPhrase: "Engineering ideas into meaningful digital experiences.",
-  editorialIntro: "I'm a B.Tech Information Technology student, frontend architect, and creative technologist based in Andhra Pradesh, India. I operate at the intersection of systematic code, editorial typography, and human-centered interaction design.",
-  extendedBio: "Curiosity is where everything begins. From breaking down mathematical problems in high school to architecting multi-module creative ecosystems in hackathons, I view software as an expressive craft. Rather than settling for boilerplate templates, I care about spatial rhythm, micro-interactions, responsive discipline, and building tools that respect human attention.",
+  fullName: "VENKATA SAI TEJA SAMPATI",
+  displayName: "SAI TEJA",
+  heroHeadingLine1: "VENKATA SAI TEJA",
+  heroHeadingLine2: "SAMPATI.",
+  supportingHeadline: "Building digital experiences. Exploring technology. Turning ideas into reality.",
+  professionalIdentity: "Developer | Creative Technologist | UI/UX Enthusiast | Digital Product Builder",
+  professionalIntroduction: "I'm Sai Teja, a B.Tech Information Technology student, developer, and creative technologist passionate about creating meaningful digital experiences. I enjoy combining engineering, design, and creativity to transform ideas into functional applications and digital products. From developing web applications and exploring AI-powered solutions to experimenting with UI/UX and building creative platforms, I believe technology becomes meaningful when it solves real problems and creates memorable experiences.",
+  educationDegree: "B.Tech — Information Technology",
+  college: "Narasaraopeta Engineering College",
+  educationStatus: "Currently Pursuing",
+  expectedGraduation: "June 2027",
   location: "Andhra Pradesh, India",
-  city: "Narasaraopeta",
-  state: "Andhra Pradesh",
-  country: "India",
-  timeZone: "Asia/Kolkata",
-  timeZoneLabel: "IST (UTC +5:30)",
-  educationStatus: "B.Tech — Pursuing (Class of 2027)",
-  availabilityStatus: "Open for Select Collaborations & Internships",
   email: "saitejasampati@gmail.com",
   phone: "+91 8328692645",
-  github: "https://github.com/saiteja271",
-  githubUser: "saiteja271",
   linkedin: "https://www.linkedin.com/in/sai-teja-sampati",
+  github: "https://github.com/saiteja271",
   portraitPath: "/assets/profile/portrait.png",
-  portraitFallback: "/assets/profile/portrait.jpg",
-  cgpa: "7.25",
-  college: "Narasaraopeta Engineering College",
-  expectedGraduation: "May 2027",
-  regulation: "R23 Regulation"
+  portraitFallback: "/assets/profile/portrait.jpg"
 };
+
+export const ABOUT_DATA = {
+  heading: "More than just code.",
+  approach: "I enjoy understanding problems before building solutions. I believe a good application is not just about functionality; it should also be intuitive, visually appealing, accessible, and useful.",
+  interests: [
+    { title: "Software Development", description: "Architecting modular, maintainable web applications with reliable logic and state lifecycles." },
+    { title: "Frontend Engineering", description: "Crafting responsive, high-performance interfaces with clean component hierarchies and semantic HTML." },
+    { title: "UI/UX Design", description: "Structuring intuitive user flows, clear visual hierarchies, and accessible design system tokens." },
+    { title: "Creative Technology", description: "Exploring procedural canvas systems, interactive micro-animations, and expressive digital media." },
+    { title: "AI-Powered Applications", description: "Translating conversational AI capabilities and intelligent tooling into practical, daily workflows." },
+    { title: "Digital Product Development", description: "Taking concepts from initial whiteboarding and user journey mapping to deployed reality." },
+    { title: "Photography & Visual Storytelling", description: "Observing symmetry, light temperature, and compositional framing across natural landscapes." },
+    { title: "Creative Writing & Content Creation", description: "Articulating product philosophies and drafting clear technical narratives for modern software." }
+  ]
+};
+
+// EXACTLY 6 PROFESSIONAL CAPABILITIES
+export const CORE_TOOLKIT: CoreCapability[] = [
+  {
+    name: "HTML",
+    category: "Structure & Semantics",
+    description: "Semantic document architecture, accessible ARIA landmarks, SEO best practices, and clean DOM hierarchy.",
+    focus: "Accessibility & Semantic Structure"
+  },
+  {
+    name: "CSS",
+    category: "Styling & Responsive Systems",
+    description: "Modern CSS grid, flexbox layouts, design tokens, fluid typography, micro-interactions, and responsive design across all viewports.",
+    focus: "Modern Layouts & Design Tokens"
+  },
+  {
+    name: "JavaScript",
+    category: "Core Web Language",
+    description: "Modern ES6+ syntax, asynchronous programming patterns, event-driven DOM manipulation, and robust client logic.",
+    focus: "ES6+, Async Logic & DOM APIs"
+  },
+  {
+    name: "React",
+    category: "Application Framework",
+    description: "Component-driven architecture, custom hooks, reactive state lifecycle, performance optimization, and modular UI engineering.",
+    focus: "Component Lifecycles & State Design"
+  },
+  {
+    name: "Python",
+    category: "Programming & Intelligence",
+    description: "Algorithmic problem solving, object-oriented programming, data structures, automation scripting, and backend API integration.",
+    focus: "Algorithms, OOP & Automation"
+  },
+  {
+    name: "UI/UX Architecture",
+    category: "Design Systems & Product Craft",
+    description: "Information architecture, design system formulation, wireframing, typography pairing, and human-centered design thinking.",
+    focus: "Information Architecture & User Journeys"
+  }
+];
 
 export const PROJECTS: Project[] = [
   {
-    id: "crezora-kalaaverse",
-    title: "CREZORA / KalaaVerse",
-    displayTag: "Flagship Creative Operating System & Talent Ecosystem",
+    id: "crezora",
+    title: "CREZORA",
+    displayTag: "Creative Technology Ecosystem & Digital Products",
     category: "UI/UX & Creative",
-    summary: "A unified digital creative operating system connecting 64+ artistic disciplines, verified talent portfolios, capability-matching algorithms, and collaborative workrooms.",
+    summary: "CREZORA is a creative technology ecosystem focused on building meaningful digital experiences and innovative products.",
     featured: true,
     spotlight: true,
     year: "2025 – 2026",
-    stack: ["JavaScript (ES6+)", "UI/UX Architecture", "Modern CSS", "HTML5 Canvas", "Hackathon Finalist"],
+    stack: ["React", "JavaScript", "Modern CSS", "HTML5 Canvas", "UI/UX Architecture"],
+    image: "/assets/projects/mobile-interface.png",
+    liveUrl: "https://crezora.co",
+    altLiveUrl: "https://crezora-co.vercel.app",
+    githubUrl: "https://github.com/saiteja271",
+    hasDemoVideo: true,
+    caseStudy: {
+      overview: "CREZORA is an end-to-end creative technology ecosystem designed to bridge creators, multidisciplinary tools, and digital product experiences in a cohesive, aesthetically refined environment.",
+      problem: "Creative professionals and independent builders frequently struggle with fragmented workflows across disconnected tools, portfolio platforms, and isolated creative communities.",
+      solution: "Engineered a unified digital ecosystem featuring creator hubs, modular application workflows, and collaborative project rooms, deployed live at https://crezora.co.",
+      myContribution: "Led product concept architecture, complete frontend interface development, brand identity formulation, and continuous deployment workflows.",
+      status: "Live Application",
+      highlights: [
+        "Live and accessible worldwide on official domain: https://crezora.co",
+        "Backup verified deployment maintained at https://crezora-co.vercel.app",
+        "High-performance responsive design with zero layout shifts",
+        "Demonstrated in collegiate hackathon competitions"
+      ]
+    }
+  },
+  {
+    id: "kalaaverse",
+    title: "KalaaVerse",
+    displayTag: "Flagship Creator Operating System & Capability Network",
+    category: "UI/UX & Creative",
+    summary: "An ecosystem connecting 64+ creative disciplines, talent profiles, evidence-based capability matching, and collaborative workrooms.",
+    featured: true,
+    spotlight: true,
+    year: "2025",
+    stack: ["JavaScript (ES6+)", "UI Systems", "HTML5 Canvas", "Hackathon Finalist"],
     githubUrl: "https://github.com/saiteja271",
     caseStudy: {
-      overview: "KalaaVerse is CREZORA's flagship Creative Operating System. Designed not merely as a conventional freelancer directory, but as an end-to-end talent and creation ecosystem spanning Discovery, Studio Practice, Collaboration Workrooms, Opportunity Matching, and Fair Monetization.",
-      problem: "Independent creators, designers, and students struggle with fragmented workflows—hopping between isolated inspiration boards, scattered asset repositories, disjointed portfolio sites, and generic gig marketplaces that ignore true creative discipline depth.",
-      solution: "Architected a cohesive editorial operating system covering 64+ disciplines. Features include an explainable capability graph for client matching, dual Creator/Client modes, consent and ownership tracking in collaboration workrooms, and built-in hooks to translation and thinking companions.",
-      myContribution: "Led end-to-end product ideation, visual design direction, modular component engineering, and presented the working demonstration live during competitive collegiate hackathons.",
-      status: "Flagship Prototype",
+      overview: "KalaaVerse is an operating system for creators that focuses on verified creative evidence, dual Creator/Client modes, and transparent capability matching.",
+      problem: "Traditional freelancing platforms evaluate artists solely on vanity metrics, ignoring deep craft disciplines and portfolio context.",
+      solution: "Constructed an explainable capability graph linking creators based on workroom evidence, consent layers, and multi-disciplinary competencies.",
+      myContribution: "Spearheaded product ideation, visual design tokens, modular UI screens, and presented the live prototype during campus hackathon finals.",
+      status: "Working Prototype",
       highlights: [
-        "Structured capability graph matching clients based on verified evidence rather than vanity metrics",
-        "Dual-mode architecture (Creator Mode & Client Mode) in a single intuitive interface",
-        "Ecosystem switcher interconnecting KalaaVerse with BhashaVerse and Chitti AI",
-        "100% responsive fluid grid system tested across mobile and desktop displays"
+        "64+ creative disciplines supported in one cohesive architecture",
+        "Dual-mode architecture (Creator Mode and Client Mode)",
+        "Zero-backend dependency client prototype for rapid demonstration"
       ]
     }
   },
@@ -133,22 +190,23 @@ export const PROJECTS: Project[] = [
     title: "PYQUEST",
     displayTag: "Gamified Python Learning Platform",
     category: "Full-Stack",
-    summary: "An interactive, quest-based learning platform transforming Python language fundamentals into gamified quests, interactive crucible challenges, streak systems, and live progress dashboards.",
+    summary: "An interactive, quest-based learning platform transforming Python language fundamentals into gamified quests, interactive crucible code challenges, streak systems, and live dashboards.",
     featured: true,
     spotlight: true,
     year: "2025",
     stack: ["React", "TypeScript", "Tailwind CSS", "Vite", "Gamification Engine"],
     githubUrl: "https://github.com/saiteja271",
+    hasDemoVideo: true,
     caseStudy: {
-      overview: "PyQuest tackles beginner programming burnout by converting dry technical syntax into interactive milestones. Learners solve crucible code puzzles, earn unlockable skill badges, and track mastery through dynamic progress heatmaps.",
-      problem: "Traditional computer science introductory courses suffer high attrition rates because students encounter delayed feedback loops and sterile console exercises detached from visible progress.",
-      solution: "Engineered a dopamine-friendly yet distraction-free learning environment. Challenges evaluate client-side instantly with step-by-step diagnostic hints, daily streak trackers, and clear progress milestones.",
-      myContribution: "Architected the TypeScript component hierarchy, authored automated crucible challenge generators, designed the high-density responsive dashboard UI, and implemented state persistence.",
-      status: "In Active Evolution",
+      overview: "PyQuest eliminates beginner programmer burnout by transforming textbook coding lessons into interactive crucible challenges with immediate client-side feedback.",
+      problem: "Standard educational coding materials delay feedback loops, causing high attrition among first-year engineering students.",
+      solution: "Developed an engaging, distraction-free web platform featuring live puzzle evaluation, streak counters, unlockable badges, and interactive challenge banks.",
+      myContribution: "Architected component hierarchy in React and TypeScript, authored challenge generation scripts, and designed the high-density responsive dashboard.",
+      status: "Working Prototype",
       highlights: [
-        "Strict TypeScript typing across quizzes, levels, and user progression state",
-        "Instant zero-latency client-side challenge evaluation and celebratory micro-interactions",
-        "Responsive, high-density dashboard layouts optimized for mobile and desktop viewports"
+        "Strict TypeScript typing across quizzes, levels, and user progress",
+        "Instant zero-latency client-side challenge evaluation",
+        "Adaptive responsive layouts for mobile and desktop learners"
       ]
     }
   },
@@ -157,22 +215,21 @@ export const PROJECTS: Project[] = [
     title: "Sahayak AI",
     displayTag: "AI-Powered Academic Teaching Assistant",
     category: "AI & Systems",
-    summary: "An empathetic conversational academic companion designed for university students, translating dense engineering concepts into intuitive analogies, visual steps, and multilingual guidance.",
-    featured: true,
-    spotlight: true,
+    summary: "An empathetic conversational academic companion for university students, decomposing difficult theoretical engineering concepts into intuitive analogies, step-by-step notes, and multilingual guidance.",
+    featured: false,
     year: "2025",
-    stack: ["Python", "Generative AI", "Conversational UI", "REST APIs", "Educational Tech"],
+    stack: ["Python", "Conversational UI", "REST APIs", "Educational Tech"],
     githubUrl: "https://github.com/saiteja271",
     caseStudy: {
-      overview: "Sahayak AI functions as a 24/7 personal academic tutor capable of explaining challenging theoretical engineering subjects with relatable daily metaphors, code snippets, and vernacular bridging.",
-      problem: "Large student-to-faculty ratios in engineering institutions leave students hesitant to ask fundamental questions in lectures, resulting in compounding academic gaps.",
-      solution: "Constructed an educational dialogue pipeline that decomposes complex queries into three cognitive tiers: simple 2-sentence summaries, visual analogies, and rigorous step-by-step problem breakdowns.",
-      myContribution: "Formulated the academic doubt-resolution workflows, designed the conversational dialogue interface, and structured prompt engineering pipelines tailored for undergraduate engineering curriculums.",
-      status: "Concept Prototype",
+      overview: "Sahayak AI acts as a 24/7 academic tutor designed to clarify complex undergraduate curriculum subjects with step-by-step analogies and bilingual support.",
+      problem: "High student-faculty ratios leave students reluctant to ask foundational doubts during lectures, creating persistent academic knowledge gaps.",
+      solution: "Engineered a tiered educational query pipeline: concise conceptual summaries, visual analogies, and rigorous formula/code breakdowns.",
+      myContribution: "Formulated educational workflows, designed conversational dialogue components, and structured domain prompt engineering.",
+      status: "Working Prototype",
       highlights: [
-        "Tiered explanation model reducing cognitive overload for difficult technical concepts",
-        "Multilingual conceptual bridging between English and regional comprehension",
-        "Distraction-free conversation UI with code syntax highlighting"
+        "Tiered explanation model reducing cognitive overload",
+        "Bilingual conceptual bridging between English and regional comprehension",
+        "Distraction-free conversation UI with syntax formatting"
       ]
     }
   },
@@ -181,20 +238,21 @@ export const PROJECTS: Project[] = [
     title: "PlaceMate AI",
     displayTag: "Campus Placement Readiness & Interview Intelligence",
     category: "AI & Systems",
-    summary: "A comprehensive placement preparation platform featuring AI-driven mock interview simulations, resume scoring against job descriptions, and domain readiness analytics.",
+    summary: "A placement preparation platform featuring AI-driven mock interview simulations, resume scoring against job descriptions, and domain readiness analytics.",
     featured: false,
     image: "/assets/projects/placemate.png",
     year: "2024 – 2025",
-    stack: ["React", "TypeScript", "Tailwind CSS", "Data Analytics", "UI Systems"],
+    stack: ["React", "TypeScript", "Tailwind CSS", "Data Analytics"],
     githubUrl: "https://github.com/saiteja271",
+    hasDemoVideo: true,
     caseStudy: {
-      overview: "PlaceMate AI bridges the gap between collegiate academic coursework and competitive corporate technical recruitment by giving students actionable, simulated interview readiness metrics.",
-      problem: "Students frequently struggle to know whether their technical skills match specific job roles, often discovering resume deficiencies only after receiving rejection emails.",
-      solution: "Designed an intuitive diagnostic interface displaying competency radar charts, mock technical Q&A flows, and specific suggestions to enhance resume ATS compatibility.",
-      myContribution: "Built the complete frontend UI showcase, designed metric visualization cards, and structured the candidate evaluation dashboard.",
-      status: "Completed & Deployed",
+      overview: "PlaceMate AI bridges collegiate academic coursework and corporate recruitment expectations with simulated interview readiness diagnostics.",
+      problem: "Students frequently struggle to know whether their technical skills match specific job roles before facing interview rejections.",
+      solution: "Designed a clean diagnostic interface with competency radar charts, technical Q&A flows, and specific suggestions to improve resume ATS alignment.",
+      myContribution: "Engineered the frontend showcase dashboard, metric visualization components, and candidate evaluation flows.",
+      status: "Working Prototype",
       highlights: [
-        "Comprehensive diagnostic dashboard tracking aptitude, coding, and communication readiness",
+        "Comprehensive diagnostic dashboard tracking aptitude and technical readiness",
         "Visual competency radar charts and instant breakdown metrics",
         "Tailored for engineering campus placement cell workflows"
       ]
@@ -209,11 +267,11 @@ export const PROJECTS: Project[] = [
     featured: false,
     image: "/assets/projects/lumina.png",
     year: "2024",
-    stack: ["TypeScript", "Vite", "HTML5 Canvas", "Unit Testing", "Modular CSS"],
+    stack: ["TypeScript", "Vite", "HTML5 Canvas", "Unit Testing"],
     githubUrl: "https://github.com/saiteja271",
     caseStudy: {
       overview: "An experimental visual engineering workspace designed to evaluate 60fps canvas manipulation, layout geometry algorithms, and distraction-free digital sketching.",
-      problem: "Commercial graphic editing software has become overly heavy and complex for fast geometric layout experiments and compositional sketching.",
+      problem: "Existing graphic design tools are overly bloated for fast geometric layout experiments and compositional sketching.",
       solution: "Engineered a lightweight canvas application focusing on instant startup, zero-lag coordinate math, and clean keyboard shortcuts.",
       myContribution: "Implemented the canvas rendering pipeline, tool state managers, coordinate transformation math, and automated unit tests.",
       status: "Academic Submission",
@@ -232,17 +290,17 @@ export const PROJECTS: Project[] = [
     summary: "A smart civic reporting and municipal issue-tracking dashboard enabling citizens to report local infrastructure issues and track administrative resolution milestones.",
     featured: false,
     year: "2025",
-    stack: ["React", "JavaScript", "REST APIs", "Map Integration", "Tailwind CSS"],
+    stack: ["React", "JavaScript", "REST APIs", "Tailwind CSS"],
     githubUrl: "https://github.com/saiteja271",
     caseStudy: {
       overview: "CityMind conceptualizes a transparent civic bridge between municipal departments and residents. Citizens report road hazards, sanitation concerns, or water issues with geolocation tags.",
       problem: "Civic grievance redressal systems in tier-2 cities often lack transparency, leaving citizens uncertain if their municipal complaints are assigned or resolved.",
       solution: "Built a status-driven dashboard with clear timeline milestones (Reported → Inspected → In Progress → Resolved), photo verification, and departmental analytics.",
       myContribution: "Engineered citizen reporting forms, status timeline trackers, and municipal officer dispatch views.",
-      status: "Concept Prototype",
+      status: "Concept Design",
       highlights: [
         "Milestone-based complaint status tracking with photo verification",
-        "Intuitive category categorization for municipal departments",
+        "Intuitive categorization for municipal departments",
         "Responsive mobile-first layout for on-the-ground issue submissions"
       ]
     }
@@ -255,14 +313,14 @@ export const PROJECTS: Project[] = [
     summary: "A contemplative personal intelligence companion focused on helping users think deeply, ideate across divergent perspectives, and synthesize unstructured notes.",
     featured: false,
     year: "2025",
-    stack: ["Python", "Conversational UX", "Generative Models", "State Management"],
+    stack: ["Python", "Conversational UX", "Generative Models"],
     githubUrl: "https://github.com/saiteja271",
     caseStudy: {
       overview: "Part of the CREZORA ecosystem, Chitti AI is conceived as a reflective intellectual partner—not merely an answer generator, but a thought clarifier that prompts user self-reflection.",
-      problem: "Most AI assistants rush to generate answers, often shutting down human creative curiosity instead of acting as a collaborative thinking sounding board.",
+      problem: "Most AI assistants rush to generate answers, shutting down human creative curiosity instead of acting as a collaborative thinking sounding board.",
       solution: "Designed conversational flows centered around Socratic questioning, mental model breakdowns, and iterative ideation phases (Think ✦ Ideate ✦ Reflect).",
       myContribution: "Created the cognitive interface concept, user dialogue states, and integrated it into the CREZORA ecosystem switcher.",
-      status: "Concept Prototype",
+      status: "Concept Design",
       highlights: [
         "Socratic dialogue design prioritizing exploratory reasoning over instant answers",
         "Deep integration with KalaaVerse creative workrooms",
@@ -278,14 +336,15 @@ export const PROJECTS: Project[] = [
     summary: "A localization engine designed to translate and adapt creative concepts, cultural idioms, and artistic briefs seamlessly across Indian regional languages.",
     featured: false,
     year: "2025",
-    stack: ["JavaScript", "NLP Concepts", "UI Systems", "Creative Tech"],
+    stack: ["JavaScript", "NLP Concepts", "UI Systems"],
     githubUrl: "https://github.com/saiteja271",
+    hasDemoVideo: true,
     caseStudy: {
       overview: "BhashaVerse bridges regional linguistic barriers for independent creators across India, enabling ideas conceptualized in Telugu, Hindi, or Tamil to be shared without cultural distortion.",
       problem: "Generic translation tools translate text literally, losing emotional nuances, regional slang, and creative metaphors critical to artistic briefs.",
       solution: "Engineered an idiom-aware localization interface that suggests contextual equivalents for creative expressions across regional languages.",
       myContribution: "Authored linguistic mapping concepts, interface wireframes, and cross-lingual translation preview flows.",
-      status: "Concept Prototype",
+      status: "Concept Design",
       highlights: [
         "Contextual idiom-preserving localization for creative storyboards and scripts",
         "Side-by-side comparative preview interface",
@@ -301,14 +360,14 @@ export const PROJECTS: Project[] = [
     summary: "A streamlined queue orchestration and dispatch console designed to minimize waiting times and optimize staff counter workflows across institutional environments.",
     featured: false,
     year: "2024",
-    stack: ["React", "JavaScript", "Tailwind CSS", "State LifeCycle", "UI/UX"],
+    stack: ["React", "JavaScript", "Tailwind CSS"],
     githubUrl: "https://github.com/saiteja271",
     caseStudy: {
       overview: "QueueLess replaces chaotic physical token slips with a synchronized digital dispatch system that provides real-time wait estimations and counter routing.",
       problem: "Institutional service desks and administrative offices waste substantial time and paper managing uncoordinated in-person queues.",
       solution: "Structured dual high-contrast views: a keyboard-friendly operator console for counter personnel and a clear public monitor visible across waiting areas.",
       myContribution: "Designed both counter staff and public display interfaces, managed queue state persistence, and refined typographical legibility.",
-      status: "Completed & Deployed",
+      status: "Live Application",
       highlights: [
         "Dual-perspective admin and public waiting hall monitors",
         "Keyboard shortcut support for rapid token dispatching by operators",
@@ -318,226 +377,80 @@ export const PROJECTS: Project[] = [
   }
 ];
 
-export const SKILL_GROUPS: SkillGroup[] = [
-  {
-    category: "Frontend Engineering",
-    tagline: "Building responsive, accessible, and high-performance user interfaces.",
-    skills: [
-      { name: "React.js", proficiency: "Hands-on Experience", context: "Component architecture, hooks, lifecycle, state orchestration" },
-      { name: "TypeScript", proficiency: "Hands-on Experience", context: "Strict typing, generic interfaces, maintainable codebase contracts" },
-      { name: "JavaScript (ES6+)", proficiency: "Hands-on Experience", context: "Modern DOM, asynchronous patterns, array algorithms" },
-      { name: "Tailwind CSS", proficiency: "Hands-on Experience", context: "Design token configuration, bespoke layouts, fluid utilities" },
-      { name: "HTML5 & Semantic Web", proficiency: "Hands-on Experience", context: "Accessible markup, SEO foundations, ARIA landmarks" },
-      { name: "CSS Architecture & Variables", proficiency: "Hands-on Experience", context: "Design systems, layout rhythm, smooth transitions" },
-      { name: "Next.js (App Router)", proficiency: "Currently Exploring", context: "Server components, hybrid rendering, routing conventions" }
-    ]
-  },
-  {
-    category: "Backend Development",
-    tagline: "Foundational programming, logic design, and application endpoints.",
-    skills: [
-      { name: "Python", proficiency: "Hands-on Experience", context: "Core OOP, algorithm scripting, data structures, automation" },
-      { name: "Java", proficiency: "Comfortable", context: "Object-oriented foundations, data structures, academic courses" },
-      { name: "Node.js & Express", proficiency: "Comfortable", context: "RESTful API routes, middleware handling, HTTP protocols" },
-      { name: "REST API Integration", proficiency: "Hands-on Experience", context: "Endpoint consumption, error boundary handling, JSON workflows" }
-    ]
-  },
-  {
-    category: "AI & Emerging Integrations",
-    tagline: "Exploring modern conversational and generative model workflows.",
-    skills: [
-      { name: "Generative AI Fundamentals", proficiency: "Comfortable", context: "Contextual prompting, multi-turn dialogues (Sahayak AI, Chitti)" },
-      { name: "Conversational UI Design", proficiency: "Hands-on Experience", context: "Streaming feedback, prompt scaffolding, cognitive load reduction" },
-      { name: "Multimodal AI Concepts", proficiency: "Currently Exploring", context: "Vision-language models, embeddings, RAG architectures" }
-    ]
-  },
-  {
-    category: "Databases & Cloud Deployments",
-    tagline: "Data modeling, authentication, and continuous deployment workflows.",
-    skills: [
-      { name: "Firebase (Firestore & Auth)", proficiency: "Comfortable", context: "Real-time document storage, rules, user authentication" },
-      { name: "MongoDB", proficiency: "Currently Exploring", context: "NoSQL document modeling, basic aggregation queries" },
-      { name: "Vercel & Modern Edge CDN", proficiency: "Hands-on Experience", context: "Production builds, SPA rewrites, deployment pipelines" },
-      { name: "Docker Fundamentals", proficiency: "Comfortable", context: "Containerization concepts, basic Dockerfile configuration" }
-    ]
-  },
-  {
-    category: "Creative Tools & Craft",
-    tagline: "Visual storytelling, interface prototyping, and cinematic media production.",
-    skills: [
-      { name: "Figma", proficiency: "Hands-on Experience", context: "Interface wireframing, component tokens, layout grids" },
-      { name: "Canva & Visual Design", proficiency: "Hands-on Experience", context: "Editorial poster composition, promotional flyers, presentation decks" },
-      { name: "CapCut & Video Production", proficiency: "Hands-on Experience", context: "Cinematic pacing, audio syncing, college festival trailers" },
-      { name: "Photopea & Asset Prep", proficiency: "Comfortable", context: "Asset color grading, mask manipulation, graphic exports" },
-      { name: "HTML5 Canvas", proficiency: "Hands-on Experience", context: "Procedural geometry, 60fps particle physics, coordinate math" },
-      { name: "Git & GitHub Workflows", proficiency: "Hands-on Experience", context: "Branching, pull request reviews, commit discipline" }
-    ]
-  }
-];
-
-export const EDUCATION_DATA: EducationItem[] = [
-  {
-    degree: "Bachelor of Technology (B.Tech.) in Information Technology",
-    institution: "Narasaraopeta Engineering College",
-    location: "Narasaraopeta, Andhra Pradesh, India",
-    period: "2023 – 2027 (Expected)",
-    status: "Active Undergraduate Student",
-    score: "CGPA: 7.25",
-    regulation: "R23 Regulation",
-    coursework: [
-      "Data Structures & Algorithms",
-      "Object-Oriented Programming (Java & Python)",
-      "Database Management Systems",
-      "Web Technologies & Frontend Architecture",
-      "Computer Networks & Operating Systems",
-      "Software Engineering Methodologies"
-    ],
-    highlights: [
-      "Smart India Hackathon (SIH) initiative participant and collegiate innovation finalist",
-      "Campus cultural, photography, and videography lead for collegiate events",
-      "Presented academic seminars on modern web interfaces and AI educational assistants"
-    ]
-  },
-  {
-    degree: "Intermediate Education (MPC — Mathematics, Physics, Chemistry)",
-    institution: "Vagdevi Junior College",
-    location: "Andhra Pradesh, India",
-    period: "2021 – 2023",
-    status: "Completed",
-    score: "75%",
-    coursework: [
-      "Higher Mathematics (Calculus, Coordinate Geometry, Matrices)",
-      "Physics (Mechanics, Wave Optics, Electromagnetism)",
-      "Physical and Inorganic Chemistry"
-    ],
-    highlights: [
-      "Solid analytical discipline and mathematical foundation",
-      "Early experimentation with graphic design and digital media tools"
-    ]
-  },
-  {
-    degree: "Secondary School Certificate (SSC)",
-    institution: "Municipal Boys High School",
-    location: "Narasaraopeta, Andhra Pradesh, India",
-    period: "2020 – 2021",
-    status: "Completed with High Distinction",
-    score: "98%",
-    coursework: [
-      "Mathematics & Physical Sciences",
-      "English Language & Technical Communication",
-      "Social Sciences & Vernacular Language"
-    ],
-    highlights: [
-      "Graduated in the top academic percentile with 98% score",
-      "School-level recognition in mathematics and science exhibitions"
-    ]
-  }
-];
+export const EDUCATION_DATA: EducationItem = {
+  degree: "Bachelor of Technology (B.Tech.) — Information Technology",
+  institution: "Narasaraopeta Engineering College",
+  location: "Narasaraopeta, Andhra Pradesh, India",
+  period: "2023 – 2027",
+  status: "Currently Pursuing",
+  expectedGraduation: "June 2027",
+  coursework: [
+    "Data Structures & Algorithms",
+    "Object-Oriented Programming (Java & Python)",
+    "Database Management Systems",
+    "Web Technologies & Frontend Architecture",
+    "Computer Networks & Operating Systems",
+    "Software Engineering Methodologies"
+  ],
+  highlights: [
+    "Smart India Hackathon (SIH) initiative participant and collegiate innovation finalist",
+    "Active contributor to college technical demonstrations and creative media initiatives",
+    "Presented technical seminars on modern frontend engineering and creative technology"
+  ]
+};
 
 export const JOURNEY_MILESTONES: JourneyMilestone[] = [
   {
     period: "2025 – Present",
-    title: "Flagship Architectures & Creative Systems",
-    organization: "Independent & Academic Initiatives",
-    category: "Development",
-    description: "Architecting multi-module platforms (CREZORA / KalaaVerse) and gamified educational ecosystems (PYQUEST). Deepening mastery in strict TypeScript, responsive layouts, and conversational AI patterns.",
+    title: "Flagship Architectures & Creative Technology Products",
+    category: "Personal Projects",
+    description: "Developing and deploying live digital products (CREZORA at https://crezora.co) and gamified learning platforms (PYQUEST). Deepening focus on React, clean component architecture, and practical AI tooling.",
     keyOutcomes: [
-      "Engineered KalaaVerse Creative Operating System hackathon demonstration",
-      "Built PYQUEST with full TypeScript type system and instant challenge evaluator",
-      "Prototyped Sahayak AI & Chitti AI educational interaction companions"
+      "Launched CREZORA ecosystem live on official domain (https://crezora.co)",
+      "Engineered PYQUEST gamified challenge engine with client-side puzzle evaluator",
+      "Prototyped conversational educational concepts with Sahayak AI"
     ]
   },
   {
     period: "2024 – 2025",
-    title: "Hackathon Competitions & Campus Creative Leadership",
-    organization: "Narasaraopeta Engineering College",
-    category: "Leadership",
-    description: "Collaborated in multi-member engineering teams for Smart India Hackathon initiatives while directing video coverage, photography, and media production for campus festivals.",
+    title: "Collegiate Hackathons & Collaborative Product Building",
+    category: "Hackathon Experiences",
+    description: "Collaborated in multi-member engineering teams for Smart India Hackathon initiatives, conceptualizing KalaaVerse and PlaceMate AI while leading event media coverage and video productions.",
     keyOutcomes: [
-      "Participated in collegiate hackathon rounds with live product demonstrations",
-      "Directed event teasers, student spotlights, and festival promotional trailers using CapCut",
-      "Delivered technical seminar presentations on frontend architectures"
+      "Demonstrated product prototypes in competitive collegiate hackathons",
+      "Directed event video coverage and promotional trailers using CapCut",
+      "Delivered technical seminars on modern web architecture"
     ]
   },
   {
     period: "2023 – 2024",
-    title: "Entering Computer Science & Web Engineering",
-    organization: "Narasaraopeta Engineering College",
-    category: "Education",
-    description: "Commenced undergraduate studies in Information Technology. Formed deep foundational understanding of algorithmic logic in Python and Java, translating ideas into working web prototypes.",
+    title: "Commenced B.Tech in Information Technology",
+    category: "Academic Learning",
+    description: "Commenced formal undergraduate engineering studies at Narasaraopeta Engineering College. Established deep foundations in OOP (Python, Java), data structures, and semantic web technologies.",
     keyOutcomes: [
-      "Mastered OOP principles and relational database fundamentals",
+      "Mastered OOP principles, algorithms, and relational databases",
       "Engineered initial web applications including QueueLess and LUMINA Studio",
-      "Maintained consistent 7.25 CGPA under R23 academic guidelines"
+      "Maintained strong academic standing in Information Technology"
     ]
   },
   {
     period: "2021 – 2023",
-    title: "Analytical & Mathematical Foundations",
-    organization: "Vagdevi Junior College",
-    category: "Education",
-    description: "Rigorous high-intensity study of calculus, analytical physics, and structural chemistry, establishing methodical problem-solving habits.",
+    title: "Mathematical Foundations & Creative Curiosity",
+    category: "Academic Learning",
+    description: "Intensive training in analytical mathematics, physical sciences, and logical problem solving, igniting a passion for digital design and computer engineering.",
     keyOutcomes: [
-      "Graduated with 75% in MPC curriculum",
-      "Began self-directed study of digital graphic composition and interface design"
+      "Completed Intermediate (MPC) with strong mathematical discipline",
+      "Began self-directed exploration of digital graphic design, typography, and video editing"
     ]
-  },
-  {
-    period: "2020 – 2021",
-    title: "Academic Distinction & Curiosity Spark",
-    organization: "Municipal Boys High School",
-    category: "Education",
-    description: "Completed secondary education with top honors (98%), igniting a lifelong passion for computing, technology systems, and creative visual expression.",
-    keyOutcomes: [
-      "Achieved 98% distinction mark",
-      "Recognized for academic excellence and problem-solving curiosity"
-    ]
-  }
-];
-
-export const CREATIVE_WORKS: CreativeWork[] = [
-  {
-    id: "editorial-poster",
-    title: "From Passion to King — Virat Kohli",
-    category: "Digital Art & Editorial Design",
-    medium: "Canva, Typography Pairing & Photo Compositing",
-    image: "/assets/creative/editorial-poster.png",
-    description: "An editorial tribute poster exploring dynamic visual tension, bold Swiss-inspired typography, high-contrast monochrome lighting, and emotional storytelling.",
-    insight: "Graphic design teaches you that whitespace is not empty space—it is breathing room that commands focus."
-  },
-  {
-    id: "cinematic-video",
-    title: "Campus Cultural & Festival Cinematic Teasers",
-    category: "Videography & Motion Pacing",
-    medium: "CapCut, Beat Sync, Color Grading & Sound Design",
-    description: "Directed, shot, and edited fast-paced promotional trailers for collegiate events, synchronizing cut frequencies with percussive audio beats to generate anticipation.",
-    insight: "Motion design in web development shares the exact same soul as video editing: rhythm, anticipation, and emotional pacing."
-  },
-  {
-    id: "visual-framing",
-    title: "Architectural & Natural Photography",
-    category: "Photography & Composition",
-    medium: "Mobile Optics, Geometric Framing & Available Light",
-    description: "Capturing organic symmetry, vanishing lines, and natural shadow geometry across Andhra Pradesh. Emphasizing authentic perspectives without heavy filters.",
-    insight: "Looking through a lens forces you to see balance, perspective, and proportion before writing a single line of CSS."
-  },
-  {
-    id: "creative-writing",
-    title: "The Architecture of Thought & Product Visions",
-    category: "Creative Writing & Philosophy",
-    medium: "Digital Essays, Manifestos & Concept Notes",
-    description: "Writing conceptual manifestos for product ecosystems like CREZORA and KalaaVerse, defining human-centered technology principles before software execution.",
-    insight: "If you cannot explain why an application should exist in plain prose, no amount of flashy code will make it meaningful."
   }
 ];
 
 export const NAVIGATION_LINKS = [
+  { label: "Home", href: "#hero" },
   { label: "About", href: "#about" },
-  { label: "Case Studies", href: "#case-studies" },
-  { label: "Archive", href: "#archive" },
-  { label: "Capabilities", href: "#capabilities" },
+  { label: "Projects", href: "#projects" },
+  { label: "Videos", href: "#videos" },
+  { label: "Skills", href: "#skills" },
   { label: "Education", href: "#education" },
-  { label: "Journey", href: "#journey" },
-  { label: "Creative", href: "#creative" },
   { label: "Contact", href: "#contact" }
 ];

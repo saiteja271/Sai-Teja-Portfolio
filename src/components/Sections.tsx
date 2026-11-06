@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import {
   ArrowDown,
   ArrowUpRight,
@@ -15,7 +15,6 @@ import {
   Image as ImageIcon,
   ExternalLink,
   Terminal,
-  Award,
   Building2,
   GraduationCap,
   Languages,
@@ -25,25 +24,26 @@ import {
   Copy,
   Check,
   Send,
-  Film,
-  Camera,
-  PenTool,
-  Quote
+  Play,
+  MonitorPlay,
+  Layers,
+  Palette,
+  Code2
 } from 'lucide-react';
 import {
   PERSONAL_INFO,
+  ABOUT_DATA,
+  CORE_TOOLKIT,
   PROJECTS,
-  SKILL_GROUPS,
-  SkillProficiency,
   EDUCATION_DATA,
   JOURNEY_MILESTONES,
-  CREATIVE_WORKS,
   NAVIGATION_LINKS,
   Project
 } from '../data';
+import { VIDEO_DEMOS, VideoDemo } from '../videoData';
 
 // ============================================================================
-// 1. HERO SECTION (Art-Directed Hybrid Composition)
+// 1. HERO SECTION (Personal Identity First — Venkata Sai Teja Sampati)
 // ============================================================================
 interface HeroProps {
   onExploreProjects: () => void;
@@ -54,19 +54,15 @@ export const Hero: React.FC<HeroProps> = ({ onExploreProjects, onContactClick })
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
 
-  const headlineLines = [
-    PERSONAL_INFO.headlineLine1,
-    PERSONAL_INFO.headlineLine2
-  ];
-
   return (
-    <section className="relative min-h-[96vh] flex flex-col justify-between pt-28 pb-12 overflow-hidden">
+    <section id="hero" className="relative min-h-[94vh] flex flex-col justify-between pt-28 pb-12 overflow-hidden">
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full z-10 my-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           
-          {/* Left Column: Expressive Typography */}
+          {/* Left Column: Expressive Personal Typography & Identity */}
           <div className="lg:col-span-7 flex flex-col justify-center space-y-7 text-left">
             
+            {/* Metadata Pill */}
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
@@ -76,7 +72,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreProjects, onContactClick })
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-accent" />
                 <span className="font-mono text-xs uppercase tracking-widest text-primary font-semibold">
-                  {PERSONAL_INFO.fullName}
+                  {PERSONAL_INFO.displayName}
                 </span>
               </div>
               <span className="text-secondary/40 text-xs">•</span>
@@ -87,45 +83,50 @@ export const Hero: React.FC<HeroProps> = ({ onExploreProjects, onContactClick })
               <span className="text-secondary/40 text-xs hidden sm:inline">•</span>
               <span className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-emerald-50 border border-emerald-200/80 text-[11px] font-mono text-emerald-700">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                <span>Available for Internships</span>
+                <span>Available for Opportunities</span>
               </span>
             </motion.div>
 
+            {/* Main Editorial Headline */}
             <div className="space-y-1">
-              {headlineLines.map((line, index) => (
-                <div key={index} className="overflow-hidden">
-                  <motion.h1
-                    initial={{ y: "100%", opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{
-                      duration: 0.7,
-                      delay: 0.15 + index * 0.14,
-                      ease: [0.16, 1, 0.3, 1]
-                    }}
-                    className={`text-4xl sm:text-5xl lg:text-[4rem] font-display font-extrabold tracking-tight leading-[1.08] ${
-                      index === 1 ? 'text-accent' : 'text-primary'
-                    }`}
-                  >
-                    {line}
-                  </motion.h1>
-                </div>
-              ))}
+              <div className="overflow-hidden">
+                <motion.h1
+                  initial={{ y: "100%", opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+                  className="text-4xl sm:text-5xl lg:text-[4.2rem] font-display font-extrabold tracking-tight leading-[1.06] text-primary"
+                >
+                  {PERSONAL_INFO.heroHeadingLine1}
+                </motion.h1>
+              </div>
+              <div className="overflow-hidden">
+                <motion.h1
+                  initial={{ y: "100%", opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ duration: 0.7, delay: 0.22, ease: [0.16, 1, 0.3, 1] }}
+                  className="text-4xl sm:text-5xl lg:text-[4.2rem] font-display font-extrabold tracking-tight leading-[1.06] text-accent"
+                >
+                  {PERSONAL_INFO.heroHeadingLine2}
+                </motion.h1>
+              </div>
             </div>
 
+            {/* Supporting Headline & Narrative Intro */}
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.38, ease: [0.16, 1, 0.3, 1] }}
-              className="space-y-3 max-w-xl"
+              transition={{ duration: 0.6, delay: 0.36, ease: [0.16, 1, 0.3, 1] }}
+              className="space-y-3.5 max-w-2xl"
             >
-              <p className="text-base sm:text-lg font-medium text-primary/90 leading-relaxed font-body">
-                {PERSONAL_INFO.supportingPhrase}
+              <p className="text-base sm:text-lg font-medium text-primary/95 leading-relaxed font-body">
+                {PERSONAL_INFO.supportingHeadline}
               </p>
               <p className="text-sm sm:text-base text-secondary leading-relaxed">
-                {PERSONAL_INFO.editorialIntro}
+                {PERSONAL_INFO.professionalIntroduction}
               </p>
             </motion.div>
 
+            {/* CTAs & Social Links */}
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
@@ -136,7 +137,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreProjects, onContactClick })
                 onClick={onExploreProjects}
                 className="group inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-primary text-white text-xs font-medium tracking-wide uppercase font-mono hover:bg-accent transition-all duration-200 shadow-subtle hover:shadow-accent"
               >
-                <span>Explore Case Studies</span>
+                <span>Explore My Work</span>
                 <ArrowDown className="w-3.5 h-3.5 group-hover:translate-y-0.5 transition-transform" />
               </button>
 
@@ -144,7 +145,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreProjects, onContactClick })
                 onClick={onContactClick}
                 className="inline-flex items-center gap-2 px-5 py-3.5 rounded-xl bg-surface/90 backdrop-blur-sm border border-border text-primary text-xs font-medium tracking-wide uppercase font-mono hover:border-accent hover:bg-surface transition-all duration-200 shadow-subtle"
               >
-                <span>Initiate Contact</span>
+                <span>Contact Me</span>
                 <ArrowUpRight className="w-3.5 h-3.5 text-secondary" />
               </button>
 
@@ -180,29 +181,30 @@ export const Hero: React.FC<HeroProps> = ({ onExploreProjects, onContactClick })
               </div>
             </motion.div>
 
+            {/* Academic & Geographic Metadata */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.54 }}
-              className="pt-4 grid grid-cols-2 sm:grid-cols-3 gap-4 border-t border-border/80 max-w-lg text-xs"
+              className="pt-4 grid grid-cols-2 sm:grid-cols-3 gap-4 border-t border-border/80 max-w-xl text-xs"
             >
               <div>
                 <p className="text-[10px] font-mono text-secondary uppercase tracking-wider">Institution</p>
-                <p className="font-semibold text-primary font-display mt-0.5">Narasaraopeta Eng. College</p>
+                <p className="font-semibold text-primary font-display mt-0.5">{PERSONAL_INFO.college}</p>
               </div>
               <div>
-                <p className="text-[10px] font-mono text-secondary uppercase tracking-wider">Academic Grade</p>
-                <p className="font-semibold text-primary font-mono mt-0.5">{PERSONAL_INFO.cgpa} CGPA • R23</p>
+                <p className="text-[10px] font-mono text-secondary uppercase tracking-wider">Education</p>
+                <p className="font-semibold text-primary font-mono mt-0.5">{PERSONAL_INFO.educationDegree}</p>
               </div>
               <div className="col-span-2 sm:col-span-1">
-                <p className="text-[10px] font-mono text-secondary uppercase tracking-wider">Graduation</p>
+                <p className="text-[10px] font-mono text-secondary uppercase tracking-wider">Expected Graduation</p>
                 <p className="font-semibold text-primary font-mono mt-0.5">{PERSONAL_INFO.expectedGraduation}</p>
               </div>
             </motion.div>
 
           </div>
 
-          {/* Right Column: Portrait & Depth Composition */}
+          {/* Right Column: Portrait Composition */}
           <div className="lg:col-span-5 flex justify-center lg:justify-end">
             <motion.div
               initial={{ opacity: 0, scale: 0.94 }}
@@ -262,15 +264,15 @@ export const Hero: React.FC<HeroProps> = ({ onExploreProjects, onContactClick })
                       {PERSONAL_INFO.displayName}
                     </h3>
                     <p className="text-[11px] text-secondary font-mono mt-0.5">
-                      B.Tech IT • Class of 2027
+                      B.Tech IT • Expected {PERSONAL_INFO.expectedGraduation}
                     </p>
                   </div>
                   <div className="text-right">
                     <span className="text-[10px] font-mono uppercase tracking-wider text-accent font-semibold block">
-                      Regulation
+                      Status
                     </span>
-                    <span className="text-xs font-mono font-medium text-primary">
-                      {PERSONAL_INFO.regulation}
+                    <span className="text-xs font-mono font-medium text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                      Active Student
                     </span>
                   </div>
                 </div>
@@ -284,8 +286,8 @@ export const Hero: React.FC<HeroProps> = ({ onExploreProjects, onContactClick })
               >
                 <div className="w-2.5 h-2.5 rounded-full bg-accent animate-ping" />
                 <div className="text-left">
-                  <p className="text-[10px] font-mono uppercase tracking-wider text-secondary">Base Location</p>
-                  <p className="text-xs font-bold text-primary font-display">{PERSONAL_INFO.city}, AP</p>
+                  <p className="text-[10px] font-mono uppercase tracking-wider text-secondary">Location</p>
+                  <p className="text-xs font-bold text-primary font-display">{PERSONAL_INFO.location}</p>
                 </div>
               </motion.div>
 
@@ -297,9 +299,9 @@ export const Hero: React.FC<HeroProps> = ({ onExploreProjects, onContactClick })
               >
                 <div className="flex items-center gap-1.5 justify-end">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                  <span className="text-[10px] font-mono uppercase text-secondary">Flagship</span>
+                  <span className="text-[10px] font-mono uppercase text-secondary">Flagship Project</span>
                 </div>
-                <p className="text-xs font-bold text-primary font-display">CREZORA / KalaaVerse</p>
+                <p className="text-xs font-bold text-primary font-display">CREZORA (crezora.co)</p>
               </motion.div>
             </motion.div>
           </div>
@@ -330,21 +332,13 @@ export const Hero: React.FC<HeroProps> = ({ onExploreProjects, onContactClick })
 };
 
 // ============================================================================
-// 2. ABOUT SECTION (Editorial Storytelling Narrative)
+// 2. ABOUT SECTION ("More than just code." + Interests)
 // ============================================================================
 interface AboutProps {
   onOpenResume: () => void;
 }
 
 export const About: React.FC<AboutProps> = ({ onOpenResume }) => {
-  const identityRoles = [
-    "Frontend Developer",
-    "Creative Technologist",
-    "Product Builder",
-    "B.Tech IT Student",
-    "Independent Creator"
-  ];
-
   return (
     <section id="about" className="py-28 bg-surface/90 backdrop-blur-[2px] border-y border-border relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -352,7 +346,7 @@ export const About: React.FC<AboutProps> = ({ onOpenResume }) => {
         <div className="flex items-center justify-between pb-6 mb-12 border-b border-border">
           <div className="flex items-center gap-3">
             <span className="font-mono text-xs uppercase tracking-widest text-accent font-semibold">
-              01 // Background & Identity
+              01 // Personal Identity & Philosophy
             </span>
           </div>
           <span className="font-mono text-xs text-secondary hidden sm:inline">
@@ -364,41 +358,47 @@ export const About: React.FC<AboutProps> = ({ onOpenResume }) => {
           <div className="lg:col-span-7 space-y-8">
             <div>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-primary tracking-tight leading-[1.15]">
-                "Curiosity is where everything begins."
+                "{ABOUT_DATA.heading}"
               </h2>
               <div className="h-1 w-16 bg-accent mt-4" />
             </div>
 
             <div className="space-y-5 text-secondary text-base leading-relaxed">
               <p className="text-lg text-primary font-medium leading-relaxed font-body">
-                I am <strong className="font-semibold text-primary">{PERSONAL_INFO.fullName}</strong>, an Information Technology undergraduate at Narasaraopeta Engineering College, building software with intentional aesthetics and engineering rigor.
+                {ABOUT_DATA.approach}
               </p>
 
               <p>
-                My path into technology did not begin with copy-pasting tutorials. It started from an obsession with deconstructing how systems communicate. Whether modeling computational logic in Python and Java or exploring how typographical whitespace influences human cognition, I treat software engineering as an expressive digital craft.
+                I am <strong className="font-semibold text-primary">{PERSONAL_INFO.fullName}</strong>, an Information Technology undergraduate student at <strong className="text-primary font-medium">{PERSONAL_INFO.college}</strong>. I view software engineering not simply as code execution, but as an intentional craft where engineering rigor and thoughtful aesthetics converge.
               </p>
 
               <p>
-                Across competitive hackathons and campus initiatives, I have conceptualized and engineered platforms such as <strong className="text-primary font-medium">CREZORA / KalaaVerse</strong> (an operating system connecting 64+ creative disciplines) and <strong className="text-primary font-medium">PYQUEST</strong> (a gamified computer science learning experience).
+                From building interactive web applications like <strong className="text-primary font-medium">CREZORA</strong> to developing gamified platforms such as <strong className="text-primary font-medium">PYQUEST</strong>, I enjoy taking projects from raw conceptual thinking to functional, deployed products that create real value for users.
               </p>
 
               <p>
-                Beyond code, I have held leadership roles across college cultural and media initiatives—directing event trailers with CapCut, capturing architectural photography, and translating technical architectures into compelling seminar demonstrations. This dual background lets me move effortlessly between design systems, code reviews, and product strategy.
+                Beyond code, I cultivate a disciplined creative sensibility through visual storytelling, photography, and creative writing. This multidisciplinary perspective enables me to bridge frontend architecture with intuitive UI/UX design.
               </p>
             </div>
 
             <div className="pt-4 border-t border-border/80">
               <p className="text-xs font-mono uppercase tracking-wider text-secondary mb-3">
-                Core Identity Dimensions:
+                Key Interests & Focus Areas:
               </p>
-              <div className="flex flex-wrap gap-2">
-                {identityRoles.map(role => (
-                  <span
-                    key={role}
-                    className="px-3 py-1 text-xs font-mono bg-bg border border-border text-primary rounded-md"
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {ABOUT_DATA.interests.map((interest) => (
+                  <div
+                    key={interest.title}
+                    className="p-3.5 rounded-lg bg-bg border border-border space-y-1 hover-lift transition-all"
                   >
-                    {role}
-                  </span>
+                    <h4 className="text-xs font-bold text-primary font-display flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+                      <span>{interest.title}</span>
+                    </h4>
+                    <p className="text-[11px] text-secondary leading-snug">
+                      {interest.description}
+                    </p>
+                  </div>
                 ))}
               </div>
             </div>
@@ -407,10 +407,10 @@ export const About: React.FC<AboutProps> = ({ onOpenResume }) => {
           <div className="lg:col-span-5 bg-bg/95 border border-border rounded-xl p-6 sm:p-7 shadow-subtle space-y-6">
             <div className="flex items-center justify-between pb-4 border-b border-border">
               <span className="font-display font-bold text-sm text-primary uppercase tracking-wider">
-                Academic & Dossier Data
+                Academic & Profile Summary
               </span>
               <span className="text-[11px] font-mono text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-                Active B.Tech
+                {EDUCATION_DATA.status}
               </span>
             </div>
 
@@ -431,27 +431,27 @@ export const About: React.FC<AboutProps> = ({ onOpenResume }) => {
                   <span>Degree & Major</span>
                 </span>
                 <span className="text-right text-primary font-medium">
-                  B.Tech — Information Technology
+                  {PERSONAL_INFO.educationDegree}
                 </span>
               </div>
 
               <div className="pt-3 flex items-start justify-between gap-4">
                 <span className="text-secondary flex items-center gap-1.5 flex-shrink-0">
                   <span className="w-3.5 text-center text-accent font-bold">#</span>
-                  <span>Academic Grade</span>
+                  <span>Graduation</span>
                 </span>
                 <span className="text-right text-accent font-bold">
-                  {PERSONAL_INFO.cgpa} CGPA ({PERSONAL_INFO.regulation})
+                  {PERSONAL_INFO.expectedGraduation}
                 </span>
               </div>
 
               <div className="pt-3 flex items-start justify-between gap-4">
                 <span className="text-secondary flex items-center gap-1.5 flex-shrink-0">
                   <MapPin className="w-3.5 h-3.5 text-accent" />
-                  <span>Base Location</span>
+                  <span>Location</span>
                 </span>
                 <span className="text-right text-primary font-medium">
-                  {PERSONAL_INFO.city}, {PERSONAL_INFO.state}, India
+                  {PERSONAL_INFO.location}
                 </span>
               </div>
 
@@ -471,7 +471,7 @@ export const About: React.FC<AboutProps> = ({ onOpenResume }) => {
                   <span>Availability</span>
                 </span>
                 <span className="text-right text-emerald-600 font-semibold">
-                  Open for Collaborations & Internships
+                  Open for Collaborations & Roles
                 </span>
               </div>
             </div>
@@ -495,65 +495,78 @@ export const About: React.FC<AboutProps> = ({ onOpenResume }) => {
 };
 
 // ============================================================================
-// 3. FEATURED PROJECTS SECTION (Full-Width Flagship + Spotlight Duo)
+// 3. FEATURED PROJECTS SECTION (Prominent CREZORA + Spotlights + Directory)
 // ============================================================================
 interface FeaturedProjectsProps {
   onSelectProject: (project: Project) => void;
+  onWatchDemo?: (project: Project) => void;
 }
 
-export const FeaturedProjects: React.FC<FeaturedProjectsProps> = ({ onSelectProject }) => {
-  const kalaaverse = PROJECTS.find(p => p.id === 'crezora-kalaaverse')!;
+type ProjectCategoryTab = 'All' | 'Full-Stack' | 'AI & Systems' | 'UI/UX & Creative';
+
+export const FeaturedProjects: React.FC<FeaturedProjectsProps> = ({ onSelectProject, onWatchDemo }) => {
+  const crezora = PROJECTS.find(p => p.id === 'crezora')!;
+  const kalaaverse = PROJECTS.find(p => p.id === 'kalaaverse')!;
   const pyquest = PROJECTS.find(p => p.id === 'pyquest')!;
-  const sahayak = PROJECTS.find(p => p.id === 'sahayak-ai')!;
+  
+  const [activeTab, setActiveTab] = useState<ProjectCategoryTab>('All');
+  const categories: ProjectCategoryTab[] = ['All', 'Full-Stack', 'AI & Systems', 'UI/UX & Creative'];
+
+  const filteredProjects = PROJECTS.filter(project => {
+    if (activeTab === 'All') return true;
+    return project.category === activeTab;
+  });
 
   return (
-    <section id="case-studies" className="py-28 relative">
+    <section id="projects" className="py-28 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div className="flex items-center justify-between pb-6 mb-16 border-b border-border">
           <div className="flex items-center gap-3">
             <span className="font-mono text-xs uppercase tracking-widest text-accent font-semibold">
-              02 // Curated Case Studies
+              02 // Featured Engineering & Products
             </span>
           </div>
           <span className="font-mono text-xs text-secondary hidden sm:inline">
-            Deep-Dive Architectural Breakdowns
+            Production Applications & Technical Case Studies
           </span>
         </div>
 
-        {/* Feature 01: CREZORA / KalaaVerse Flagship */}
-        <article className="bg-surface/95 backdrop-blur-sm border border-border rounded-2xl p-6 sm:p-10 lg:p-12 shadow-card mb-20 relative overflow-hidden">
+        {/* ================================================================== */}
+        {/* FLAGSHIP PROJECT: CREZORA */}
+        {/* ================================================================== */}
+        <article className="bg-surface/95 backdrop-blur-sm border-2 border-accent/30 rounded-2xl p-6 sm:p-10 lg:p-12 shadow-card mb-20 relative overflow-hidden">
           <div className="flex flex-wrap items-center justify-between gap-3 pb-6 border-b border-border mb-8">
             <div className="flex items-center gap-3">
-              <span className="text-xs font-mono px-3 py-1 rounded bg-primary text-white font-semibold">
-                FEATURED 01
+              <span className="text-xs font-mono px-3 py-1 rounded bg-accent text-white font-semibold">
+                FLAGSHIP PROJECT
               </span>
               <span className="text-xs font-mono uppercase tracking-wider text-accent bg-accent/10 px-2.5 py-0.5 rounded">
-                Flagship Prototype
+                Live Production Ecosystem
               </span>
               <span className="text-xs font-mono text-secondary">
-                {kalaaverse.year}
+                {crezora.year}
               </span>
             </div>
-            <div className="flex items-center gap-2 text-xs font-mono text-secondary">
-              <Sparkles className="w-3.5 h-3.5 text-accent" />
-              <span>Collegiate Hackathon Finalist</span>
+            <div className="flex items-center gap-2 text-xs font-mono text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded border border-emerald-200">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span>Live Application: crezora.co</span>
             </div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             <div className="lg:col-span-7 space-y-6">
               <div>
-                <h3 className="text-3xl sm:text-4xl font-display font-extrabold text-primary tracking-tight">
-                  {kalaaverse.title}
+                <h3 className="text-3xl sm:text-4xl lg:text-5xl font-display font-extrabold text-primary tracking-tight">
+                  {crezora.title}
                 </h3>
-                <p className="text-base font-medium text-accent mt-1.5 font-display">
-                  {kalaaverse.displayTag}
+                <p className="text-base sm:text-lg font-medium text-accent mt-1.5 font-display">
+                  {crezora.displayTag}
                 </p>
               </div>
 
               <p className="text-sm sm:text-base text-secondary leading-relaxed">
-                {kalaaverse.caseStudy.overview}
+                {crezora.caseStudy.overview}
               </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
@@ -562,7 +575,7 @@ export const FeaturedProjects: React.FC<FeaturedProjectsProps> = ({ onSelectProj
                     The Problem
                   </span>
                   <p className="text-xs text-secondary leading-relaxed">
-                    {kalaaverse.caseStudy.problem}
+                    {crezora.caseStudy.problem}
                   </p>
                 </div>
                 <div className="p-4 rounded-xl bg-bg border border-border space-y-1.5">
@@ -570,22 +583,22 @@ export const FeaturedProjects: React.FC<FeaturedProjectsProps> = ({ onSelectProj
                     The Architecture
                   </span>
                   <p className="text-xs text-secondary leading-relaxed">
-                    {kalaaverse.caseStudy.solution}
+                    {crezora.caseStudy.solution}
                   </p>
                 </div>
               </div>
 
               <div className="p-4 rounded-xl bg-surface-secondary border border-border">
                 <p className="text-[11px] font-mono text-secondary uppercase tracking-wider mb-1">
-                  My Contribution:
+                  Sai Teja's Role:
                 </p>
                 <p className="text-xs text-primary font-medium">
-                  {kalaaverse.caseStudy.myContribution}
+                  {crezora.caseStudy.myContribution}
                 </p>
               </div>
 
               <div className="flex flex-wrap gap-2 pt-1">
-                {kalaaverse.stack.map(tech => (
+                {crezora.stack.map(tech => (
                   <span
                     key={tech}
                     className="px-2.5 py-1 text-xs font-mono bg-bg border border-border rounded text-primary"
@@ -595,87 +608,168 @@ export const FeaturedProjects: React.FC<FeaturedProjectsProps> = ({ onSelectProj
                 ))}
               </div>
 
-              <div className="flex flex-wrap items-center gap-3 pt-2">
-                <button
-                  onClick={() => onSelectProject(kalaaverse)}
-                  className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-primary text-white text-xs font-mono uppercase tracking-wider hover:bg-accent transition-colors shadow-subtle"
-                >
-                  <BookOpen className="w-3.5 h-3.5" />
-                  <span>Read Full Case Study</span>
-                </button>
-
-                {kalaaverse.githubUrl && (
+              <div className="flex flex-wrap items-center gap-3 pt-3">
+                {crezora.liveUrl && (
                   <a
-                    href={kalaaverse.githubUrl}
+                    href={crezora.liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-bg border border-border text-primary text-xs font-mono hover:border-accent hover:text-accent transition-colors"
+                    className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-accent text-white text-xs font-mono uppercase tracking-wider hover:bg-accent-hover transition-colors shadow-subtle font-semibold"
                   >
-                    <Github className="w-4 h-4" />
-                    <span>View Repository</span>
-                    <ArrowUpRight className="w-3.5 h-3.5 text-secondary" />
+                    <span>Visit Live Application (crezora.co)</span>
+                    <ExternalLink className="w-4 h-4" />
                   </a>
                 )}
+
+                {onWatchDemo && (
+                  <button
+                    onClick={() => onWatchDemo(crezora)}
+                    className="inline-flex items-center gap-2 px-5 py-3.5 rounded-xl bg-primary text-white text-xs font-mono uppercase tracking-wider hover:bg-accent transition-colors shadow-subtle"
+                  >
+                    <Play className="w-3.5 h-3.5" />
+                    <span>Watch Demo</span>
+                  </button>
+                )}
+
+                <button
+                  onClick={() => onSelectProject(crezora)}
+                  className="inline-flex items-center gap-2 px-4 py-3.5 rounded-xl bg-bg border border-border text-primary text-xs font-mono uppercase tracking-wider hover:border-accent hover:text-accent transition-colors"
+                >
+                  <BookOpen className="w-3.5 h-3.5" />
+                  <span>Case Study</span>
+                </button>
               </div>
             </div>
 
-            <div className="lg:col-span-5 bg-bg/95 border border-border rounded-xl p-5 sm:p-6 space-y-4">
-              <div className="flex items-center justify-between pb-3 border-b border-border text-xs font-mono text-secondary">
-                <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-accent" />
-                  <span className="font-semibold text-primary">CREZORA Ecosystem Loop</span>
-                </div>
-                <span>64+ Disciplines</span>
-              </div>
-
-              <div className="space-y-3 font-mono text-xs">
-                <div className="p-3.5 rounded-lg bg-surface border border-border/80 space-y-1">
-                  <div className="flex items-center justify-between text-[11px] text-accent">
-                    <span>DISCOVERY // CAPABILITY GRAPH</span>
-                    <span className="text-emerald-600 font-semibold">96% Match</span>
+            <div className="lg:col-span-5 space-y-4">
+              {crezora.image && (
+                <div className="relative aspect-[16/10] rounded-xl overflow-hidden border border-border shadow-card bg-surface-secondary group">
+                  <img
+                    src={crezora.image}
+                    alt={crezora.title}
+                    className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-primary/30 via-transparent to-transparent opacity-40" />
+                  <div className="absolute bottom-3 left-3 bg-surface/90 backdrop-blur-md px-3 py-1 rounded text-xs font-mono text-primary border border-border flex items-center gap-1.5 shadow-subtle">
+                    <Sparkles className="w-3.5 h-3.5 text-accent" />
+                    <span>Live UI Preview</span>
                   </div>
-                  <p className="text-[11px] text-secondary">
-                    Explainable creator matching based on evidence and verified work, not popularity.
-                  </p>
                 </div>
+              )}
 
-                <div className="p-3.5 rounded-lg bg-surface border border-border/80 space-y-1">
-                  <div className="flex items-center justify-between text-[11px] text-primary">
-                    <span>STUDIO // WORKROOMS</span>
-                    <span className="text-secondary">Consent Layer</span>
-                  </div>
-                  <p className="text-[11px] text-secondary">
-                    Collaborative asset workspaces with ownership tracking and milestone approvals.
-                  </p>
+              <div className="p-4 rounded-xl bg-bg border border-border space-y-2 font-mono text-xs text-secondary">
+                <div className="flex items-center justify-between text-primary font-semibold pb-2 border-b border-border/80">
+                  <span>Official Domain</span>
+                  <a
+                    href="https://crezora.co"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-accent hover:underline flex items-center gap-1"
+                  >
+                    <span>https://crezora.co</span>
+                    <ArrowUpRight className="w-3 h-3" />
+                  </a>
                 </div>
-
-                <div className="p-3.5 rounded-lg bg-surface border border-border/80 space-y-1">
-                  <div className="flex items-center justify-between text-[11px] text-primary">
-                    <span>CROSS-PRODUCT HOOKS</span>
-                    <span className="text-accent">Ecosystem</span>
-                  </div>
-                  <p className="text-[11px] text-secondary">
-                    Interconnected with BhashaVerse (translation) and Chitti AI (reflective thinking).
-                  </p>
+                <div className="flex items-center justify-between text-[11px]">
+                  <span>Vercel Cloud Backup:</span>
+                  <a
+                    href="https://crezora-co.vercel.app"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-secondary hover:text-primary hover:underline"
+                  >
+                    crezora-co.vercel.app
+                  </a>
                 </div>
-              </div>
-
-              <div className="pt-2 border-t border-border flex items-center justify-between text-[11px] font-mono text-secondary">
-                <span>Tested at SIH Hackathon</span>
-                <span className="text-accent">Zero Backend Latency</span>
               </div>
             </div>
           </div>
         </article>
 
-        {/* Spotlight Duo: PYQUEST & Sahayak AI */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* ================================================================== */}
+        {/* SPOTLIGHT DUO: KalaaVerse & PYQUEST */}
+        {/* ================================================================== */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-20">
+          {/* KalaaVerse */}
           <article className="bg-surface/95 backdrop-blur-sm border border-border rounded-2xl p-6 sm:p-8 shadow-card flex flex-col justify-between hover-lift">
             <div className="space-y-5">
               <div className="flex items-center justify-between pb-4 border-b border-border">
                 <div className="flex items-center gap-2">
                   <span className="text-xs font-mono px-2.5 py-0.5 rounded bg-accent/10 text-accent font-semibold">
-                    FEATURED 02
+                    SPOTLIGHT 01
+                  </span>
+                  <span className="text-xs font-mono text-secondary">{kalaaverse.year}</span>
+                </div>
+                <span className="text-xs font-mono text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                  {kalaaverse.caseStudy.status}
+                </span>
+              </div>
+
+              <div>
+                <h3 className="text-2xl font-display font-bold text-primary">
+                  {kalaaverse.title}
+                </h3>
+                <p className="text-xs font-medium text-accent mt-1 font-mono">
+                  {kalaaverse.displayTag}
+                </p>
+              </div>
+
+              <p className="text-xs sm:text-sm text-secondary leading-relaxed">
+                {kalaaverse.summary}
+              </p>
+
+              <div className="space-y-2 pt-2">
+                <span className="text-[11px] font-mono uppercase tracking-wider text-secondary block">
+                  Key Implementations:
+                </span>
+                <ul className="space-y-1.5 text-xs text-secondary">
+                  {kalaaverse.caseStudy.highlights.map((h, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-accent flex-shrink-0 mt-0.5" />
+                      <span>{h}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="flex flex-wrap gap-1.5 pt-2">
+                {kalaaverse.stack.map(s => (
+                  <span key={s} className="px-2 py-0.5 text-[11px] font-mono bg-bg border border-border rounded text-primary">
+                    {s}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div className="pt-6 mt-6 border-t border-border flex items-center justify-between">
+              <button
+                onClick={() => onSelectProject(kalaaverse)}
+                className="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-primary hover:text-accent transition-colors"
+              >
+                <BookOpen className="w-3.5 h-3.5 text-accent" />
+                <span>Examine Case Study</span>
+              </button>
+              {kalaaverse.githubUrl && (
+                <a
+                  href={kalaaverse.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-2 rounded-lg bg-bg border border-border text-secondary hover:text-primary transition-colors"
+                  title="View GitHub Repository"
+                >
+                  <Github className="w-4 h-4" />
+                </a>
+              )}
+            </div>
+          </article>
+
+          {/* PYQUEST */}
+          <article className="bg-surface/95 backdrop-blur-sm border border-border rounded-2xl p-6 sm:p-8 shadow-card flex flex-col justify-between hover-lift">
+            <div className="space-y-5">
+              <div className="flex items-center justify-between pb-4 border-b border-border">
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-mono px-2.5 py-0.5 rounded bg-accent/10 text-accent font-semibold">
+                    SPOTLIGHT 02
                   </span>
                   <span className="text-xs font-mono text-secondary">{pyquest.year}</span>
                 </div>
@@ -699,7 +793,7 @@ export const FeaturedProjects: React.FC<FeaturedProjectsProps> = ({ onSelectProj
 
               <div className="space-y-2 pt-2">
                 <span className="text-[11px] font-mono uppercase tracking-wider text-secondary block">
-                  Key Architectural Implementations:
+                  Key Implementations:
                 </span>
                 <ul className="space-y-1.5 text-xs text-secondary">
                   {pyquest.caseStudy.highlights.map((h, i) => (
@@ -741,155 +835,46 @@ export const FeaturedProjects: React.FC<FeaturedProjectsProps> = ({ onSelectProj
               )}
             </div>
           </article>
+        </div>
 
-          <article className="bg-surface/95 backdrop-blur-sm border border-border rounded-2xl p-6 sm:p-8 shadow-card flex flex-col justify-between hover-lift">
-            <div className="space-y-5">
-              <div className="flex items-center justify-between pb-4 border-b border-border">
-                <div className="flex items-center gap-2">
-                  <span className="text-xs font-mono px-2.5 py-0.5 rounded bg-accent/10 text-accent font-semibold">
-                    FEATURED 03
-                  </span>
-                  <span className="text-xs font-mono text-secondary">{sahayak.year}</span>
-                </div>
-                <span className="text-xs font-mono text-secondary bg-surface-secondary px-2 py-0.5 rounded border border-border">
-                  {sahayak.caseStudy.status}
-                </span>
-              </div>
-
-              <div>
-                <h3 className="text-2xl font-display font-bold text-primary">
-                  {sahayak.title}
-                </h3>
-                <p className="text-xs font-medium text-accent mt-1 font-mono">
-                  {sahayak.displayTag}
-                </p>
-              </div>
-
-              <p className="text-xs sm:text-sm text-secondary leading-relaxed">
-                {sahayak.summary}
+        {/* ================================================================== */}
+        {/* PROJECT DIRECTORY & SPECIALIZED ARCHIVE */}
+        {/* ================================================================== */}
+        <div className="space-y-8">
+          <div className="flex flex-col md:flex-row md:items-end justify-between pb-4 border-b border-border gap-4">
+            <div>
+              <h3 className="text-xl sm:text-2xl font-display font-bold text-primary">
+                Project Directory & Specialized Systems
+              </h3>
+              <p className="text-xs font-mono text-secondary mt-1">
+                Explore specialized prototypes, AI systems, and responsive web platforms.
               </p>
-
-              <div className="space-y-2 pt-2">
-                <span className="text-[11px] font-mono uppercase tracking-wider text-secondary block">
-                  Key Architectural Implementations:
-                </span>
-                <ul className="space-y-1.5 text-xs text-secondary">
-                  {sahayak.caseStudy.highlights.map((h, i) => (
-                    <li key={i} className="flex items-start gap-2">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-accent flex-shrink-0 mt-0.5" />
-                      <span>{h}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="flex flex-wrap gap-1.5 pt-2">
-                {sahayak.stack.map(s => (
-                  <span key={s} className="px-2 py-0.5 text-[11px] font-mono bg-bg border border-border rounded text-primary">
-                    {s}
-                  </span>
-                ))}
-              </div>
             </div>
 
-            <div className="pt-6 mt-6 border-t border-border flex items-center justify-between">
-              <button
-                onClick={() => onSelectProject(sahayak)}
-                className="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-primary hover:text-accent transition-colors"
-              >
-                <BookOpen className="w-3.5 h-3.5 text-accent" />
-                <span>Examine Case Study</span>
-              </button>
-              {sahayak.githubUrl && (
-                <a
-                  href={sahayak.githubUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2 rounded-lg bg-bg border border-border text-secondary hover:text-primary transition-colors"
-                  title="View GitHub Repository"
+            <div className="flex items-center gap-1 p-1 bg-bg border border-border rounded-lg overflow-x-auto max-w-full">
+              {categories.map(tab => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`px-3 py-1.5 rounded-md text-xs font-mono whitespace-nowrap transition-all ${
+                    activeTab === tab
+                      ? 'bg-primary text-white font-semibold shadow-subtle'
+                      : 'text-secondary hover:text-primary hover:bg-surface'
+                  }`}
                 >
-                  <Github className="w-4 h-4" />
-                </a>
-              )}
+                  {tab}
+                </button>
+              ))}
             </div>
-          </article>
-        </div>
-
-      </div>
-    </section>
-  );
-};
-
-// ============================================================================
-// 4. PROJECT GALLERY ARCHIVE (Working Category Tabs + Real Screenshots)
-// ============================================================================
-interface ProjectGalleryProps {
-  onSelectProject: (project: Project) => void;
-}
-
-type CategoryTab = 'All' | 'Full-Stack' | 'AI & Systems' | 'UI/UX & Creative';
-
-export const ProjectGallery: React.FC<ProjectGalleryProps> = ({ onSelectProject }) => {
-  const [activeTab, setActiveTab] = useState<CategoryTab>('All');
-  const categories: CategoryTab[] = ['All', 'Full-Stack', 'AI & Systems', 'UI/UX & Creative'];
-
-  const filteredProjects = PROJECTS.filter(project => {
-    if (activeTab === 'All') return true;
-    return project.category === activeTab;
-  });
-
-  return (
-    <section id="archive" className="py-24 bg-surface/90 backdrop-blur-[2px] border-y border-border relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <div className="flex flex-col md:flex-row md:items-end justify-between pb-6 mb-12 border-b border-border gap-6">
-          <div>
-            <div className="flex items-center gap-2 mb-2">
-              <span className="font-mono text-xs uppercase tracking-widest text-accent font-semibold">
-                03 // Complete Project Directory
-              </span>
-            </div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-display font-bold text-primary tracking-tight">
-              Project Archive & Specialized Systems
-            </h2>
           </div>
 
-          <div className="flex items-center gap-1 p-1 bg-bg border border-border rounded-lg overflow-x-auto max-w-full">
-            {categories.map(tab => (
-              <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`px-3 py-1.5 rounded-md text-xs font-mono whitespace-nowrap transition-all ${
-                  activeTab === tab
-                    ? 'bg-primary text-white font-semibold shadow-subtle'
-                    : 'text-secondary hover:text-primary hover:bg-surface'
-                }`}
-              >
-                {tab}
-                <span className="ml-1.5 text-[10px] opacity-70">
-                  ({tab === 'All' ? PROJECTS.length : PROJECTS.filter(p => p.category === tab).length})
-                </span>
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <motion.div 
-          layout
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-        >
-          <AnimatePresence>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredProjects.map(project => {
               const hasImage = Boolean(project.image);
 
               return (
-                <motion.article
+                <article
                   key={project.id}
-                  layout
-                  initial={{ opacity: 0, scale: 0.97 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.97 }}
-                  transition={{ duration: 0.2 }}
                   className="bg-bg/95 border border-border rounded-xl p-5 sm:p-6 flex flex-col justify-between hover-lift transition-all"
                 >
                   <div className="space-y-4">
@@ -903,7 +888,7 @@ export const ProjectGallery: React.FC<ProjectGalleryProps> = ({ onSelectProject 
                         <div className="absolute inset-0 bg-gradient-to-t from-primary/30 via-transparent to-transparent opacity-40" />
                         <div className="absolute bottom-2 left-2 bg-surface/90 backdrop-blur-sm px-2 py-0.5 rounded text-[10px] font-mono text-primary border border-border flex items-center gap-1">
                           <ImageIcon className="w-3 h-3 text-accent" />
-                          <span>UI Showcase</span>
+                          <span>Interface Preview</span>
                         </div>
                       </div>
                     )}
@@ -918,9 +903,9 @@ export const ProjectGallery: React.FC<ProjectGalleryProps> = ({ onSelectProject 
                     </div>
 
                     <div>
-                      <h3 className="text-lg font-display font-bold text-primary hover:text-accent transition-colors">
+                      <h4 className="text-lg font-display font-bold text-primary hover:text-accent transition-colors">
                         {project.title}
-                      </h3>
+                      </h4>
                       <p className="text-xs font-mono text-accent mt-0.5">
                         {project.displayTag}
                       </p>
@@ -929,12 +914,6 @@ export const ProjectGallery: React.FC<ProjectGalleryProps> = ({ onSelectProject 
                     <p className="text-xs text-secondary leading-relaxed line-clamp-3">
                       {project.summary}
                     </p>
-
-                    <div className="pt-1">
-                      <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-surface border border-border text-secondary">
-                        Status: {project.caseStudy.status}
-                      </span>
-                    </div>
 
                     <div className="flex flex-wrap gap-1.5 pt-2">
                       {project.stack.slice(0, 4).map(tech => (
@@ -980,23 +959,17 @@ export const ProjectGallery: React.FC<ProjectGalleryProps> = ({ onSelectProject 
                           target="_blank"
                           rel="noopener noreferrer"
                           className="p-1.5 rounded-md bg-surface border border-border text-secondary hover:text-accent transition-colors"
-                          title="Open Live Deployment"
+                          title="Open Live Application"
                         >
                           <ExternalLink className="w-3.5 h-3.5" />
                         </a>
                       )}
                     </div>
                   </div>
-                </motion.article>
+                </article>
               );
             })}
-          </AnimatePresence>
-        </motion.div>
-
-        <div className="mt-12 text-center border-t border-border/80 pt-6">
-          <p className="text-xs font-mono text-secondary">
-            Verified academic and personal engineering builds from Narasaraopeta Engineering College (B.Tech IT). Zero fabricated metrics.
-          </p>
+          </div>
         </div>
 
       </div>
@@ -1005,141 +978,184 @@ export const ProjectGallery: React.FC<ProjectGalleryProps> = ({ onSelectProject 
 };
 
 // ============================================================================
-// 5. TECHNICAL SKILLS SECTION (Categorized Capabilities & Proficiency Tiers)
+// 4. VIDEO DEMONSTRATIONS SHOWCASE ("See What I've Built.")
 // ============================================================================
-export const TechnicalSkills: React.FC = () => {
-  const [activeFilter, setActiveFilter] = useState<'All' | SkillProficiency>('All');
+interface VideoGalleryProps {
+  onWatchVideo: (video: VideoDemo) => void;
+}
 
-  const proficiencyLegend: { label: SkillProficiency; color: string }[] = [
-    { label: "Hands-on Experience", color: "bg-accent text-white border-accent" },
-    { label: "Comfortable", color: "bg-surface-secondary text-primary border-border" },
-    { label: "Currently Exploring", color: "bg-bg text-secondary border-dashed border-border" }
-  ];
-
+export const VideoGallery: React.FC<VideoGalleryProps> = ({ onWatchVideo }) => {
   return (
-    <section id="capabilities" className="py-28 relative">
+    <section id="videos" className="py-28 bg-surface/90 backdrop-blur-[2px] border-y border-border relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between pb-6 mb-12 border-b border-border gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between pb-6 mb-16 border-b border-border gap-4">
           <div>
             <div className="flex items-center gap-2 mb-2">
               <span className="font-mono text-xs uppercase tracking-widest text-accent font-semibold">
-                04 // Technical Identity
+                03 // Motion & Live Demonstrations
               </span>
             </div>
             <h2 className="text-3xl sm:text-4xl font-display font-bold text-primary tracking-tight">
-              Engineering Capabilities
+              See What I've Built.
             </h2>
           </div>
           <p className="font-mono text-xs text-secondary max-w-sm text-left sm:text-right">
-            Honest proficiency tiers reflecting hands-on builds, collegiate foundations, and active research.
+            Explore my work beyond screenshots. Watch real demonstrations of the applications, features, and experiences I've developed.
           </p>
         </div>
 
-        <div className="p-4 sm:p-5 rounded-xl bg-surface/90 backdrop-blur-sm border border-border mb-12 shadow-subtle flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <Terminal className="w-4 h-4 text-accent" />
-            <span className="text-xs font-mono font-semibold uppercase tracking-wider text-primary">
-              Proficiency Index:
-            </span>
-          </div>
-
-          <div className="flex flex-wrap items-center gap-2">
-            <button
-              onClick={() => setActiveFilter('All')}
-              className={`px-3 py-1 rounded text-xs font-mono transition-colors ${
-                activeFilter === 'All'
-                  ? 'bg-primary text-white font-semibold'
-                  : 'bg-surface-secondary text-secondary hover:text-primary'
-              }`}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {VIDEO_DEMOS.map(demo => (
+            <article
+              key={demo.id}
+              className="bg-bg/95 border border-border rounded-2xl overflow-hidden shadow-card flex flex-col justify-between hover-lift transition-all"
             >
-              All Tiers
-            </button>
-            {proficiencyLegend.map(item => (
-              <button
-                key={item.label}
-                onClick={() => setActiveFilter(item.label)}
-                className={`px-3 py-1 rounded text-xs font-mono border transition-all ${
-                  activeFilter === item.label
-                    ? 'ring-2 ring-accent font-semibold shadow-subtle'
-                    : ''
-                } ${item.color}`}
-              >
-                {item.label}
-              </button>
-            ))}
-          </div>
+              <div>
+                {/* Video Card Thumbnail with Play Button Overlay */}
+                <div 
+                  className="relative aspect-video w-full bg-surface-secondary overflow-hidden group cursor-pointer"
+                  onClick={() => onWatchVideo(demo)}
+                >
+                  <img
+                    src={demo.thumbnail}
+                    alt={demo.videoTitle}
+                    className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-primary/40 group-hover:bg-primary/20 transition-colors flex items-center justify-center">
+                    <div className="w-14 h-14 rounded-full bg-surface/95 backdrop-blur-md border border-border flex items-center justify-center text-accent shadow-card group-hover:scale-110 group-hover:bg-accent group-hover:text-white transition-all">
+                      <Play className="w-6 h-6 fill-current ml-0.5" />
+                    </div>
+                  </div>
+
+                  <div className="absolute top-3 left-3 bg-surface/90 backdrop-blur-md px-2.5 py-1 rounded text-[11px] font-mono text-primary border border-border flex items-center gap-1.5 shadow-subtle">
+                    <MonitorPlay className="w-3.5 h-3.5 text-accent" />
+                    <span>{demo.projectName}</span>
+                  </div>
+
+                  {demo.featured && (
+                    <div className="absolute top-3 right-3 bg-accent text-white px-2.5 py-1 rounded text-[10px] font-mono uppercase tracking-wider font-semibold shadow-subtle">
+                      Flagship Demo
+                    </div>
+                  )}
+                </div>
+
+                <div className="p-6 space-y-3">
+                  <h3 
+                    onClick={() => onWatchVideo(demo)}
+                    className="font-display font-bold text-lg text-primary hover:text-accent transition-colors cursor-pointer"
+                  >
+                    {demo.videoTitle}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-secondary leading-relaxed">
+                    {demo.description}
+                  </p>
+                </div>
+              </div>
+
+              <div className="p-6 pt-0 flex items-center justify-between border-t border-border/70 mt-4">
+                <button
+                  onClick={() => onWatchVideo(demo)}
+                  className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold text-accent hover:text-accent-hover transition-colors"
+                >
+                  <Play className="w-3.5 h-3.5 fill-current" />
+                  <span>Watch Video Demo</span>
+                </button>
+
+                {demo.liveAppUrl && (
+                  <a
+                    href={demo.liveAppUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-xs font-mono text-secondary hover:text-primary transition-colors"
+                  >
+                    <span>Visit Application</span>
+                    <ArrowUpRight className="w-3.5 h-3.5" />
+                  </a>
+                )}
+              </div>
+            </article>
+          ))}
         </div>
 
-        <div className="space-y-12">
-          {SKILL_GROUPS.map((group, groupIdx) => {
-            const filteredSkills = group.skills.filter(s => {
-              if (activeFilter === 'All') return true;
-              return s.proficiency === activeFilter;
-            });
+      </div>
+    </section>
+  );
+};
 
-            if (filteredSkills.length === 0) return null;
+// ============================================================================
+// 5. TECHNICAL SKILLS SECTION (Strictly 6 Capabilities — "My Core Toolkit")
+// ============================================================================
+export const TechnicalSkills: React.FC = () => {
+  const capabilityIcons: Record<string, React.FC<{ className?: string }>> = {
+    'HTML': Code2,
+    'CSS': Palette,
+    'JavaScript': Terminal,
+    'React': Layers,
+    'Python': Terminal,
+    'UI/UX Architecture': Sparkles
+  };
+
+  return (
+    <section id="skills" className="py-28 relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between pb-6 mb-16 border-b border-border gap-4">
+          <div>
+            <div className="flex items-center gap-2 mb-2">
+              <span className="font-mono text-xs uppercase tracking-widest text-accent font-semibold">
+                04 // Professional Capabilities
+              </span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-display font-bold text-primary tracking-tight">
+              My Core Toolkit
+            </h2>
+          </div>
+          <p className="font-mono text-xs text-secondary max-w-md text-left sm:text-right">
+            The technologies and design disciplines I currently focus on to create functional, intuitive, and meaningful digital experiences.
+          </p>
+        </div>
+
+        {/* Strictly 6 capability cards without percentage bars */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {CORE_TOOLKIT.map((cap) => {
+            const Icon = capabilityIcons[cap.name] || Terminal;
 
             return (
               <div
-                key={group.category}
-                className="bg-surface/95 backdrop-blur-sm border border-border rounded-xl p-6 sm:p-8 shadow-card"
+                key={cap.name}
+                className="bg-surface/95 backdrop-blur-sm border border-border rounded-xl p-6 shadow-card hover-lift flex flex-col justify-between"
               >
-                <div className="flex flex-col sm:flex-row sm:items-baseline justify-between pb-4 mb-6 border-b border-border gap-2">
-                  <div className="flex items-baseline gap-3">
-                    <span className="text-xs font-mono text-accent font-bold">
-                      0{groupIdx + 1}
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between pb-3 border-b border-border">
+                    <div className="w-10 h-10 rounded-lg bg-bg border border-border flex items-center justify-center text-accent shadow-subtle">
+                      <Icon className="w-5 h-5" />
+                    </div>
+                    <span className="text-[10px] font-mono uppercase tracking-wider text-accent bg-accent/10 px-2.5 py-0.5 rounded font-semibold">
+                      {cap.category}
                     </span>
-                    <h3 className="text-xl font-display font-bold text-primary">
-                      {group.category}
-                    </h3>
                   </div>
-                  <p className="text-xs font-mono text-secondary">
-                    {group.tagline}
+
+                  <div>
+                    <h3 className="text-xl font-display font-bold text-primary">
+                      {cap.name}
+                    </h3>
+                    <p className="text-xs font-mono text-secondary mt-1">
+                      Focus: <strong className="text-primary font-medium">{cap.focus}</strong>
+                    </p>
+                  </div>
+
+                  <p className="text-xs sm:text-sm text-secondary leading-relaxed font-body">
+                    {cap.description}
                   </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {filteredSkills.map(skill => {
-                    const isHandsOn = skill.proficiency === 'Hands-on Experience';
-                    const isComfortable = skill.proficiency === 'Comfortable';
-
-                    return (
-                      <div
-                        key={skill.name}
-                        className={`p-3.5 rounded-lg border transition-all hover-lift ${
-                          isHandsOn
-                            ? 'bg-bg border-accent/30 shadow-subtle'
-                            : isComfortable
-                            ? 'bg-bg border-border'
-                            : 'bg-bg border-dashed border-border/80'
-                        }`}
-                      >
-                        <div className="flex items-center justify-between gap-2 mb-1.5">
-                          <h4 className="text-xs font-bold text-primary font-display flex items-center gap-1.5">
-                            {isHandsOn && <span className="w-1.5 h-1.5 rounded-full bg-accent" />}
-                            {isComfortable && <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />}
-                            {!isHandsOn && !isComfortable && <span className="w-1.5 h-1.5 rounded-full bg-secondary/50" />}
-                            <span>{skill.name}</span>
-                          </h4>
-
-                          <span className={`text-[10px] font-mono px-2 py-0.5 rounded ${
-                            isHandsOn
-                              ? 'bg-accent/10 text-accent font-semibold'
-                              : isComfortable
-                              ? 'bg-surface-secondary text-secondary'
-                              : 'bg-surface text-secondary/70 border border-border/60'
-                          }`}>
-                            {skill.proficiency}
-                          </span>
-                        </div>
-
-                        <p className="text-[11px] text-secondary leading-snug font-body">
-                          {skill.context}
-                        </p>
-                      </div>
-                    );
-                  })}
+                <div className="mt-6 pt-3 border-t border-border/80 flex items-center justify-between text-[11px] font-mono text-secondary">
+                  <span>Disciplined Practice</span>
+                  <span className="text-accent flex items-center gap-1">
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                    <span>Applied in Projects</span>
+                  </span>
                 </div>
               </div>
             );
@@ -1166,7 +1182,7 @@ export const TechnicalSkills: React.FC = () => {
 };
 
 // ============================================================================
-// 6. EDUCATION SECTION (Credentials & Coursework)
+// 6. EDUCATION & TIMELINE SECTION (B.Tech IT Expected June 2027)
 // ============================================================================
 export const Education: React.FC = () => {
   return (
@@ -1177,7 +1193,7 @@ export const Education: React.FC = () => {
           <div>
             <div className="flex items-center gap-2 mb-2">
               <span className="font-mono text-xs uppercase tracking-widest text-accent font-semibold">
-                05 // Academic Foundations
+                05 // Academic Foundations & Journey
               </span>
             </div>
             <h2 className="text-3xl sm:text-4xl font-display font-bold text-primary tracking-tight">
@@ -1189,304 +1205,134 @@ export const Education: React.FC = () => {
           </p>
         </div>
 
-        <div className="space-y-8">
-          {EDUCATION_DATA.map((edu, index) => {
-            const isPrimary = index === 0;
-
-            return (
-              <div
-                key={edu.degree}
-                className={`rounded-xl p-6 sm:p-8 border transition-all ${
-                  isPrimary
-                    ? 'bg-bg/95 border-accent/40 shadow-card ring-1 ring-accent/20'
-                    : 'bg-bg/95 border-border shadow-subtle'
-                }`}
-              >
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                  <div className="lg:col-span-4 space-y-4">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs font-mono px-2.5 py-0.5 rounded bg-primary text-white font-semibold">
-                        {edu.period}
-                      </span>
-                      <span className="text-xs font-mono text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-                        {edu.status}
-                      </span>
-                    </div>
-
-                    <div>
-                      <h3 className="font-display font-bold text-xl text-primary">
-                        {edu.institution}
-                      </h3>
-                      <p className="text-xs text-secondary font-mono mt-1 flex items-center gap-1.5">
-                        <Building2 className="w-3.5 h-3.5 text-accent" />
-                        <span>{edu.location}</span>
-                      </p>
-                    </div>
-
-                    <div className="p-3.5 rounded-lg bg-surface border border-border inline-block">
-                      <span className="text-[10px] font-mono text-secondary uppercase tracking-wider block">
-                        Academic Standing
-                      </span>
-                      <span className="text-lg font-bold text-accent font-display">
-                        {edu.score}
-                      </span>
-                      {edu.regulation && (
-                        <span className="text-[11px] font-mono text-secondary block mt-0.5">
-                          {edu.regulation}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="lg:col-span-8 space-y-6 lg:pl-6 lg:border-l lg:border-border">
-                    <div>
-                      <h4 className="font-display font-semibold text-lg text-primary">
-                        {edu.degree}
-                      </h4>
-                    </div>
-
-                    <div>
-                      <p className="text-xs font-mono uppercase tracking-wider text-secondary mb-2.5 flex items-center gap-1.5">
-                        <BookOpen className="w-3.5 h-3.5 text-accent" />
-                        <span>Core Curriculum & Coursework:</span>
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        {edu.coursework.map(course => (
-                          <span
-                            key={course}
-                            className="px-2.5 py-1 rounded bg-surface border border-border text-xs text-primary font-mono shadow-subtle"
-                          >
-                            {course}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div>
-                      <p className="text-xs font-mono uppercase tracking-wider text-secondary mb-2 flex items-center gap-1.5">
-                        <Award className="w-3.5 h-3.5 text-accent" />
-                        <span>Collegiate Leadership & Demonstrations:</span>
-                      </p>
-                      <ul className="space-y-1.5">
-                        {edu.highlights.map((h, i) => (
-                          <li key={i} className="flex items-start gap-2.5 text-xs text-secondary leading-relaxed">
-                            <CheckCircle2 className="w-3.5 h-3.5 text-accent flex-shrink-0 mt-0.5" />
-                            <span>{h}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-      </div>
-    </section>
-  );
-};
-
-// ============================================================================
-// 7. DEVELOPMENT JOURNEY SECTION (Milestone Timeline)
-// ============================================================================
-export const DevelopmentJourney: React.FC = () => {
-  return (
-    <section id="journey" className="py-28 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between pb-6 mb-16 border-b border-border gap-4">
-          <div>
-            <div className="flex items-center gap-2 mb-2">
-              <span className="font-mono text-xs uppercase tracking-widest text-accent font-semibold">
-                06 // Trajectory
-              </span>
-            </div>
-            <h2 className="text-3xl sm:text-4xl font-display font-bold text-primary tracking-tight">
-              Development Journey & Milestones
-            </h2>
-          </div>
-          <p className="font-mono text-xs text-secondary max-w-sm text-left sm:text-right">
-            From analytical mathematics to collegiate hackathons, media leadership, and software craft.
-          </p>
-        </div>
-
-        <div className="relative border-l-2 border-border ml-4 sm:ml-8 space-y-12 pl-6 sm:pl-10">
-          {JOURNEY_MILESTONES.map((milestone, index) => (
-            <div key={index} className="relative group">
-              <div className="absolute -left-[31px] sm:-left-[47px] top-1.5 w-4 h-4 rounded-full bg-surface border-2 border-accent group-hover:scale-125 group-hover:bg-accent transition-all duration-200 shadow-subtle flex items-center justify-center">
-                <div className="w-1.5 h-1.5 rounded-full bg-accent group-hover:bg-white" />
-              </div>
-
-              <div className="bg-surface/95 backdrop-blur-sm border border-border rounded-xl p-6 sm:p-7 shadow-subtle hover-lift">
-                <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
-                  <span className="text-xs font-mono px-2.5 py-0.5 rounded bg-surface-secondary border border-border text-primary font-medium">
-                    {milestone.period}
-                  </span>
-                  <span className="text-[11px] font-mono uppercase tracking-wider text-accent bg-accent/10 px-2 py-0.5 rounded">
-                    {milestone.category}
-                  </span>
-                </div>
-
-                <h3 className="text-xl font-display font-bold text-primary mb-1">
-                  {milestone.title}
-                </h3>
-                <p className="text-xs font-mono text-secondary mb-4">
-                  {milestone.organization}
-                </p>
-
-                <p className="text-sm text-secondary leading-relaxed mb-5">
-                  {milestone.description}
-                </p>
-
-                <div className="pt-4 border-t border-border">
-                  <p className="text-[11px] font-mono uppercase tracking-wider text-secondary mb-2.5">
-                    Verified Outcomes & Learnings:
-                  </p>
-                  <ul className="space-y-1.5">
-                    {milestone.keyOutcomes.map((item, i) => (
-                      <li key={i} className="flex items-start gap-2.5 text-xs text-secondary">
-                        <ArrowRight className="w-3.5 h-3.5 text-accent flex-shrink-0 mt-0.5" />
-                        <span className="text-primary/90">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-      </div>
-    </section>
-  );
-};
-
-// ============================================================================
-// 8. CREATIVE INTERESTS SECTION (Editorial Magazine Showcase)
-// ============================================================================
-export const CreativeInterests: React.FC = () => {
-  const posterWork = CREATIVE_WORKS.find(w => w.id === 'editorial-poster')!;
-  const otherWorks = CREATIVE_WORKS.filter(w => w.id !== 'editorial-poster');
-  const icons = [Film, Camera, PenTool];
-
-  return (
-    <section id="creative" className="py-28 bg-surface/90 backdrop-blur-[2px] border-y border-border relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between pb-6 mb-16 border-b border-border gap-4">
-          <div>
-            <div className="flex items-center gap-2 mb-2">
-              <span className="font-mono text-xs uppercase tracking-widest text-accent font-semibold">
-                07 // The Creative Dimension
-              </span>
-            </div>
-            <h2 className="text-3xl sm:text-4xl font-display font-bold text-primary tracking-tight">
-              Design, Art Direction & Moving Image
-            </h2>
-          </div>
-          <p className="font-mono text-xs text-secondary max-w-sm text-left sm:text-right">
-            Visual storytelling, graphic design, and cinematic pacing shaping software sensibility.
-          </p>
-        </div>
-
-        <div className="bg-bg/95 border border-border rounded-2xl p-6 sm:p-10 shadow-card mb-12 overflow-hidden">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            <div className="lg:col-span-6 relative rounded-xl overflow-hidden border border-border/80 bg-surface shadow-subtle group">
-              {posterWork.image ? (
-                <img
-                  src={posterWork.image}
-                  alt={posterWork.title}
-                  className="w-full h-auto object-cover object-center group-hover:scale-[1.02] transition-transform duration-500"
-                />
-              ) : (
-                <div className="aspect-[4/3] flex items-center justify-center bg-surface-secondary">
-                  <ImageIcon className="w-8 h-8 text-secondary" />
-                </div>
-              )}
-              <div className="absolute bottom-3 left-3 bg-surface/90 backdrop-blur-md px-3 py-1 rounded text-[11px] font-mono text-primary border border-border flex items-center gap-1.5 shadow-subtle">
-                <Sparkles className="w-3.5 h-3.5 text-accent" />
-                <span>Original Editorial Composition</span>
-              </div>
-            </div>
-
-            <div className="lg:col-span-6 space-y-5">
+        {/* Primary Education Card */}
+        <div className="rounded-xl p-6 sm:p-8 border bg-bg/95 border-accent/40 shadow-card ring-1 ring-accent/20 mb-16">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            <div className="lg:col-span-4 space-y-4">
               <div className="flex items-center gap-2">
-                <span className="text-xs font-mono uppercase tracking-wider text-accent bg-accent/10 px-2.5 py-0.5 rounded">
-                  {posterWork.category}
+                <span className="text-xs font-mono px-2.5 py-0.5 rounded bg-primary text-white font-semibold">
+                  {EDUCATION_DATA.period}
                 </span>
-                <span className="text-xs font-mono text-secondary">
-                  {posterWork.medium}
+                <span className="text-xs font-mono text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                  {EDUCATION_DATA.status}
                 </span>
               </div>
 
-              <h3 className="text-2xl sm:text-3xl font-display font-bold text-primary">
-                {posterWork.title}
-              </h3>
-
-              <p className="text-sm text-secondary leading-relaxed font-body">
-                {posterWork.description}
-              </p>
-
-              <div className="p-4 rounded-xl bg-surface border border-border flex items-start gap-3 shadow-subtle">
-                <Quote className="w-4 h-4 text-accent flex-shrink-0 mt-0.5 rotate-180" />
-                <p className="text-xs italic text-primary font-medium leading-relaxed">
-                  "{posterWork.insight}"
+              <div>
+                <h3 className="font-display font-bold text-xl text-primary">
+                  {EDUCATION_DATA.institution}
+                </h3>
+                <p className="text-xs text-secondary font-mono mt-1 flex items-center gap-1.5">
+                  <Building2 className="w-3.5 h-3.5 text-accent" />
+                  <span>{EDUCATION_DATA.location}</span>
                 </p>
               </div>
 
-              <div className="pt-2 text-xs font-mono text-secondary">
-                Designed & composite crafted by Sai Teja using Canva & typography tools.
+              <div className="p-3.5 rounded-lg bg-surface border border-border inline-block">
+                <span className="text-[10px] font-mono text-secondary uppercase tracking-wider block">
+                  Expected Graduation
+                </span>
+                <span className="text-lg font-bold text-accent font-display">
+                  {EDUCATION_DATA.expectedGraduation}
+                </span>
+              </div>
+            </div>
+
+            <div className="lg:col-span-8 space-y-6 lg:pl-6 lg:border-l lg:border-border">
+              <div>
+                <h4 className="font-display font-semibold text-lg text-primary">
+                  {EDUCATION_DATA.degree}
+                </h4>
+              </div>
+
+              <div>
+                <p className="text-xs font-mono uppercase tracking-wider text-secondary mb-2.5 flex items-center gap-1.5">
+                  <BookOpen className="w-3.5 h-3.5 text-accent" />
+                  <span>Core Curriculum & Coursework:</span>
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {EDUCATION_DATA.coursework.map(course => (
+                    <span
+                      key={course}
+                      className="px-2.5 py-1 rounded bg-surface border border-border text-xs text-primary font-mono shadow-subtle"
+                    >
+                      {course}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <p className="text-xs font-mono uppercase tracking-wider text-secondary mb-2 flex items-center gap-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-accent" />
+                  <span>Collegiate Leadership & Activities:</span>
+                </p>
+                <ul className="space-y-1.5">
+                  {EDUCATION_DATA.highlights.map((h, i) => (
+                    <li key={i} className="flex items-start gap-2.5 text-xs text-secondary leading-relaxed">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-accent flex-shrink-0 mt-0.5" />
+                      <span>{h}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {otherWorks.map((work, index) => {
-            const Icon = icons[index % icons.length];
+        {/* Development Journey Milestones */}
+        <div className="space-y-8">
+          <div className="pb-4 border-b border-border">
+            <h3 className="text-2xl font-display font-bold text-primary">
+              Development Milestones & Trajectory
+            </h3>
+            <p className="text-xs font-mono text-secondary mt-1">
+              From analytical mathematics to collegiate hackathons, media leadership, and software craft.
+            </p>
+          </div>
 
-            return (
-              <div
-                key={work.id}
-                className="bg-bg/95 border border-border rounded-xl p-6 flex flex-col justify-between hover-lift"
-              >
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between pb-3 border-b border-border">
-                    <div className="w-9 h-9 rounded-lg bg-surface border border-border flex items-center justify-center text-accent shadow-subtle">
-                      <Icon className="w-4 h-4" />
-                    </div>
-                    <span className="text-[10px] font-mono uppercase tracking-wider text-secondary">
-                      Medium 0{index + 2}
-                    </span>
-                  </div>
-
-                  <div>
-                    <span className="text-[11px] font-mono text-accent block mb-1">
-                      {work.category}
-                    </span>
-                    <h4 className="text-lg font-display font-bold text-primary">
-                      {work.title}
-                    </h4>
-                    <p className="text-xs font-mono text-secondary mt-0.5">
-                      {work.medium}
-                    </p>
-                  </div>
-
-                  <p className="text-xs text-secondary leading-relaxed font-body">
-                    {work.description}
-                  </p>
+          <div className="relative border-l-2 border-border ml-4 sm:ml-8 space-y-12 pl-6 sm:pl-10">
+            {JOURNEY_MILESTONES.map((milestone, index) => (
+              <div key={index} className="relative group">
+                <div className="absolute -left-[31px] sm:-left-[47px] top-1.5 w-4 h-4 rounded-full bg-surface border-2 border-accent group-hover:scale-125 group-hover:bg-accent transition-all duration-200 shadow-subtle flex items-center justify-center">
+                  <div className="w-1.5 h-1.5 rounded-full bg-accent group-hover:bg-white" />
                 </div>
 
-                <div className="mt-6 pt-4 border-t border-border">
-                  <p className="text-[11px] italic text-primary font-medium">
-                    "{work.insight}"
+                <div className="bg-surface/95 backdrop-blur-sm border border-border rounded-xl p-6 sm:p-7 shadow-subtle hover-lift">
+                  <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                    <span className="text-xs font-mono px-2.5 py-0.5 rounded bg-surface-secondary border border-border text-primary font-medium">
+                      {milestone.period}
+                    </span>
+                    <span className="text-[11px] font-mono uppercase tracking-wider text-accent bg-accent/10 px-2 py-0.5 rounded">
+                      {milestone.category}
+                    </span>
+                  </div>
+
+                  <h4 className="text-xl font-display font-bold text-primary mb-2">
+                    {milestone.title}
+                  </h4>
+
+                  <p className="text-sm text-secondary leading-relaxed mb-5">
+                    {milestone.description}
                   </p>
+
+                  <div className="pt-4 border-t border-border">
+                    <p className="text-[11px] font-mono uppercase tracking-wider text-secondary mb-2.5">
+                      Key Outcomes & Learnings:
+                    </p>
+                    <ul className="space-y-1.5">
+                      {milestone.keyOutcomes.map((item, i) => (
+                        <li key={i} className="flex items-start gap-2.5 text-xs text-secondary">
+                          <ArrowRight className="w-3.5 h-3.5 text-accent flex-shrink-0 mt-0.5" />
+                          <span className="text-primary/90">{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
               </div>
-            );
-          })}
+            ))}
+          </div>
         </div>
 
       </div>
@@ -1495,7 +1341,7 @@ export const CreativeInterests: React.FC = () => {
 };
 
 // ============================================================================
-// 9. CONTACT SECTION (One-Click Copy & Direct Message Composer)
+// 7. CONTACT SECTION ("Let's create something meaningful.")
 // ============================================================================
 export const Contact: React.FC = () => {
   const [copied, setCopied] = useState(false);
@@ -1535,11 +1381,11 @@ export const Contact: React.FC = () => {
           <div>
             <div className="flex items-center gap-2 mb-2">
               <span className="font-mono text-xs uppercase tracking-widest text-accent font-semibold">
-                08 // Direct Communication
+                06 // Direct Communication
               </span>
             </div>
             <h2 className="text-3xl sm:text-4xl font-display font-bold text-primary tracking-tight">
-              Get in Touch
+              Let's create something meaningful.
             </h2>
           </div>
           <p className="font-mono text-xs text-secondary max-w-sm text-left sm:text-right">
@@ -1552,7 +1398,7 @@ export const Contact: React.FC = () => {
             <div className="bg-surface/95 backdrop-blur-sm border border-border rounded-2xl p-6 sm:p-8 shadow-card space-y-6">
               <div>
                 <h3 className="font-display font-bold text-xl text-primary mb-2">
-                  Let's create something meaningful.
+                  Get in Touch
                 </h3>
                 <p className="text-sm text-secondary leading-relaxed">
                   Whether you have an internship opportunity, a creative technology collaboration, or want to explore my project work, my inbox is always open.
@@ -1641,7 +1487,7 @@ export const Contact: React.FC = () => {
                 <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500" />
               </span>
               <p className="text-xs text-secondary leading-snug">
-                <strong className="text-primary font-medium">Undergraduate Availability:</strong> Open to summer 2025/2026 internships, technical research, and select frontend development projects.
+                <strong className="text-primary font-medium">Undergraduate Opportunities:</strong> Open to frontend development, software engineering internships, and collaborative builds.
               </p>
             </div>
           </div>
@@ -1651,7 +1497,7 @@ export const Contact: React.FC = () => {
               Send a Direct Message
             </h3>
             <p className="text-xs text-secondary mb-6 font-mono">
-              Fill out the form below to initiate communication directly via your email client.
+              Fill out the form below to reach me directly via email.
             </p>
 
             {formSubmitted ? (
@@ -1747,7 +1593,7 @@ export const Contact: React.FC = () => {
 };
 
 // ============================================================================
-// 10. FOOTER & COLOPHON
+// 8. FOOTER & COLOPHON
 // ============================================================================
 export const Footer: React.FC = () => {
   const scrollToTop = () => {
@@ -1771,7 +1617,7 @@ export const Footer: React.FC = () => {
               B.Tech Information Technology student at Narasaraopeta Engineering College. Building refined digital products, creative interfaces, and web applications.
             </p>
             <p className="font-mono text-[11px] text-accent">
-              Andhra Pradesh, India • {PERSONAL_INFO.timeZoneLabel}
+              Andhra Pradesh, India • Expected Graduation: {PERSONAL_INFO.expectedGraduation}
             </p>
           </div>
 
@@ -1839,7 +1685,7 @@ export const Footer: React.FC = () => {
           <div className="flex items-center gap-2 text-secondary">
             <span>Designed & Engineered with React + TypeScript</span>
             <span>•</span>
-            <span className="text-accent font-medium">Vercel Ready</span>
+            <span className="text-accent font-medium">Vercel Production Ready</span>
           </div>
         </div>
       </div>
