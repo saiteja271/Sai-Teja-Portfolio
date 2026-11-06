@@ -1457,8 +1457,8 @@ export const Footer: React.FC = () => {
 
   return (
     <footer className="bg-surface/90 backdrop-blur-[2px] border-t border-border py-12 sm:py-16 text-secondary text-xs relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 sm:space-y-12">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start justify-between pb-10 sm:pb-12 border-b border-border">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start justify-between">
           <div className="md:col-span-5 space-y-3">
             <div className="flex items-center gap-2.5">
               <div className="w-7 h-7 rounded-lg bg-primary text-white flex items-center justify-center font-display font-bold text-xs tracking-tight">
@@ -1530,17 +1530,6 @@ export const Footer: React.FC = () => {
                 <Mail className="w-4 h-4" />
               </a>
             </div>
-          </div>
-        </div>
-
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-[11px] text-center sm:text-left">
-          <div>
-            © {new Date().getFullYear()} {PERSONAL_INFO.fullName}. All rights reserved.
-          </div>
-          <div className="flex items-center gap-2 text-secondary flex-wrap justify-center">
-            <span>React + TypeScript + Tailwind CSS</span>
-            <span>•</span>
-            <span className="text-accent font-medium">Vercel Ready</span>
           </div>
         </div>
       </div>
